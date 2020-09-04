@@ -1,16 +1,15 @@
 
 <script>
-  import axios from 'axios'
   export default {
-    created: function () {
-      axios.get('http://127.0.0.1:8000/users/find?id=2')
-        .then(response => {
-          console.log(response.data) // mockData
-          console.log(response.status) // 200
-        })
-    }
-}
+    async asyncData({ $axios }) {
+    const data = await $axios.$get('/users/', {params: "user_id"})
+    console.log(data[0])
+    return { data }
+      }
+  }
+
 </script>
+
 <template>
   <form>
     <div id="profile">
@@ -24,7 +23,7 @@
         v-model="userId"
         :counter="10"
         label="ID"
-        placeholder="userid"
+        placeholder="user_id"
         required
       ></v-text-field>
       <v-text-field
