@@ -3,9 +3,9 @@ import sqlalchemy
 
 DATABASE = 'mysql'
 USER = 'root'
-PASSWORD = ''
+PASSWORD = 'password'
 HOST = 'localhost'
-PORT = '3306'
+PORT = '13306'
 DB_NAME = 'yuru'
 
 DATABASE_URL = '{}://{}:{}@{}:{}/{}'.format(DATABASE, USER, PASSWORD, HOST, PORT, DB_NAME)
