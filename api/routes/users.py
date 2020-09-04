@@ -33,6 +33,11 @@ async def users_findone(id: int, database: Database = Depends(get_connection)):
     query = users.select().where(users.columns.id==id)
     return await database.fetch_one(query)
 
+@router.post("/users/login", response_model=UserSelect)
+async def login_user(user_id: str, password=str, database: Database = Depends(get_connection)):
+    query = users.select().where(users.columns.user_id==user_id)
+    return await database.fetch_one(query)
+
 # usersを新規登録します。
 @router.post("/users/create", response_model=UserSelect)
 async def users_create(user: UserCreate, database: Database = Depends(get_connection)):
