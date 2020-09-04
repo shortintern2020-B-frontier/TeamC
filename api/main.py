@@ -3,8 +3,17 @@ from db import database
 from routes.users import router as userrouter
 from routes.chats import router as chatrouter
 from starlette.requests import Request
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 # 起動時にDatabaseに接続する。
 @app.on_event("startup")
