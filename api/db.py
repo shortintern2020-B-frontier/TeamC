@@ -4,7 +4,7 @@ import sqlalchemy
 DATABASE = 'mysql'
 USER = 'root'
 PASSWORD = 'password'
-HOST = 'localhost'
+HOST = '127.0.0.1'
 PORT = '13306'
 DB_NAME = 'yuru'
 
