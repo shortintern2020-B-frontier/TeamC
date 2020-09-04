@@ -5,6 +5,7 @@ from typing import List
 from starlette.requests import Request
 
 from models.users import users
+from models.friends import friends
 from schemas.users import UserCreate, UserUpdate, UserSelect
 
 from databases import Database
@@ -37,6 +38,25 @@ async def users_findone(user_id: str, database: Database = Depends(get_connectio
 async def login_user(email: str, password=str, database: Database = Depends(get_connection)):
     query = users.select().where(users.columns.email==email)
     return await database.fetch_one(query)
+
+@router.post("/users/friends")
+async def make_friends(user_id: int, target_user_id=int, database: Database = Depends(get_connection)):
+    query = users.select().where(users.columns.id==user_id)
+    user1 = await database.fetch_one(query)
+    query = users.select().where(users.columns.id==target_user_id)
+    user2 = await database.fetch_one(query)
+    query = friends.insert()
+    values1 = {
+        "user_1_id": user1.id,
+        "user_2_id": user2.id
+    }
+    values2 = {
+        "user_1_id": user2.id,
+        "user_2_id": user1.id
+    }
+    await database.execute(query, values1)
+    await database.execute(query, values2)
+    return {"result": "connect success"}
 
 # usersを新規登録します。
 @router.post("/users/create", response_model=UserSelect)

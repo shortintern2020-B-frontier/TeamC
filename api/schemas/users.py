@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 # insert用のrequest model。id(自動採番)は入力不要のため定義しない。
 class UserCreate(BaseModel):
@@ -6,8 +7,8 @@ class UserCreate(BaseModel):
     user_id: str
     email: str
     password: str
-    status: int
-    comment: str
+    status: Optional[int] = 0
+    comment: Optional[str] = ''
 
 # update用のrequest model
 class UserUpdate(BaseModel):
@@ -24,5 +25,6 @@ class UserSelect(BaseModel):
     user_id: str
     username: str
     email: str
-    status: int
-    comment: str
+    status: Optional[int] = 0
+    comment: Optional[str] = ''
+    status_update_at: Optional[str] = None

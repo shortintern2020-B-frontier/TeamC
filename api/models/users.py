@@ -11,6 +11,7 @@ users = sqlalchemy.Table(
     sqlalchemy.Column("user_id", sqlalchemy.String, default=True),
     sqlalchemy.Column("status", sqlalchemy.Integer, default=True),
     sqlalchemy.Column("comment", sqlalchemy.String, default=True),
+    sqlalchemy.Column("status_update_at", sqlalchemy.String, default=True),
 )
 
 metadata.create_all(bind=engine)
