@@ -9,6 +9,7 @@ hashed_password        varchar (256) NULL,
 user_id                varchar (256) NULL,
 status                 int NULL,
 comment                varchar (256) NULL,
+status_update_at       varchar (256) NULL,
 PRIMARY KEY (id)
 );
 
@@ -24,6 +25,7 @@ user_id                bigint(20) NOT NULL,
 chat_room_id           bigint(20) NOT NULL,
 content                varchar (256) NULL,
 deleted                tinyint(4) DEFAULT '0',
+created_at             bigint(20) NULL,
 PRIMARY KEY (id),
 KEY index_messages_on_user_id (user_id),
 KEY index_messages_on_chat_room_id (chat_room_id),
@@ -57,6 +59,7 @@ CREATE TABLE IF NOT EXISTS user_chat_rooms (
 id                     bigint(20) NOT NULL AUTO_INCREMENT,
 user_id                bigint(20) NOT NULL,
 chat_room_id           bigint(20) NOT NULL,
+valid                  tinyint(4) DEFAULT '0',
 PRIMARY KEY (id),
 KEY index_user_chat_rooms_on_user_id (user_id),
 KEY index_user_chat_rooms_on_chat_room_id (chat_room_id),
