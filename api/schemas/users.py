@@ -13,12 +13,12 @@ class UserCreate(BaseModel):
 # update用のrequest model
 class UserUpdate(BaseModel):
     id : int
-    user_id: str
-    username: str
-    email: str
-    password: str
-    status: int
-    comment: str
+    user_id: Optional[str] = None
+    username: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+    status: Optional[int] = None
+    comment: Optional[str] = None
 
 # select用のrequest model。selectでは、パスワード不要のため定義しない。
 class UserSelect(BaseModel):

@@ -12,14 +12,17 @@ from databases import Database
 
 from utils.dbutils import get_connection
 
+from datetime import datetime
+
 router = APIRouter()
 
 # 入力したパスワード（平文）をハッシュ化して返します。
 def get_users_insert_dict(user):
-    pwhash=hashlib.sha256(user.password.encode('utf-8')).hexdigest()
     values=user.dict()
+    if user.password:
+        pwhash=hashlib.sha256(user.password.encode('utf-8')).hexdigest()
+        values["hashed_password"]=pwhash
     values.pop("password")
-    values["hashed_password"]=pwhash
     return values
 
 # usersを全件検索して「UserSelect」のリストをjsonにして返します。
@@ -71,10 +74,20 @@ async def users_create(user: UserCreate, database: Database = Depends(get_connec
 @router.post("/users/update", response_model=UserSelect)
 async def users_update(user: UserUpdate, database: Database = Depends(get_connection)):
     # validatorは省略
+    select_query = users.select().where(users.columns.id==user.id)
+    user_data = await database.fetch_one(select_query)
     query = users.update().where(users.columns.id==user.id)
-    values=get_users_insert_dict(user)
+    for k, v in user.dict().items():
+        if v == None and hasattr(user_data, k):
+            setattr(user, k, getattr(user_data, k))
+    values = get_users_insert_dict(user)
+    values['status_update_at'] = user_data.status_update_at
+    if user.status != user_data.status:
+        tdatetime = datetime.now()
+        tstr = tdatetime.strftime('%Y/%m/%d')
+        values['status_update_at'] = tstr
     ret = await database.execute(query, values)
-    return {**user.dict()}
+    return values
 
 # usersを削除します。
 @router.post("/users/delete")
