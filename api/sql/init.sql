@@ -10,6 +10,8 @@ user_id                varchar (256) NULL,
 status                 int NULL,
 comment                varchar (256) NULL,
 status_update_at       varchar (256) NULL,
+longitude              double NULL,
+latitude               double NULL,
 PRIMARY KEY (id)
 );
 

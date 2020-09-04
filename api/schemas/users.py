@@ -19,6 +19,8 @@ class UserUpdate(BaseModel):
     password: Optional[str] = None
     status: Optional[int] = None
     comment: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 # select用のrequest model。selectでは、パスワード不要のため定義しない。
 class UserSelect(BaseModel):
@@ -28,6 +30,8 @@ class UserSelect(BaseModel):
     status: Optional[int] = 0
     comment: Optional[str] = ''
     status_update_at: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 class RequestForLogin(BaseModel):
     email: str
