@@ -61,6 +61,11 @@ async def make_friends(req: RequestForMakeFriends, database: Database = Depends(
     await database.execute(query, values2)
     return {"result": "connect success"}
 
+@router.get("/users/friends", response_model=List[UserSelect])
+async def get_friends(id: int, database: Database = Depends(get_connection)):
+    query = f"select * from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {id}"
+    return await database.fetch_all(query)
+
 # usersを新規登録します。
 @router.post("/users/create", response_model=UserSelect)
 async def users_create(user: UserCreate, database: Database = Depends(get_connection)):
