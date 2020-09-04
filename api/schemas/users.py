@@ -28,3 +28,11 @@ class UserSelect(BaseModel):
     status: Optional[int] = 0
     comment: Optional[str] = ''
     status_update_at: Optional[str] = None
+
+class RequestForLogin(BaseModel):
+    email: str
+    password: str
+
+class RequestForMakeFriends(BaseModel):
+    user_id: int
+    target_user_id: int

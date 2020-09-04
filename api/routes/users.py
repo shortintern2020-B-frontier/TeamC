@@ -6,7 +6,7 @@ from starlette.requests import Request
 
 from models.users import users
 from models.friends import friends
-from schemas.users import UserCreate, UserUpdate, UserSelect
+from schemas.users import *
 
 from databases import Database
 
@@ -35,15 +35,15 @@ async def users_findone(user_id: str, database: Database = Depends(get_connectio
     return await database.fetch_one(query)
 
 @router.post("/users/login", response_model=UserSelect)
-async def login_user(email: str, password=str, database: Database = Depends(get_connection)):
-    query = users.select().where(users.columns.email==email)
+async def login_user(req: RequestForLogin, database: Database = Depends(get_connection)):
+    query = users.select().where(users.columns.email==req.email)
     return await database.fetch_one(query)
 
 @router.post("/users/friends")
-async def make_friends(user_id: int, target_user_id=int, database: Database = Depends(get_connection)):
-    query = users.select().where(users.columns.id==user_id)
+async def make_friends(req: RequestForMakeFriends, database: Database = Depends(get_connection)):
+    query = users.select().where(users.columns.id==req.user_id)
     user1 = await database.fetch_one(query)
-    query = users.select().where(users.columns.id==target_user_id)
+    query = users.select().where(users.columns.id==req.target_user_id)
     user2 = await database.fetch_one(query)
     query = friends.insert()
     values1 = {
