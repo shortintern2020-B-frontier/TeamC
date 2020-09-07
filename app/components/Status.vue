@@ -1,17 +1,24 @@
-
 <template>
-  <v-container fluid>
-    <p>{{ people }}</p>
-    <v-switch v-model="people" label="John" value="John"></v-switch>
-    <v-switch v-model="people" label="Jacob" value="Jacob"></v-switch>
-  </v-container>
+  <ul style="list-style: none;">
+    <li v-for="item in items" :key="item.status">
+      <div>
+        <!-- アイコンに差し替え
+        <img v-bind:src="item.src" />-->
+        {{item.status}}
+        <v-switch></v-switch>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      people: ["John"],
+      items: [
+        { status: "Free", src: "@/static/icon/#" },
+        { status: "Busy", src: "@/static/icon/#" },
+      ],
     };
   },
 };
