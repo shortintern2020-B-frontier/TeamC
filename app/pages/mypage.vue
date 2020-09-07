@@ -1,3 +1,4 @@
+<!-- Author:Shotaro Murata-->
 <template>
   <form>
     <div id="profile">
@@ -10,10 +11,9 @@
       <v-text-field v-model="user_id" :counter="10" label="ID" required></v-text-field>
       <v-text-field v-model="username" label="Name" required></v-text-field>
       <v-text-field v-model="email" label="E-mail" required></v-text-field>
-      <v-btn @click="postProfile">プロフィールを更新する</v-btn>
     </div>
     <div id="status">
-      <h1>Status</h1>
+      <h2>Status</h2>
       <v-text-field v-model="comment" label="Comment"></v-text-field>
       <input type="radio" id="free" value="0" v-model="status" />
       <label>Free</label>
@@ -21,6 +21,7 @@
       <input type="radio" id="busy" value="1" v-model="status" />
       <label>Busy</label>
     </div>
+    <v-btn @click="postProfile">プロフィールを更新する</v-btn>
   </form>
 </template>
 
@@ -29,6 +30,7 @@ import Vue from "vue";
 
 export default {
   name: "mypage",
+  layout: "mypage",
   components: {},
   async asyncData({ $axios }) {
     const data = await $axios.$get("/users/find", {
@@ -43,7 +45,6 @@ export default {
         user_id: this.user_id,
         username: this.username,
         email: this.email,
-        password: this.password,
         status: this.status,
         comment: this.comment,
       });
