@@ -5,3 +5,9 @@ class ChatCreate(BaseModel):
     user_id: int
     chat_room_id: int
     content: str
+
+class ChatDetail(BaseModel):
+    user_id: int
+    created_at: Optional[str] = None
+    content: str
+    username: str
