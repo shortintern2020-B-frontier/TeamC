@@ -41,6 +41,9 @@
                 </v-form>
               </v-card>
             </v-expand-transition>
+            <v-snackbar v-model="snackbar">
+              {{ text }}
+            </v-snackbar>
             <v-card-actions class="layout justify-center">
               <v-btn
                 v-if="registerflag"
@@ -110,20 +113,30 @@ export default {
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     password: "",
-    passwordRules: [v => !!v || "password is required"]
+    passwordRules: [v => !!v || "password is required"],
+    snackbar: false,
+    text:
+      "ログインに失敗しました。メールアドレスとパスワードがもう一度確認してください！",
+    timeout: 2000
   }),
   methods: {
     login() {
       if (this.$refs.form.validate()) {
+        let _this = this
         let email = this.email;
-        let password = sha256(this.password);
-        axios({
+        let password = this.password;
+        let errorflag = false;
+        this.$axios({
           method: "post",
           url: "http://127.0.0.1:8000/users/login",
           data: { email: email, password: password }
         })
           .then(function(response) {
-            console.log(response);
+            if (response.data == null) {
+              _this.snackbar = true;
+            } else {
+              console.log(response.data.email);
+            }
           })
           .catch(function(error) {
             console.log(error);
