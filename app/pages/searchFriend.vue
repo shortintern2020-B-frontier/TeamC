@@ -1,3 +1,4 @@
+<!-- Author:Shotaro Murata-->
 <template>
   <div id="page">
     <div id="search">
@@ -56,18 +57,27 @@ export default {
       const res = await this.$axios.$get("/users/find", {
         params: { user_id: this.search_id },
       });
-      this.target_username = res.username;
-      this.target_comment = res.comment;
-      this.target_id = res.id;
+      console.log(res);
+      if (res != null) {
+        this.target_username = res.username;
+        this.target_comment = res.comment;
+        this.target_id = res.id;
+      } else {
+        console.log("error: user is not founded");
+      }
     },
     addFriend: async function () {
       await this.$axios.$post("/users/friends", {
-        user_id: 1,
+        user_id: $store.state.user_id,
         target_user_id: this.id,
       });
     },
   },
-  computed: {},
+  computed: {
+    userInfo() {
+      return store.state.userInfo;
+    },
+  },
   mounted: function () {},
 };
 </script>
