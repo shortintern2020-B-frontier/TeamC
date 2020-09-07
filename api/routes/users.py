@@ -26,18 +26,18 @@ def get_users_insert_dict(user):
     return values
 
 # usersを全件検索して「UserSelect」のリストをjsonにして返します。
-@router.get("/users/", response_model=List[UserSelect])
+@router.get("/users/", response_model=List[UserDetail])
 async def users_findall(request: Request, database: Database = Depends(get_connection)):
     query = users.select()
     return await database.fetch_all(query)
 
 # usersをidで検索して「UserSelect」をjsonにして返します。
-@router.get("/users/find", response_model=UserSelect)
+@router.get("/users/find", response_model=UserDetail)
 async def users_findone(user_id: str, database: Database = Depends(get_connection)):
     query = users.select().where(users.columns.user_id==user_id)
     return await database.fetch_one(query)
 
-@router.post("/users/login", response_model=UserSelect)
+@router.post("/users/login", response_model=UserDetail)
 async def login_user(req: RequestForLogin, database: Database = Depends(get_connection)):
     query = users.select().where(users.columns.email==req.email)
     return await database.fetch_one(query)
@@ -61,7 +61,7 @@ async def make_friends(req: RequestForMakeFriends, database: Database = Depends(
     await database.execute(query, values2)
     return {"result": "connect success"}
 
-@router.get("/users/friends", response_model=List[UserSelect])
+@router.get("/users/friends", response_model=List[UserDetail])
 async def get_friends(id: int, database: Database = Depends(get_connection)):
     query = f"select * from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {id}"
     return await database.fetch_all(query)

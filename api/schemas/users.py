@@ -33,6 +33,17 @@ class UserSelect(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
+class UserDetail(BaseModel):
+    id: int
+    user_id: str
+    username: str
+    email: str
+    status: Optional[int] = 0
+    comment: Optional[str] = ''
+    status_update_at: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+
 class RequestForLogin(BaseModel):
     email: str
     password: str
