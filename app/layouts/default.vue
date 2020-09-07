@@ -1,15 +1,13 @@
 <!-- Author:ZHANG CHI-->
 <template>
-  <v-app dark>
+  <v-app>
     <v-app-bar
+    app
     color="red">
     </v-app-bar>
-    <v-main>
-      <v-container>
         <nuxt />
-      </v-container>
-    </v-main>
     <v-bottom-navigation
+      app
       :value="activeBtn"
       color="purple lighten-1">
       <v-btn>
