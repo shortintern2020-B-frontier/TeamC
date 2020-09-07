@@ -22,6 +22,18 @@
                     name="UserName"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="usernameRules"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="userid"
+                    id="userid"
+                    label="Userid"
+                    name="Userid"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    :rules="useridRules"
+                    required
                   ></v-text-field>
                   <v-text-field
                     v-model="email"
@@ -30,6 +42,8 @@
                     name="email"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="emailRules"
+                    required
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
@@ -37,6 +51,8 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    :rules="passwordRules"
+                    required
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -67,6 +83,9 @@
             <v-card>
               アカウントを作成すると、利用規約、およびCookie使用を含むプライバシーポリシーに同意したことになります。あなたのメールアドレスを保存しているTwitterユーザに通知などが表示されます。
             </v-card>
+            <v-snackbar v-model="snackbar">
+              {{ text }}
+            </v-snackbar>
           </v-col>
         </v-row>
       </v-container>
@@ -82,34 +101,45 @@ export default {
     lazy: false,
     username: "",
     usernameRules: [v => !!v || "UserName is required"],
+    userid: "",
+    useridRules: [v => !!v || "UserID is required"],
     email: "",
     emailRules: [
       v => !!v || "Email is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     password: "",
-    passwordRules: [v => !!v || "Password is required"]
+    passwordRules: [v => !!v || "Password is required"],
+    snackbar: false,
+    text: "Success,3s auto to login",
+    timeout: 2000
   }),
   methods: {
     register() {
       if (this.$refs.form.validate()) {
+        let _this = this;
         let username = this.username;
+        let userid = this.userid;
         let email = this.email;
-        let password = sha256(this.password);
-        axios({
+        let password = this.password;
+        this.$axios({
           method: "post",
           url: "http://127.0.0.1:8000/users/create",
           data: {
             username: username,
-            user_id: "string",
+            user_id: userid,
             email: email,
             password: password,
             status: 0,
-            comment: "string"
+            comment: ""
           }
         })
           .then(function(response) {
-            console.log(response);
+            _this.snackbar = true;
+            setTimeout(() => {
+              _this.$router.push("/login");
+              //Timeout 3s
+            }, 3000);
           })
           .catch(function(error) {
             console.log(error);

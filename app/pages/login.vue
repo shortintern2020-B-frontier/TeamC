@@ -122,7 +122,7 @@ export default {
   methods: {
     login() {
       if (this.$refs.form.validate()) {
-        let _this = this
+        let _this = this;
         let email = this.email;
         let password = this.password;
         let errorflag = false;
@@ -135,7 +135,10 @@ export default {
             if (response.data == null) {
               _this.snackbar = true;
             } else {
-              console.log(response.data.email);
+              const user = response.data;
+              _this.$store.commit("user/add", user);
+              console.log(_this.$store.state.user.userInfo);
+              // _this.$router.push("/home");
             }
           })
           .catch(function(error) {
