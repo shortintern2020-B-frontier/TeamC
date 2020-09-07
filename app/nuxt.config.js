@@ -1,4 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
+axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
 
 export default {
   /*
@@ -80,5 +85,11 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
-  }
+  },
+  modules: [
+    '@nuxtjs/axios',
+  ],
+  axios: {
+    baseURL: 'http://127.0.0.1:8000',
+  },
 }
