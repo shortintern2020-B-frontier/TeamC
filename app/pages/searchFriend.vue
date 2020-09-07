@@ -49,7 +49,7 @@ export default {
   name: "mypage",
   components: {},
   data: () => ({
-    username: "",
+    target_username: "",
   }),
   methods: {
     search: async function () {
@@ -61,7 +61,7 @@ export default {
       this.target_id = res.id;
     },
     addFriend: async function () {
-      await this.$axios.$post("/users/friends/", {
+      await this.$axios.$post("/users/friends", {
         user_id: 1,
         target_user_id: this.id,
       });
