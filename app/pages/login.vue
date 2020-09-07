@@ -115,9 +115,8 @@ export default {
   methods: {
     login() {
       if (this.$refs.form.validate()) {
-        let sha256 = require("js-sha256").sha256;
-        var email = this.email;
-        var password = sha256(this.password);
+        let email = this.email;
+        let password = sha256(this.password);
         axios({
           method: "post",
           url: "http://127.0.0.1:8000/users/login",
