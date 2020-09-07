@@ -11,6 +11,7 @@ from databases import Database
 
 from utils.dbutils import get_connection
 import time
+from datetime import datetime
 
 router = APIRouter()
 
@@ -25,8 +26,13 @@ async def create_chat(req: ChatCreate, database: Database = Depends(get_connecti
     return {**req.dict()}
 
 # Get Chat
-@router.get("/chats/", response_model=List[ChatCreate])
+@router.get("/chats/", response_model=List[ChatDetail])
 async def get_chat(chat_room_id: int, database: Database = Depends(get_connection)):
     # validatorは省略
-    query = chats.select().where(chats.columns.chat_room_id==chat_room_id)
-    return await database.fetch_all(query)
+    query = f'select chats.content as content, chats.created_at as created_at, chats.user_id as user_id, users.username as username from chats left join users on chats.user_id = users.id where chats.chat_room_id = {chat_room_id}'
+    chats = await database.fetch_all(query)
+    chats = list(map(lambda n: dict(n), chats))
+    for chat in chats:
+      if chat['created_at']:
+        chat['created_at'] = datetime.fromtimestamp(chat['created_at']).strftime('%Y/%m/%d %H:%M')
+    return chats
