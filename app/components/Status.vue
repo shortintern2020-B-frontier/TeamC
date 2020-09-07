@@ -5,7 +5,8 @@
         <!-- アイコンに差し替え
         <img v-bind:src="item.src" />-->
         {{item.status}}
-        <v-switch></v-switch>
+        {{status}}
+        <input type="radio" v-model="status" />
       </div>
     </li>
   </ul>

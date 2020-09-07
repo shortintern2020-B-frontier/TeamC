@@ -15,36 +15,41 @@
     <div id="status">
       <h1>Status</h1>
       <v-text-field v-model="comment" label="Comment"></v-text-field>
-      <Status />
+      <input type="radio" id="free" value="0" v-model="status" />
+      <label>Free</label>
+      <br />
+      <input type="radio" id="busy" value="1" v-model="status" />
+      <label>Busy</label>
     </div>
   </form>
 </template>
 
 <script>
 import Vue from "vue";
-import Status from "~/components/Status";
 
-Vue.component("Status", Status);
 export default {
   name: "mypage",
+  components: {},
   async asyncData({ $axios }) {
     const data = await $axios.$get("/users/find", {
-      params: { user_id: "string" },
+      params: { user_id: "user_id" },
     });
     return data;
   },
   methods: {
     postProfile: async function () {
       await this.$axios.$post("/users/update", {
+        id: 1,
         user_id: this.user_id,
         username: this.username,
         email: this.email,
         password: this.password,
-        status: 0,
+        status: this.status,
         comment: this.comment,
       });
     },
   },
+  computed: {},
   mounted: function () {},
 };
 </script>
