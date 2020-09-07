@@ -17,7 +17,7 @@
       </v-toolbar>
     </div>
 
-    <div id="user" v-if="username">
+    <div id="user" v-if="target_username">
       <v-card class="mx-auto">
         <v-card-text>
           <v-row align="center">
@@ -25,12 +25,17 @@
               <img src="@/static/v.png" alt="icon" width="92" />
             </v-col>
             <v-col :key="2">
-              <v-row :key="1" width="100" v-text="bold">{{username}}</v-row>
-              <v-row :key="2" width="20">ひとこと: {{comment}}</v-row>
+              <v-row :key="1" style="font-weight: bold; font-size: 200%;">
+                <p>{{target_username}}</p>
+              </v-row>
+              <v-row :key="2" width="20">ひとこと: {{target_comment}}</v-row>
             </v-col>
           </v-row>
           <v-row align="center">
-            <v-btn @click="addFriend">追加</v-btn>
+            <v-btn
+              style="display: inline-block; text-align: center; margin: 0 auto;"
+              @click="addFriend"
+            >追加</v-btn>
           </v-row>
         </v-card-text>
       </v-card>
@@ -51,11 +56,15 @@ export default {
       const res = await this.$axios.$get("/users/find", {
         params: { user_id: this.search_id },
       });
-      this.username = res.username;
-      this.comment = res.comment;
+      this.target_username = res.username;
+      this.target_comment = res.comment;
+      this.target_id = res.id;
     },
     addFriend: async function () {
-      // Todo
+      await this.$axios.$post("/users/friends/", {
+        user_id: 1,
+        target_user_id: this.id,
+      });
     },
   },
   computed: {},
