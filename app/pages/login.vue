@@ -136,7 +136,7 @@ export default {
             } else {
               const user = response.data;
               _this.$store.commit("user/add", user);
-              //_this.$router.push("/home");
+              _this.$router.push("/home");
             }
           })
           .catch(function(error) {
