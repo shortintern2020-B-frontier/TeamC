@@ -1,18 +1,13 @@
 // Author: ZHANG CHI
 export const state = () => ({
-  userInfo: []
+  userInfo:　{}
 })
 
 export const mutations = {
   add (state, object) {
-      state.userInfo.push(object)
+      state.userInfo = object;
   }
 }
 
 export const actions = {
-  getData (store) {
-      setTimeout(() => {
-          store.commit('add')
-      }, 3000)
-  }
 }

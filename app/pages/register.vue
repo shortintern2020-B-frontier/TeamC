@@ -118,10 +118,7 @@ export default {
     register() {
       if (this.$refs.form.validate()) {
         let _this = this;
-        let username = this.username;
-        let userid = this.userid;
-        let email = this.email;
-        let password = this.password;
+        const { username, userid, email, password } = this;
         this.$axios({
           method: "post",
           url: "http://127.0.0.1:8000/users/create",

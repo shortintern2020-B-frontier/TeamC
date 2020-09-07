@@ -123,8 +123,7 @@ export default {
     login() {
       if (this.$refs.form.validate()) {
         let _this = this;
-        let email = this.email;
-        let password = this.password;
+        const { email, password } = this;
         let errorflag = false;
         this.$axios({
           method: "post",
@@ -137,8 +136,7 @@ export default {
             } else {
               const user = response.data;
               _this.$store.commit("user/add", user);
-              console.log(_this.$store.state.user.userInfo);
-              // _this.$router.push("/home");
+              //_this.$router.push("/home");
             }
           })
           .catch(function(error) {
