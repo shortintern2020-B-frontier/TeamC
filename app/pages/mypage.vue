@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "mypage",
   layout: "default",
@@ -54,10 +55,7 @@ export default {
       });
     },
   },
-  created() {
-    this.statusList = this.$store.state.user.statusList;
-  },
-  mounted: function () {},
+  computed: mapState("user", ["statusList"]),
 };
 </script>
 
