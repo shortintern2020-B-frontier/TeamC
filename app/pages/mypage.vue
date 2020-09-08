@@ -32,7 +32,7 @@
 <script>
 export default {
   name: "mypage",
-  layout: "mypage",
+  layout: "default",
   components: {},
   async asyncData({ store }) {
     return store.state.user.userInfo;

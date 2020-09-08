@@ -56,7 +56,8 @@
 <script>
 import Vue from "vue";
 export default {
-  name: "mypage",
+  name: "searchFriend",
+  layout: "default",
   components: {},
   data: () => ({
     target_username: "",
