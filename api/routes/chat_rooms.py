@@ -45,7 +45,7 @@ async def create_chat_room(req: ChatRoomCreate, database: Database = Depends(get
 # Get ChatRooms
 @router.get("/chat_rooms/")
 async def get_chat_room(id: int, database: Database = Depends(get_connection)):
-    select_room_query = f"select * from chat_rooms left join user_chat_rooms on chat_rooms.id = user_chat_rooms.chat_room_id where user_chat_rooms.user_id = {id} and user_chat_rooms.valid = 1 order by chat_rooms.id desc"
+    select_room_query = f"select chat_rooms.id from chat_rooms left join user_chat_rooms on chat_rooms.id = user_chat_rooms.chat_room_id where user_chat_rooms.user_id = {id} and user_chat_rooms.valid = 1 order by chat_rooms.id desc"
     chat_rooms = await database.fetch_all(select_room_query)
     chat_rooms = list(map(lambda n: dict(n), chat_rooms))
     chat_room_ids = list(map(lambda n: n['id'], chat_rooms))
