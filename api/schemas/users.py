@@ -1,3 +1,4 @@
+# Author hirata
 from pydantic import BaseModel
 from typing import Optional
 
@@ -49,5 +50,9 @@ class RequestForLogin(BaseModel):
     password: str
 
 class RequestForMakeFriends(BaseModel):
+    user_id: int
+    target_user_id: int
+
+class RequestForFavorite(BaseModel):
     user_id: int
     target_user_id: int

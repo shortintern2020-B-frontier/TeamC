@@ -1,3 +1,4 @@
+-- Author hirata
 CREATE DATABASE IF NOT EXISTS yuru;
 Use yuru;
 
