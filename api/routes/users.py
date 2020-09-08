@@ -87,6 +87,13 @@ async def get_favorite(id: int, database: Database = Depends(get_connection)):
     query = f"select * from users left join favorites on users.id = favorites.target_user_id where favorites.user_id = {id}"
     return await database.fetch_all(query)
 
+@router.get("/users/recommend", response_model=List[UserDetail])
+async def get_recommend(id: int, database: Database = Depends(get_connection)):
+    select_user_query = users.select().where(users.columns.id==id)
+    user = await database.fetch_one(select_user_query)
+    query = f"select * from users where status = {user.status} and id != {id}"
+    return await database.fetch_all(query)
+
 # usersを新規登録します。
 @router.post("/users/create", response_model=UserSelect)
 async def users_create(user: UserCreate, database: Database = Depends(get_connection)):

@@ -8,6 +8,7 @@ class ChatCreate(BaseModel):
     content: str
 
 class ChatDetail(BaseModel):
+    id: int
     user_id: int
     created_at: Optional[str] = None
     content: str

@@ -40,3 +40,26 @@ async def create_chat_room(req: ChatRoomCreate, database: Database = Depends(get
         "users": user_datas
     }
     return chat_room_data
+
+# Author hirata
+# Get ChatRooms
+@router.get("/chat_rooms/")
+async def get_chat_room(id: int, database: Database = Depends(get_connection)):
+    select_room_query = f"select chat_rooms.id from chat_rooms left join user_chat_rooms on chat_rooms.id = user_chat_rooms.chat_room_id where user_chat_rooms.user_id = {id} and user_chat_rooms.valid = 1 order by chat_rooms.id desc"
+    chat_rooms = await database.fetch_all(select_room_query)
+    chat_rooms = list(map(lambda n: dict(n), chat_rooms))
+    chat_room_ids = list(map(lambda n: n['id'], chat_rooms))
+    if not chat_room_ids:
+        return []
+    select_chat_query = f"select * from chats where id in ( select max(id) from chats where chat_room_id in ({','.join(map(str, chat_room_ids))}) group by chat_room_id)"
+    chats = await database.fetch_all(select_chat_query)
+    chats = list(map(lambda n: dict(n), chats))
+    for chat_room in chat_rooms:
+        chats_of_the_room = list(filter(lambda n: n['chat_room_id'] == chat_room['id'], chats))
+        if chats_of_the_room:
+            chat_room['last_chat'] = chats_of_the_room[0]
+    user_select_query = f"select users.id, users.username, chat_room_id from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where chat_room_id in ({','.join(map(str,chat_room_ids))}) and user_chat_rooms.user_id != {id} and user_chat_rooms.valid = 1"
+    user_datas = await database.fetch_all(user_select_query)
+    for chat_room in chat_rooms:
+        chat_room['users'] = list(filter(lambda p: p.chat_room_id == chat_room['id'], user_datas))
+    return chat_rooms

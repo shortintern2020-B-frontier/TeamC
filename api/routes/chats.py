@@ -30,7 +30,7 @@ async def create_chat(req: ChatCreate, database: Database = Depends(get_connecti
 @router.get("/chats/", response_model=List[ChatDetail])
 async def get_chat(chat_room_id: int, database: Database = Depends(get_connection)):
     # validatorは省略
-    query = f'select chats.content as content, chats.created_at as created_at, chats.user_id as user_id, users.username as username from chats left join users on chats.user_id = users.id where chats.chat_room_id = {chat_room_id}'
+    query = f'select chats.id, chats.content as content, chats.created_at as created_at, chats.user_id as user_id, users.username as username from chats left join users on chats.user_id = users.id where chats.chat_room_id = {chat_room_id} order by chats.id'
     chats = await database.fetch_all(query)
     chats = list(map(lambda n: dict(n), chats))
     for chat in chats:
