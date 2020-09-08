@@ -1,46 +1,27 @@
-<!-- author Hiroki Okubo -->
+<!-- author Hiroki Okubo & Shotaro Murata-->
 
 <template>
-  <form>
-    <v-text-field
-      v-model="title"
-      :error-messages="titleErrors"
-      :counter="10"
-      label="Title"
-      required
-      @input="$v.title.$touch()"
-      @blur="$v.title.$touch()"
-    ></v-text-field>
-    <v-text-field
-      v-model="place"
-      :error-messages="placeErrors"
-      :counter="10"
-      label="Place"
-      required
-      @input="$v.title.$touch()"
-      @blur="$v.title.$touch()"
-    ></v-text-field>
-    <v-text-field
-      v-model="time"
-      :error-messages="timeErrors"
-      :counter="10"
-      label="Time"
-      required
-      @input="$v.title.$touch()"
-      @blur="$v.title.$touch()"
-    ></v-text-field>
-    <v-checkbox
-      v-model="checkbox"
-      :error-messages="checkboxErrors"
-      label="Do you agree?"
-      required
-      @change="$v.checkbox.$touch()"
-      @blur="$v.checkbox.$touch()"
-    ></v-checkbox>
+  <v-app style="margin:5%;">
+    <v-main>
+      <form align="center">
+        <h1 style="display: inline-block; text-align: center; margin: 0 auto;">タイムライン</h1>
+        <v-text-field v-model="title" :counter="10" label="Title" required></v-text-field>
+        <v-text-field v-model="place" :counter="10" label="Place" required></v-text-field>
+        <v-text-field v-model="date" :counter="10" label="Time" required></v-text-field>
+        <v-text-field v-model="comment" :counter="10" label="Comment" required></v-text-field>
+        <!-- <v-checkbox
+          v-model="checkbox"
+          label="Do you agree?"
+          required
+          @change="$v.checkbox.$touch()"
+          @blur="$v.checkbox.$touch()"
+        ></v-checkbox>-->
 
-    <v-btn class="mr-4" @click="submit">submit</v-btn>
-    <v-btn @click="clear">clear</v-btn>
-  </form>
+        <v-btn class="mr-4" @click="submit">submit</v-btn>
+        <v-btn @click="clear">clear</v-btn>
+      </form>
+    </v-main>
+  </v-app>
 </template>
 
 <!-- ページ遷移イメージ -->
@@ -51,36 +32,29 @@
 </nuxt-link> -->
 
 <script>
-import Vue from "vue";
-import Status from "~/components/Status";
-Vue.component("Status", Status);
 export default {
   name: "mypage",
-  async asyncData({ $axios }) {
-    const data = await $axios.$get("/users/find", {
-      params: { user_id: "string" },
-    });
-    return data;
-  },
+  data: () => ({
+    title: "",
+    place: "",
+    date: "",
+    comment: "",
+  }),
   methods: {
-    setUserId: function () {},
-    createJson: function (key, value) {
-      var json;
-      return (json[key] = value);
-    },
-    postProfile: async function () {
-      console.log(this.id);
-      var json;
-      await this.$axios.$post("/users/update", {
-        user_id: this.user_id,
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        status: 0,
+    submit: async function () {
+      await this.$axios.$post("/users/timeline", {
+        user_id: this.$store.state.user.userInfo.id,
+        place: this.place,
+        date: this.date,
         comment: this.comment,
       });
     },
+    clear: function () {
+      this.title = "";
+      this.place = "";
+      this.data = "";
+      this.comment = "";
+    },
   },
-  mounted: function () {},
 };
 </script>
