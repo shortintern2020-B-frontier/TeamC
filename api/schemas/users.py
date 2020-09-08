@@ -51,3 +51,7 @@ class RequestForLogin(BaseModel):
 class RequestForMakeFriends(BaseModel):
     user_id: int
     target_user_id: int
+
+class RequestForFavorite(BaseModel):
+    user_id: int
+    target_user_id: int
