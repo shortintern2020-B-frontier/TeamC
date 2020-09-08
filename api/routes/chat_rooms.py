@@ -40,5 +40,3 @@ async def create_chat_room(req: ChatRoomCreate, database: Database = Depends(get
         "users": user_datas
     }
     return chat_room_data
-
-    return {"result":"create success"}
