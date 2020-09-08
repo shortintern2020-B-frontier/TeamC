@@ -55,7 +55,9 @@ export default {
       });
     },
   },
-  computed: mapState("user", ["statusList"]),
+  computed: {
+    ...mapState("user", ["statusList"]),
+  },
 };
 </script>
 
