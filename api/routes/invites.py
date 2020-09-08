@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends
 from typing import List
 from starlette.requests import Request
 
+from models.users import users
 from models.chat_rooms import chat_rooms
 from models.user_chat_rooms import user_chat_rooms
 from schemas.invites import *
@@ -10,6 +11,7 @@ from schemas.invites import *
 from databases import Database
 
 from utils.dbutils import get_connection
+import time
 
 router = APIRouter()
 
@@ -40,19 +42,36 @@ async def invite_create(invite: InviteCreate, database: Database = Depends(get_c
     return {"result":"invite success"}
 
 # お誘い一覧を返します。
-@router.get("/invites")
+@router.get("/invites/", response_model=List[InviteSelect])
 async def invites_findall(user_id: str, database: Database = Depends(get_connection)):
     select_query = f"select * from user_chat_rooms where user_id = {user_id} and valid = 0"
     invites_data = await database.fetch_all(select_query)
-    user_invites = []
-    for item in invites_data:
-        chat_room_id = getattr(item, "chat_room_id")
-        select_query = f"select * from user_chat_rooms where chat_room_id = {chat_room_id} and valid = 1 and user_id != {user_id}"
-        host_user_data = await database.fetch_one(select_query)
-        values = {
-            "host_user_id": str(getattr(host_user_data, "user_id")),
-            "guest_user_id": user_id,
-            "chat_room_id": str(chat_room_id)
-        }
-        user_invites.append(values)
+    chat_rooms_ids = list(map(lambda n: n.chat_room_id, invites_data))
+    if not chat_rooms_ids:
+        user_invites = [{
+            "chat_room_id": str(),
+            "users": list()
+        }]
+    else:
+        select_query = f"select users.id, users.username, chat_room_id from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where chat_room_id in ({','.join(map(str,chat_rooms_ids))}) and user_chat_rooms.user_id != {user_id}"
+        user_datas = await database.fetch_all(select_query)
+        user_invites = list(map(lambda n: {
+            "chat_room_id": str(n.chat_room_id),
+            "users": list(filter(lambda p: p.chat_room_id == n.chat_room_id, user_datas))
+        },
+        invites_data))
     return user_invites
+
+# user_chat_roomsのvalidを有効にしてchat_room_idを返します。
+@router.post("/invites/agree", response_model=InviteSelect)
+async def invite_agree(req: InviteAgree, database: Database = Depends(get_connection)):
+    update_query = f"update user_chat_rooms set valid=1 where user_id = {req.user_id} and chat_room_id = {req.chat_room_id} and valid = 0"
+    ret = await database.execute(update_query)
+    #error定義　if ret == 0:
+    select_query = f"select users.id, users.username from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where user_chat_rooms.chat_room_id = {req.chat_room_id} and valid=1"
+    user_datas = await database.fetch_all(select_query)
+    chat_room_data = {
+        "chat_room_id": str(req.chat_room_id),
+        "users": user_datas
+    }
+    return chat_room_data
