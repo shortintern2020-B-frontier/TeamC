@@ -37,7 +37,8 @@ async def timelines_findall(user_id: int, database: Database = Depends(get_conne
 
 # timeline 参加
 #@router.post("/timelines/join")
-#async def timeline_join()
+#async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_connection)):
+
 
 # timelinesを更新します。
 #@router.post("/timelines/update")

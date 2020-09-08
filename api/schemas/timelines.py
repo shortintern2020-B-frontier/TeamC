@@ -14,3 +14,7 @@ class TimeLineSelect(BaseModel):
     event_date: int
     place: str
     content: str
+
+class TimeLineJoin(BaseModel):
+    user_id: int
+    timeline_id: int
