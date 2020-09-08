@@ -1,3 +1,4 @@
+# Author hirata
 import hashlib
 
 from fastapi import APIRouter, Depends
@@ -6,6 +7,7 @@ from starlette.requests import Request
 
 from models.users import users
 from models.friends import friends
+from models.favorites import favorites
 from schemas.users import *
 
 from databases import Database
@@ -64,6 +66,32 @@ async def make_friends(req: RequestForMakeFriends, database: Database = Depends(
 @router.get("/users/friends", response_model=List[UserDetail])
 async def get_friends(id: int, database: Database = Depends(get_connection)):
     query = f"select * from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {id}"
+    return await database.fetch_all(query)
+
+@router.post("/users/favorites")
+async def make_favorite(req: RequestForFavorite, database: Database = Depends(get_connection)):
+    select_user_query = users.select().where(users.columns.id==req.user_id)
+    user = await database.fetch_one(select_user_query)
+    select_target_query = users.select().where(users.columns.id==req.target_user_id)
+    target_user = await database.fetch_one(select_target_query)
+    insert_query = favorites.insert()
+    values = {
+        "user_id": user.id,
+        "target_user_id": target_user.id
+    }
+    await database.execute(insert_query, values)
+    return {"result": "connect success"}
+
+@router.get("/users/favorites", response_model=List[UserDetail])
+async def get_favorite(id: int, database: Database = Depends(get_connection)):
+    query = f"select * from users left join favorites on users.id = favorites.target_user_id where favorites.user_id = {id}"
+    return await database.fetch_all(query)
+
+@router.get("/users/recommend", response_model=List[UserDetail])
+async def get_recommend(id: int, database: Database = Depends(get_connection)):
+    select_user_query = users.select().where(users.columns.id==id)
+    user = await database.fetch_one(select_user_query)
+    query = f"select * from users where status = {user.status} and id != {id}"
     return await database.fetch_all(query)
 
 # usersを新規登録します。
