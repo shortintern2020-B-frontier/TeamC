@@ -4,6 +4,7 @@ from db import database
 from routes.users import router as userrouter
 from routes.chats import router as chatrouter
 from routes.invites import router as invitesrouter
+from routes.timelines import router as timelinesrouter
 from routes.chat_rooms import router as chat_room_router
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware
@@ -35,6 +36,7 @@ async def shutdown():
 app.include_router(userrouter)
 app.include_router(chatrouter)
 app.include_router(invitesrouter)
+app.include_router(timelinesrouter)
 app.include_router(chat_room_router)
 
 # middleware state.connectionにdatabaseオブジェクトをセットする。
