@@ -20,8 +20,8 @@
         <span>Nearby</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
-      <v-btn>
-        <span>test</span>
+      <v-btn to="/mypage">
+        <span>MyPage</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
     </v-bottom-navigation>
