@@ -1,27 +1,23 @@
 <!-- Author:ZHANG CHI-->
 <template>
   <v-app>
-    <v-app-bar app color="red"></v-app-bar>
+    <v-app-bar app color="red" dense></v-app-bar>
     <nuxt />
     <v-bottom-navigation app :value="activeBtn" color="purple lighten-1">
-      <v-btn>
+      <v-btn value="home">
         <span>Home</span>
         <v-icon>mdi-history</v-icon>
       </v-btn>
-      <v-btn>
+      <v-btn value="Chat">
         <span>account</span>
         <v-icon>mdi-account</v-icon>
       </v-btn>
-      <v-btn>
+      <v-btn value="test">
         <span>Favorites</span>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-btn>
+      <v-btn value="test2">
         <span>Nearby</span>
-        <v-icon>mdi-map-marker</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>test</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
     </v-bottom-navigation>
@@ -29,4 +25,17 @@
 </template>
 
 <script>
+export default {
+  data: () => ({
+    activeBtn: ""
+  }),
+  methods: {
+    findRoute: function() {
+      this.activeBtn = this.$route.name;
+    }
+  },
+  created() {
+    this.findRoute();
+  }
+};
 </script>
