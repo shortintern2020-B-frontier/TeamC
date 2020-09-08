@@ -16,8 +16,8 @@
         <span>Favorites</span>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-btn value="test2">
-        <span>Nearby</span>
+      <v-btn value="mypage" to="/mypage">
+        <span>MyPage</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
     </v-bottom-navigation>
