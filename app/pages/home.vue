@@ -5,6 +5,7 @@
       <!-- <v-app-bar color="" dense></v-app-bar> -->
       <v-container class="fill-height" fluid>
         <v-container>
+          <v-btn @click="findData">Refresh</v-btn>
           <v-row dense>
             <v-card>お気に入り</v-card>
             <v-spacer></v-spacer>
@@ -94,20 +95,6 @@
 export default {
   layout: "home",
   data: () => ({
-    items: [
-      {
-        name: "jonh",
-        static: "EAT",
-        comment: "Chinese Food",
-        time: "2020-09-08 09:00:00"
-      },
-      {
-        name: "JJJ",
-        static: "Movie",
-        comment: "Chinese Food",
-        time: "2020-09-08 09:00:00"
-      }
-    ],
     friendslist: [],
     recommendlist: []
   }),

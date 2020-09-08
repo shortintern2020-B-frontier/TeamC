@@ -13,7 +13,7 @@
               </v-btn>
             </template>
             <v-sheet class="text-center">
-              <v-btn @click="saveStatic">Save</v-btn>
+              <v-btn @click="saveStatus">Save</v-btn>
               <v-divider vertical inset></v-divider>
               <v-btn @click="statusShell = !statusShell">close</v-btn>
               <div class="fill-height" fluid align="center" justify="center">
@@ -93,7 +93,7 @@
         <span>Favorites</span>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-btn value="mypage" to="/mypage"> 
+      <v-btn value="mypage" to="/mypage">
         <span>MyPage</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
@@ -111,58 +111,76 @@ export default {
     originalcomment: "Your Comment",
     commentTime: "2020-09-08 09:00:00",
     choosedStatus: "0",
-    choosedStatusLabel: "Busy"
+    choosedStatusLabel: "Busy",
+    updateflag: false,
+    user_id: ""
   }),
   methods: {
-    findData: function() {
-      if (this.$store.state.user.userInfo.status != null) {
-        this.originalStatus = this.showStatusName(
-          this.$store.state.user.userInfo.status
-        );
-        if (this.$store.state.user.userInfo.comment == null) {
-          this.originalcomment = this.originalStatus;
-        } else {
-          this.originalcomment = this.$store.state.user.userInfo.comment;
-        }
-        this.commentTime = this.$store.state.user.userInfo.status_update_at;
+    search: async function() {
+      const res = await this.$axios.$get("/users/find", {
+        params: { user_id: this.user_id }
+      });
+      return res;
+    },
+    findData: async function() {
+      if (this.updateflag) {
+        const res = await this.search();
+        this.$store.commit("user/add", res);
       } else {
+        this.updateflag = true;
       }
+      this.user_id = this.$store.state.user.userInfo.user_id;
+      this.originalStatus = this.showStatusName(
+        this.$store.state.user.userInfo.status
+      );
+      if (this.$store.state.user.userInfo.comment == null) {
+        this.originalcomment = this.originalStatus;
+      } else {
+        this.originalcomment = this.$store.state.user.userInfo.comment;
+      }
+      this.commentTime = this.$store.state.user.userInfo.status_update_at;
       this.activeBtn = this.$route.name;
     },
-    saveStatic() {
+    saveStatus() {
       let _this = this;
       const { comment, choosedStatus } = this;
-      if (condition) {
-      }
-      // this.$axios({
-      //   method: "post",
-      //   url: "http://127.0.0.1:8000/",
-      //   data: { comment: comment, static: choosedStatus }
-      // })
-      //   .then(function(response) {
-      //     if (response.data == null) {
-      //     } else {
-      //       _this.statusShell = !this.statusShell;
-      //       _this.findData();
-      //     }
-      //   })
-      //   .catch(function(error) {
-      //     console.log(error);
-      //   });
+      this.$axios({
+        method: "post",
+        url: "http://127.0.0.1:8000/users/update",
+        data: {
+          id: this.$store.state.user.userInfo.id,
+          status: choosedStatus,
+          comment: comment
+        }
+      })
+        .then(function(response) {
+          if (response.data == null) {
+          } else {
+            _this.statusShell = !_this.statusShell;
+            _this.findData();
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     showStatusName(status) {
       let statusName = "";
       switch (status) {
         case "0":
+        case 0:
           statusName = "Busy";
           break;
         case "1":
+        case 1:
           statusName = "Free";
           break;
         case "2":
+        case 2:
           statusName = "test2";
           break;
         case "3":
+        case 3:
           statusName = "test3";
           break;
         default:
