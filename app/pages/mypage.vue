@@ -18,7 +18,7 @@
           <h2>Status</h2>
           <v-text-field v-model="comment" label="Comment"></v-text-field>
           <ul id="example-1">
-            <div v-for="item in statusList" :key="item.id">
+            <div v-for="item in statusList" :key="item.id" style="padding: 10px;">
               <input type="radio" v-bind:id="item.id" v-bind:value="item.id" v-model="status" />
               <i v-bind:class="item.class" />
               <label>{{item.title}}</label>
@@ -34,12 +34,6 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "mypage",
-  layout: "default",
-  components: {},
-  data: {
-    statusList: [],
-  },
   async asyncData({ store }) {
     return store.state.user.userInfo;
   },
