@@ -1,3 +1,4 @@
+# Author hirata
 import sqlalchemy
 from db import metadata, engine
 
