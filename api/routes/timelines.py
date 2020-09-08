@@ -62,7 +62,6 @@ async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_conn
         "chat_room_id": getattr(chat_room_data, "id"),
         "valid": 0
     }
-    return [values1, values2]
     await database.execute(query, values1)
     await database.execute(query, values2)
     return {"result":"join success"}
@@ -70,6 +69,6 @@ async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_conn
 # timelinesを更新します。
 #@router.post("/timelines/update")
 
-## timelineへのchatsを追加します。
+
 
 # timelinesを削除します。
