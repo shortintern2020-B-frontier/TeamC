@@ -1,29 +1,22 @@
+<!-- Author:Shun Kiyoura-->
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-        <v-list three-line>
-          <template v-for="(item, index) in items">
-            <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
-
-            <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
-
-            <v-list-item v-else :key="item.title" link to="/chat-room">
+        <v-list style="max-height: 500px" class="overflow-y-auto">
+          <template v-for="(message) in messages">
+            <v-list-item true :key="message.content">
               <v-list-item-avatar>
-                <v-img :src="item.avatar"></v-img>
+                <v-img :src="items[1].avatar"></v-img>
               </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title v-html="item.title"></v-list-item-title>
+              <v-list-item-content > <!--style="height: 200px"-->
+                <v-list-item-subtitle v-html="message.content"></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
         </v-list>
-        <input v-model="message" placeholder="enter text" style="color:#808080">
-        <br>
-      </div>
-      <div id="textarea">
-        
+        <v-text-field v-model="send_message" label="Message"></v-text-field>
+        <v-btn @click="sendMessage">send</v-btn>
       </div>
     </v-flex>
   </v-layout>
@@ -38,16 +31,30 @@ export default {
     Logo,
     VuetifyLogo,
   },
-  asyncData ({ params }) {
+  asyncData({ params }) {
     const { id } = params;
-    return { chat_room_id: id}
+    return { chat_room_id: id };
   },
-  created() {
-    const res = await this.$axios.get(`/chats/${this.chat_room_id}`);
+  async created() {
+    const res = await this.$axios.get("/chats", {
+      params: {
+        chat_room_id: this.chat_room_id,
+      },
+    }); 
     this.messages = res.data;
   },
+    methods: {
+    sendMessage: async function () {
+      console.log(this.send_message);
+      await this.$axios.post("/chats/", {
+        user_id: 1,//this.$store.state.user.userInfo.id,
+        chat_room_id: this.chat_room_id,
+        content: this.send_message
+      });
+    },
+  },
   data: () => ({
-    chat_room_id: null,
+    chat_room_id: 1,
     messages: [],
     items: [
       { header: "Chat" },
@@ -57,39 +64,7 @@ export default {
         subtitle:
           "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
       },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-        subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        title: "Oui oui",
-        subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-      },{
-        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        title: "Brunch this weekend?",
-        subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-        subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        title: "Oui oui",
-        subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-      },
+      { divider: true, inset: true }
     ],
   }),
 };

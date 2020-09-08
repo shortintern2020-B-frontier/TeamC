@@ -1,22 +1,17 @@
+<!-- Author:Shun Kiyoura-->
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-
-        <v-list three-line>
-          <template v-for="(item, index) in items">
-            <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
-
-            <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
-
-            <v-list-item v-else :key="item.title" link to="/chat-room">
+        <v-list three-line style="max-height: 500px; width: 1000px" class="overflow-y-auto">
+          <template v-for="room in rooms">
+            <v-list-item true :key="room.chat_room_id" link :to="`/rooms/${room.id}`">
               <v-list-item-avatar>
-                <v-img :src="item.avatar"></v-img>
+                <v-img :src="items[1].avatar"></v-img>
               </v-list-item-avatar>
-
               <v-list-item-content>
-                <v-list-item-title v-html="item.title"></v-list-item-title>
-                <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                <v-list-item-title v-html="room.users[0].username"></v-list-item-title>
+                <v-list-item-subtitle v-html="room.last_chat.content"></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -27,49 +22,32 @@
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
-import VuetifyLogo from "~/components/VuetifyLogo.vue";
-import Vue from "vue";
-
 export default {
-    async asyncData({ $axios }) {
-    const data = await $axios.get("/users/", {
-      params: { request: "request" },
+    async created() {
+    const res = await this.$axios.get("/chat_rooms", {
+      params: {
+        id: this.$store.state.user.userInfo.id,
+      },
     });
-    console.log(data);
-    return data;
+    this.rooms = res.data;
+    console.log(this.rooms);
   },
-  components: {
-    Logo,
-    VuetifyLogo,
-  },
-
 
   data: () => ({
-    
+    rooms: [],
+    names: "",
     items: [
       { header: "Talk List" },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        title: "Brunch this weekend?",
-        subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-        subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        title: "Oui oui",
-        subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-      },
+        },
+      { divider: true, inset: true }
     ],
   }),
+  methods: {
+    nameCombine: function (name) {
+      names += name;
+    },
+  },
 };
 </script>
