@@ -1,7 +1,9 @@
+# Author hirata
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from db import database
 from routes.users import router as userrouter
 from routes.chats import router as chatrouter
+from routes.invites import router as invitesrouter
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware
 from connection_manager import ConnectionManager
@@ -31,6 +33,7 @@ async def shutdown():
 # users routerを登録する。
 app.include_router(userrouter)
 app.include_router(chatrouter)
+app.include_router(invitesrouter)
 
 # middleware state.connectionにdatabaseオブジェクトをセットする。
 @app.middleware("http")
