@@ -7,3 +7,10 @@ class TimeLineCreate(BaseModel):
     event_date: int
     place: str
     content: str
+
+class TimeLineSelect(BaseModel):
+    id: int
+    user_id: int
+    event_date: int
+    place: str
+    content: str

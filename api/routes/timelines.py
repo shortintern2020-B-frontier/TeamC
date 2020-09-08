@@ -1,6 +1,6 @@
 # Author: Reika Kosuda
 from fastapi import APIRouter, Depends
-#from typing import List
+from typing import List
 from starlette.requests import Request
 
 from models.users import users
@@ -22,24 +22,22 @@ router = APIRouter()
 async def timelines_create(timeline: TimeLineCreate, database: Database = Depends(get_connection)):
     insert_query = timelines.insert()
     values = timeline.dict()
-    values["deleted"] = '0'
+    values["deleted"] = 0
     ret = await database.execute(insert_query, values)
-    select_query = f"select users.status, timelines.id from timelines left join users on timelines.user_id = users.id where timelines.user_id={timeline.user_id}"
-    user_data = await database.fetch_one(select_query)
-    values["status"] = getattr(user_data, "status")
-    select_query = "select * from timelines order by id desc limit 1"
+    select_query = f"select id from timelines where user_id = {timeline.user_id} order by id desc limit 1"
     timeline_data = await database.fetch_one(select_query)
     values["timeline_id"] = getattr(timeline_data, "id")
-    #values["comment"] = getattr(user_data, "comment")
     return values
 
 # frends_idに紐づいているtimelineの情報を返す
-@router.get("/timelines/")
+@router.get("/timelines/", response_model=List[TimeLineSelect])
 async def timelines_findall(user_id: int, database: Database = Depends(get_connection)):
     select_query = f"select timelines.id, timelines.user_id, timelines.event_date, timelines.place, timelines.content from timelines left join friends on timelines.user_id = friends.user_1_id where friends.user_2_id = {user_id}"
     return await database.fetch_all(select_query)
 
 # timeline 参加
+#@router.post("/timelines/join")
+#async def timeline_join()
 
 # timelinesを更新します。
 #@router.post("/timelines/update")
