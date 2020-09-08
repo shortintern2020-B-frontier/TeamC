@@ -32,10 +32,10 @@ async def timelines_create(timeline: TimeLineCreate, database: Database = Depend
     values["id"] = getattr(timeline_data, "id")
     return values
 
-# frends_idに紐づいているtimelineの情報を返す
+# 自分とfrends_idに紐づいているtimelineの情報を返す
 @router.get("/timelines/", response_model=List[TimeLineSelect])
 async def timelines_findall(user_id: int, database: Database = Depends(get_connection)):
-    select_query = f"select timelines.id, timelines.user_id, timelines.event_date, timelines.place, timelines.content from timelines left join friends on timelines.user_id = friends.user_1_id where friends.user_2_id = {user_id}"
+    select_query = f"select timelines.id, timelines.user_id, timelines.event_date, timelines.place, timelines.content from timelines left join friends on timelines.user_id = friends.user_1_id where timelines.deleted = 0 and (timelines.user_id={user_id} or friends.user_2_id = {user_id})"
     return await database.fetch_all(select_query)
 
 # timeline参加希望者からchat_roomへのinviteを生成
@@ -67,8 +67,16 @@ async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_conn
     return {"result":"join success"}
 
 # timelinesを更新します。
-#@router.post("/timelines/update")
-
-
+@router.post("/timelines/update", response_model=TimeLineSelect)
+async def timeline_update(timeline: TimeLineSelect, database: Database = Depends(get_connection)):
+    update_query = timelines.update().where(timelines.columns.id==timeline.id)
+    values = dict(timeline)
+    ret = await database.execute(update_query, values)
+    return values
 
 # timelinesを削除します。
+@router.post("/timelines/delete")
+async def timelines_delete(timeline: TimeLineJoin, database: Database = Depends(get_connection)):
+    query = f"delete from timelines where id = {timeline.id} and user_id={timeline.user_id})"
+    ret = await database.execute(query)
+    return {"result":"delete success"}
