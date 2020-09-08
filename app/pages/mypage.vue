@@ -17,11 +17,13 @@
         <div id="status">
           <h2>Status</h2>
           <v-text-field v-model="comment" label="Comment"></v-text-field>
-          <input type="radio" id="free" value="0" v-model="status" />
-          <label>Free</label>
-          <br />
-          <input type="radio" id="busy" value="1" v-model="status" />
-          <label>Busy</label>
+          <ul id="example-1">
+            <div v-for="item in statusList" :key="item.id" style="padding: 10px;">
+              <input type="radio" v-bind:id="item.id" v-bind:value="item.id" v-model="status" />
+              <i v-bind:class="item.class" />
+              <label>{{item.title}}</label>
+            </div>
+          </ul>
         </div>
         <v-btn @click="postProfile">プロフィールを更新する</v-btn>
       </form>
@@ -30,10 +32,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "mypage",
-  layout: "default",
-  components: {},
   async asyncData({ store }) {
     return store.state.user.userInfo;
   },
@@ -49,8 +49,9 @@ export default {
       });
     },
   },
-  computed: {},
-  mounted: function () {},
+  computed: {
+    ...mapState("user", ["statusList"]),
+  },
 };
 </script>
 
