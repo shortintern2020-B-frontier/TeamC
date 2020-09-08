@@ -1,3 +1,4 @@
+# Author hirata
 from starlette.requests import Request
 
 # middlewareでrequestに格納したconnection(Databaseオブジェクト)を返します。
