@@ -69,9 +69,11 @@ CONSTRAINT fk_7 FOREIGN KEY (user_id) REFERENCES users (id),
 CONSTRAINT fk_8 FOREIGN KEY (chat_room_id) REFERENCES chat_rooms (id)
 );
 
-CREATE TABLE IF NOT EXISTS time_lines (
+CREATE TABLE IF NOT EXISTS timelines (
 id                     bigint(20) NOT NULL AUTO_INCREMENT,
 user_id                bigint(20) NOT NULL,
+event_date             bigint(20) NOT NULL,
+place                  varchar (256) NULL,
 content                varchar (1024) NULL,
 deleted                tinyint(4) DEFAULT '0',
 PRIMARY KEY (id),
