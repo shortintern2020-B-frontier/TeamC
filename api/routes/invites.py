@@ -48,10 +48,7 @@ async def invites_findall(user_id: str, database: Database = Depends(get_connect
     invites_data = await database.fetch_all(select_query)
     chat_rooms_ids = list(map(lambda n: n.chat_room_id, invites_data))
     if not chat_rooms_ids:
-        user_invites = [{
-            "chat_room_id": str(),
-            "users": list()
-        }]
+        user_invites = []
     else:
         select_query = f"select users.id, users.username, chat_room_id from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where chat_room_id in ({','.join(map(str,chat_rooms_ids))}) and user_chat_rooms.user_id != {user_id}"
         user_datas = await database.fetch_all(select_query)
