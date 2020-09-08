@@ -1,11 +1,11 @@
 // Author: ZHANG CHI
 export const state = () => ({
-  userInfo: {}
+  userInfo:　{}
 })
 
 export const mutations = {
-  add(state, object) {
-    state.userInfo = object;
+  add (state, object) {
+      state.userInfo = object;
   }
 }
 
