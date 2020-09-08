@@ -5,10 +5,12 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4" align="center" justify="center">
-            <v-avatar color size="62">
+            <v-avatar color="" size="62">
               <img src="~/static/v.png" alt="logo" />
             </v-avatar>
-            <v-card-title class="layout justify-center" disabled="true">ゆる～くつながる</v-card-title>
+            <v-card-title class="layout justify-center" disabled="true">
+              ゆる～くつながる
+            </v-card-title>
             <v-spacer></v-spacer>
             <v-expand-transition>
               <v-card v-show="expand" class="mx-auto">
@@ -39,7 +41,9 @@
                 </v-form>
               </v-card>
             </v-expand-transition>
-            <v-snackbar v-model="snackbar">{{ text }}</v-snackbar>
+            <v-snackbar v-model="snackbar">
+              {{ text }}
+            </v-snackbar>
             <v-card-actions class="layout justify-center">
               <v-btn
                 v-if="registerflag"
@@ -48,14 +52,18 @@
                 class="layout justify-center"
                 nuxt
                 to="/register"
-              >新規作成</v-btn>
+              >
+                新規作成
+              </v-btn>
               <v-btn
                 v-if="loginflag"
                 large
                 color="red"
                 class="layout justify-center"
                 @click="login"
-              >ログイン</v-btn>
+              >
+                ログイン
+              </v-btn>
             </v-card-actions>
             <v-divider></v-divider>
             <v-card-actions v-if="registerflag">
@@ -68,10 +76,20 @@
                     (loginflag = !loginflag),
                     (registerflag = !registerflag)
                 "
-              >ログイン</v-btn>
+              >
+                ログイン
+              </v-btn>
             </v-card-actions>
             <v-card-actions v-if="loginflag">
-              <v-btn small color="gray" class="layout justify-center" nuxt to="/register">新規作成</v-btn>
+              <v-btn
+                small
+                color="gray"
+                class="layout justify-center"
+                nuxt
+                to="/register"
+              >
+                新規作成
+              </v-btn>
             </v-card-actions>
           </v-col>
         </v-row>
@@ -91,15 +109,15 @@ export default {
     lazy: false,
     email: "",
     emailRules: [
-      (v) => !!v || "email is required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      v => !!v || "email is required",
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     password: "",
-    passwordRules: [(v) => !!v || "password is required"],
+    passwordRules: [v => !!v || "password is required"],
     snackbar: false,
     text:
       "ログインに失敗しました。メールアドレスとパスワードがもう一度確認してください！",
-    timeout: 2000,
+    timeout: 2000
   }),
   methods: {
     login() {
@@ -110,9 +128,9 @@ export default {
         this.$axios({
           method: "post",
           url: "http://127.0.0.1:8000/users/login",
-          data: { email: email, password: password },
+          data: { email: email, password: password }
         })
-          .then(function (response) {
+          .then(function(response) {
             if (response.data == null) {
               _this.snackbar = true;
             } else {
@@ -121,11 +139,11 @@ export default {
               //_this.$router.push("/home");
             }
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
