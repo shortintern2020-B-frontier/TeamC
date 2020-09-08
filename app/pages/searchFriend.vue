@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 export default {
   name: "searchFriend",
   layout: "default",
