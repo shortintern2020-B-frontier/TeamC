@@ -21,7 +21,7 @@
         </div>
 
         <div id="user">
-          <v-card class="mx-auto" v-if="user_found">
+          <v-card class="mx-auto" v-if="target_username">
             <v-card-text>
               <v-row align="center">
                 <v-col :key="1">
@@ -42,11 +42,6 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-card class="mx-auto" v-if="!user_found">
-            <v-card-text>
-              <p>ユーザーが見つかりませんでした</p>
-            </v-card-text>
-          </v-card>
         </div>
       </div>
     </v-main>
@@ -61,7 +56,6 @@ export default {
   components: {},
   data: () => ({
     target_username: "",
-    user_found: false,
   }),
   methods: {
     search: async function () {
@@ -72,10 +66,8 @@ export default {
         this.target_username = res.username;
         this.target_comment = res.comment;
         this.target_id = res.id;
-        this.user_found = true;
       } else {
-        this.user_found = false;
-        console.log("error: user is not founded");
+        alert("error: user is not found!");
       }
     },
     addFriend: async function () {
@@ -85,7 +77,5 @@ export default {
       });
     },
   },
-  computed: {},
-  mounted: function () {},
 };
 </script>
