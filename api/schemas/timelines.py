@@ -16,5 +16,5 @@ class TimeLineSelect(BaseModel):
     content: str
 
 class TimeLineJoin(BaseModel):
+    id: int
     user_id: int
-    timeline_id: int

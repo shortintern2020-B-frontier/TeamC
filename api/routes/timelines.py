@@ -18,7 +18,7 @@ from utils.dbutils import get_connection
 router = APIRouter()
 
 # timelinesを新規登録します。
-@router.post("/timelines/")
+@router.post("/timelines/", response_model=TimeLineSelect)
 async def timelines_create(timeline: TimeLineCreate, database: Database = Depends(get_connection)):
     insert_query = timelines.insert()
     values = timeline.dict()
@@ -26,7 +26,8 @@ async def timelines_create(timeline: TimeLineCreate, database: Database = Depend
     ret = await database.execute(insert_query, values)
     select_query = f"select id from timelines where user_id = {timeline.user_id} order by id desc limit 1"
     timeline_data = await database.fetch_one(select_query)
-    values["timeline_id"] = getattr(timeline_data, "id")
+    values.pop("deleted")
+    values["id"] = getattr(timeline_data, "id")
     return values
 
 # frends_idに紐づいているtimelineの情報を返す
