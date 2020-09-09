@@ -14,7 +14,7 @@
       </v-btn>
       <v-btn value="timeline" to="/timeline">
         <span>TimeLine</span>
-        <v-icon>mdi-map-timeline</v-icon>
+        <v-icon>mdi-timeline</v-icon>
       </v-btn>
       <v-btn value="mypage" to="/mypage">
         <span>MyPage</span>
