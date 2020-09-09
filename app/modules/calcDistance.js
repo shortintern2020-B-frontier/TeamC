@@ -7,13 +7,8 @@ export default function calcDistance(lat1, lng1, lat2, lng2) {
     lat2 *= pi / 180
     lng1 *= pi / 180
     lng2 *= pi / 180
-    let ci = Math.cos(lat1)
-        * Math.cos(lat2)
-        * Math.cos(lng2 - lng1)
-        + Math.sin(lat1)
-    * Math.sin(lat2)
-    let c = Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1) + Math.sin(lat1) * Math.sin(lat2)
-    console.log(c)
 
-    return r_earth * Math.acos(c)
+    let el = Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1) + Math.sin(lat1) * Math.sin(lat2)
+
+    return r_earth * Math.acos(el)
 }
