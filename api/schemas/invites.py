@@ -19,3 +19,7 @@ class InviteResponse(BaseModel):
 class InviteAgree(BaseModel):
     user_id: str
     chat_room_id: int
+
+class InviteRecommend(BaseModel):
+    valid: int
+    count_valid: int

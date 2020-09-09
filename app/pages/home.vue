@@ -130,9 +130,20 @@
                 <v-card-text class="headline text-center">
                   一緒に{{ statusList[recommend.status].title }}しない？
                 </v-card-text>
-                <v-btn class="ma-3" @click="sendInvites(recommend.id)">
+                <v-btn
+                  class="ma-3"
+                  v-if="invited == false"
+                  @click="sendInvites(recommend.id)"
+                >
                   ok
                 </v-btn>
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  class="ma-3"
+                  v-if="invited == true"
+                  >Waiting for confirmation
+                </v-progress-circular>
               </v-card>
               <v-card>
                 <div
@@ -226,9 +237,13 @@ export default {
   layout: "home",
   data: () => ({
     favoritelist: [{ id: 0 }],
+    loader: null,
+    loading: false,
     friendslist: [{ id: 0 }],
     recommendlist: [],
-    searchlist: []
+    searchlist: [],
+    invited: false,
+    invitedlist: []
   }),
   methods: {
     findData: async function() {
@@ -242,6 +257,10 @@ export default {
       const recommendlist = await this.$axios.$get("/users/recommend", {
         params: { id: userid }
       });
+      const invitedStatus = await this.$axios.$post("/invites/recommend", {
+        host_user_id: userid,
+        guest_user_id: recommendlist[0].id
+      });
       if (favoritelist.length != 0) {
         this.favoritelist = favoritelist;
       }
@@ -250,6 +269,9 @@ export default {
       }
       if (recommendlist.length != 0) {
         this.recommendlist = recommendlist;
+      }
+      if (invitedStatus.count_valid != 1) {
+        this.invited = true;
       }
     },
     search(keyword) {
@@ -275,6 +297,7 @@ export default {
       }
     },
     sendInvites: function(guest_user_id) {
+      let _this = this;
       this.$axios({
         method: "post",
         url: "/invites/create",
@@ -286,7 +309,7 @@ export default {
         .then(function(response) {
           if (response.data == null) {
           } else {
-            console.log(response);
+            _this.invited = true;
           }
         })
         .catch(function(error) {
