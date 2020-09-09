@@ -42,7 +42,7 @@ async def invite_create(invite: InviteCreate, database: Database = Depends(get_c
     return {"result":"invite success"}
 
 # お誘い一覧を返します。
-@router.get("/invites/", response_model=List[InviteSelect])
+@router.get("/invites/", response_model=List[InviteResponse])
 async def invites_findall(user_id: str, database: Database = Depends(get_connection)):
     select_query = f"select * from user_chat_rooms where user_id = {user_id} and valid = 0"
     invites_data = await database.fetch_all(select_query)
@@ -53,6 +53,7 @@ async def invites_findall(user_id: str, database: Database = Depends(get_connect
         select_query = f"select users.id, users.username, chat_room_id from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where chat_room_id in ({','.join(map(str,chat_rooms_ids))}) and user_chat_rooms.user_id != {user_id}"
         user_datas = await database.fetch_all(select_query)
         user_invites = list(map(lambda n: {
+            "id": n.id,
             "chat_room_id": str(n.chat_room_id),
             "users": list(filter(lambda p: p.chat_room_id == n.chat_room_id, user_datas))
         },

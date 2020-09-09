@@ -97,6 +97,9 @@
                       <div>
                         {{ favorite.status_update_at }}
                       </div>
+                      <div class="distance">
+                        {{ getDistance(favorite) }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -150,6 +153,9 @@
                       <div>
                         {{ recommend.status_update_at }}
                       </div>
+                      <div class="distance">
+                        {{ getDistance(recommend) }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -189,6 +195,9 @@
                       <div>
                         {{ friend.status_update_at }}
                       </div>
+                      <div class="distance">
+                        {{ getDistance(friend) }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -203,6 +212,7 @@
 
 <script>
 import { mapState } from "vuex";
+import calcDistance from "@/modules/calcDistance"
 export default {
   layout: "home",
   data: () => ({
@@ -237,6 +247,15 @@ export default {
       this.searchlist = this.friendslist.filter(
         friend => friend.status == keyword
       );
+    },
+    getDistance(friend) {
+      if(this.$store.state.user.userInfo.latitude != null && friend.latitude != null){
+        let dis = calcDistance(this.$store.state.user.userInfo.latitude, this.$store.state.user.userInfo.longitude, friend.latitude, friend.longitude)
+
+        return dis.toFixed(1).toString() + " km"
+      }else{
+        return ""
+      }
     }
   },
   created() {
