@@ -237,8 +237,6 @@ export default {
   layout: "home",
   data: () => ({
     favoritelist: [{ id: 0 }],
-    loader: null,
-    loading: false,
     friendslist: [{ id: 0 }],
     recommendlist: [],
     searchlist: [],
