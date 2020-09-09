@@ -22,72 +22,55 @@
 </div>
 </template>
 
+
 <script>
 export default {
-  layout: "individual_user_info",
-  data:{
-    friend_data: null,
-    staticImage: "/v.png"
-  },
-  methods: {
-    findData: async function() {
-
-      console.log(this.$route.query.user_id)
-
-      const data = this.$axios.get('/users/find', {
-        params: {
-          // $route.query (もし URL 上にクエリがあるなら)
-          user_id: this.$route.query.user_id,
-        }
-      });
-      if (data != null) {
-        this.friend_data = data;
-      },
+    data:{
+      friend_data: null,
+      staticImage: "/v.png"
     },
-    postFavorite: async function() {
+    methods: {
+      findData: async function() {
 
-      const data = await this.$axios.$post('/users/favorites', {
-        params: {
-          // $route.query (もし URL 上にクエリがあるなら)
+        console.log(this.$route.query.user_id)
+
+        const data = await this.$axios.$get('/users/find', {
+          params: {
+            // $route.query (もし URL 上にクエリがあるなら)
+            user_id: this.$route.query.user_id,
+          }
+        });
+        if (data != null) {
+          this.friend_data = data;
+        }
+        console.log(this.friend_data.username)
+      },
+      postFavorite: async function() {
+
+        const data = await this.$axios.$post('/users/favorites', {
           user_id: this.$store.state.user.userInfo.id,
-          target_user_id: this.$route.query.user_id
+          target_user_id: this.friend_data.id
+          
+        });
+        console.log(data)
+        if (data != null) {
         }
-      });
-      if (data != null) {
       },
-    },
-    postInvite: async function() {
+      postInvite: async function() {
 
-      const data = await this.$axios.$post('/invites/create', {
-        params: {
-          // $route.query (もし URL 上にクエリがあるなら)
+        const data = await this.$axios.$post('/invites/create', {
           host_user_id: this.$store.state.user.userInfo.id,
-          guest_user_id: this.$route.query.user_id
+          guest_user_id: this.friend_data.id
+        
+        });
+        console.log(data)
+        if (data != null) {
         }
-      });
-      if (data != null) {
       },
     },
-
-
-    // search function(keyword) {
-    //   this.searchlist = this.friendslist.filter(
-    //     friend => friend.status == keyword
-    //   );
-    // }
-  },
-  created() {
-    this.findData();
+    created() {
+      this.findData();
+    }
   }
 
 </script>
-
-// <script>
-// export default {
-//   data() {
-//     return {
-//       staticImage: "/v.png"
-//     };
-//   },
-// };
-// </script>

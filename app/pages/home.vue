@@ -24,7 +24,7 @@
             </template>
             <v-card width="300">
               <v-list-item v-for="user in searchlist" :key="user.username">
-                <v-card to="/individual_user_info?user_id=hogehoge">
+                <v-card v-bind:to="getIndividualURL(user.user_id)">
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
                       <img :src="avatar(user.id)" :alt="user.username" />
@@ -71,7 +71,7 @@
               :key="favorite.email"
               cols="12"
             >
-              <v-card to="/individual_user_info?user_id=hogehoge">
+              <v-card v-bind:to="getIndividualURL(favorite.user_id)">
                 <div v-if="favorite.id == 0">No favorite</div>
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
@@ -155,7 +155,7 @@
               :key="friend.username"
               cols="12"
             >
-              <v-card to="/individual_user_info?user_id=hogehoge">
+              <v-card v-bind:to="getIndividualURL(friend.user_id)">
                 <div v-if="friend.id == 0">No Friends</div>
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
@@ -242,7 +242,10 @@ export default {
       }else{
         return ""
       }
-    }
+    },
+    getIndividualURL(id){
+      return "/individual_user_info?user_id=" + id
+    },
   },
   created() {
     this.findData();
