@@ -71,6 +71,8 @@ async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_conn
 async def timeline_update(timeline: TimeLineUpdate, database: Database = Depends(get_connection)):
     select_query = f"select * from timelines where id = {timeline.id} and user_id = {timeline.user_id}"
     timeline_data = await database.fetch_one(select_query)
+    if timeline_data is None:
+        return None
     update_query = timelines.update().where(timelines.columns.id==timeline.id)
     for k, v in dict(timeline).items():
         if v == None and hasattr(timeline_data, k):
