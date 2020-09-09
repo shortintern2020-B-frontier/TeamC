@@ -16,8 +16,8 @@
         <span>Favorites</span>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-btn>
-        <span>Nearby</span>
+      <v-btn to="/timeline">
+        <span>TimeLine</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
       <v-btn to="/mypage">
