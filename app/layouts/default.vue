@@ -8,11 +8,11 @@
         <span>Home</span>
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn value="chat">
+      <v-btn value="chat" to="/chat-list">
         <span>Chat</span>
         <v-icon>mdi-chat</v-icon>
       </v-btn>
-      <v-btn to="/timeline">
+      <v-btn value="timeline" to="/timeline">
         <span>TimeLine</span>
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
