@@ -54,11 +54,11 @@
             </v-card>
           </v-menu>
         </v-card>
-        <v-divider class="mx-20"></v-divider>
-        <v-btn @click="findData">
+        <!-- <v-divider class="mx-20"></v-divider> -->
+        <!-- <v-btn @click="findData">
           Recommend Again
           <v-icon>mdi-cached</v-icon>
-        </v-btn>
+        </v-btn> -->
       </div>
       <v-container class="fill-height" fluid>
         <v-container>
@@ -125,7 +125,7 @@
                   </v-avatar>
                 </div>
                 <v-card-text class="headline text-center">
-                  一緒に{{statusList[recommend.status].title}}しないが？
+                  一緒に{{statusList[recommend.status].title}}しない？
                 </v-card-text>
                 <v-btn class="ma-3">
                   ok
