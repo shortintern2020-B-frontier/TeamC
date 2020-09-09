@@ -23,7 +23,10 @@
               </v-chip-group>
             </template>
             <v-card width="300">
-              <v-list-item v-for="user in searchlist" :key="`user_${user.username}`">
+              <v-list-item
+                v-for="user in searchlist"
+                :key="`user_${user.username}`"
+              >
                 <v-card>
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
@@ -54,11 +57,11 @@
             </v-card>
           </v-menu>
         </v-card>
-        <v-divider class="mx-20"></v-divider>
-        <v-btn @click="findData">
+        <!-- <v-divider class="mx-20"></v-divider> -->
+        <!-- <v-btn @click="findData">
           Recommend Again
           <v-icon>mdi-cached</v-icon>
-        </v-btn>
+        </v-btn> -->
       </div>
       <v-container class="fill-height" fluid>
         <v-container>
