@@ -67,7 +67,7 @@ async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_conn
     return {"result":"join success"}
 
 # timelinesを更新します。
-@router.post("/timelines/update")
+@router.post("/timelines/update", response_model=TimeLineUpdate)
 async def timeline_update(timeline: TimeLineUpdate, database: Database = Depends(get_connection)):
     select_query = f"select * from timelines where id = {timeline.id} and user_id = {timeline.user_id}"
     timeline_data = await database.fetch_one(select_query)
