@@ -6,19 +6,19 @@
         <div id="profile">
           <div id="icon">
             <v-avatar>
-              <img :src="avatar(id)" />
+              <img :src="avatar(user.id)" />
             </v-avatar>
           </div>
-          <v-text-field v-model="user_id" :counter="10" label="ID" required></v-text-field>
-          <v-text-field v-model="username" label="Name" required></v-text-field>
-          <v-text-field v-model="email" label="E-mail" required></v-text-field>
+          <v-text-field v-model="user.user_id" :counter="10" label="ID" required></v-text-field>
+          <v-text-field v-model="user.username" label="Name" required></v-text-field>
+          <v-text-field v-model="user.email" label="E-mail" required></v-text-field>
         </div>
         <div id="status">
           <h2>Status</h2>
-          <v-text-field v-model="comment" label="Comment"></v-text-field>
+          <v-text-field v-model="user.comment" label="Comment"></v-text-field>
           <ul id="example-1">
             <div v-for="item in statusList" :key="item.id" style="padding: 10px;">
-              <input type="radio" v-bind:id="item.id" v-bind:value="item.id" v-model="status" />
+              <input type="radio" v-bind:id="item.id" v-bind:value="item.id" v-model="user.status" />
               <i v-bind:class="item.class" />
               <label>{{item.title}}</label>
             </div>
@@ -33,18 +33,25 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  data() {
+    return {
+      user: {},
+    };
+  },
   async asyncData({ store }) {
-    return store.state.user.userInfo;
+    return {
+      user: store.state.user.userInfo,
+    };
   },
   methods: {
     postProfile: async function () {
       await this.$axios.$post("/users/update", {
-        id: this.$store.state.user.userInfo.id,
-        user_id: this.user_id,
-        username: this.username,
-        email: this.email,
-        status: this.status,
-        comment: this.comment,
+        id: this.user.id,
+        user_id: this.user.user_id,
+        username: this.user.username,
+        email: this.user.email,
+        status: this.user.status,
+        comment: this.user.comment,
       });
     },
   },

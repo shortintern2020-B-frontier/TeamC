@@ -23,7 +23,7 @@
               </v-chip-group>
             </template>
             <v-card width="300">
-              <v-list-item v-for="user in searchlist" :key="user.username">
+              <v-list-item v-for="user in searchlist" :key="`user_${user.username}`">
                 <v-card>
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
@@ -68,7 +68,7 @@
             <v-spacer></v-spacer>
             <v-col
               v-for="favorite in favoritelist"
-              :key="favorite.email"
+              :key="`favorite_${favorite.id}`"
               cols="12"
             >
               <v-card>
@@ -119,7 +119,7 @@
                   <v-avatar class="ma-3" size="70" tile>
                     <img
                       :src="avatar(recommend.id)"
-                      :alt="recommend.username"
+                      :alt="`recommend_${recommend.username}`"
                     />
                   </v-avatar>
                   <span class="headline">
@@ -152,7 +152,7 @@
             <v-spacer></v-spacer>
             <v-col
               v-for="friend in friendslist"
-              :key="friend.username"
+              :key="`friend_${friend.username}`"
               cols="12"
             >
               <v-card>
