@@ -25,7 +25,7 @@
             <v-card-text>
               <v-row align="center">
                 <v-col :key="1">
-                  <img src="@/static/v.png" alt="icon" width="92" />
+                  <img :src="avatar(target_id)" alt="icon" width="92" />
                 </v-col>
                 <v-col :key="2">
                   <v-row :key="1" style="font-weight: bold; font-size: 200%;">
@@ -60,7 +60,17 @@ export default {
   data: () => ({
     target_username: "",
     isFriend: false,
+    search_id: null,
+    select: null,
   }),
+  computed: {
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
+  },
   methods: {
     search: async function () {
       const res = await this.$axios.$get("/users/find", {
