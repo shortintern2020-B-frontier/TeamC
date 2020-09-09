@@ -6,4 +6,16 @@ from typing import Optional
 class InviteCreate(BaseModel):
     host_user_id: int
     guest_user_id: int
-    chat_room_id: Optional[int] = None
+
+class InviteSelect(BaseModel):
+    chat_room_id: str
+    users: list
+
+class InviteResponse(BaseModel):
+    id: int
+    chat_room_id: str
+    users: list
+
+class InviteAgree(BaseModel):
+    user_id: str
+    chat_room_id: int

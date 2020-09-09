@@ -1,57 +1,69 @@
 <!-- Author:Shotaro Murata-->
 <template>
-  <form>
-    <div id="profile">
-      <div id="icon">
-        <v-avatar>
-          <img src="@/static/v.png" />
-        </v-avatar>
-        <v-btn>画像を変更する</v-btn>
-      </div>
-      <v-text-field v-model="user_id" :counter="10" label="ID" required></v-text-field>
-      <v-text-field v-model="username" label="Name" required></v-text-field>
-      <v-text-field v-model="email" label="E-mail" required></v-text-field>
-    </div>
-    <div id="status">
-      <h2>Status</h2>
-      <v-text-field v-model="comment" label="Comment"></v-text-field>
-      <input type="radio" id="free" value="0" v-model="status" />
-      <label>Free</label>
-      <br />
-      <input type="radio" id="busy" value="1" v-model="status" />
-      <label>Busy</label>
-    </div>
-    <v-btn @click="postProfile">プロフィールを更新する</v-btn>
-  </form>
+  <v-app>
+    <v-main style="margin:5%;">
+      <form>
+        <div id="profile">
+          <div id="icon">
+            <v-avatar>
+              <img :src="avatar(user.id)" />
+            </v-avatar>
+          </div>
+          <v-text-field v-model="user.user_id" :counter="10" label="ID" required></v-text-field>
+          <v-text-field v-model="user.username" label="Name" required></v-text-field>
+          <v-text-field v-model="user.email" label="E-mail" required></v-text-field>
+        </div>
+        <div id="status">
+          <h2>Status</h2>
+          <v-text-field v-model="user.comment" label="Comment"></v-text-field>
+          <ul id="example-1">
+            <div v-for="item in statusList" :key="item.id" style="padding: 10px;">
+              <input type="radio" v-bind:id="item.id" v-bind:value="item.id" v-model="user.status" />
+              <i v-bind:class="item.class" />
+              <label>{{item.title}}</label>
+            </div>
+          </ul>
+        </div>
+        <v-btn @click="postProfile">プロフィールを更新する</v-btn>
+      </form>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import Vue from "vue";
-
+import { mapState } from "vuex";
 export default {
-  name: "mypage",
-  layout: "mypage",
-  components: {},
-  async asyncData({ $axios }) {
-    const data = await $axios.$get("/users/find", {
-      params: { user_id: "user_id" },
-    });
-    return data;
+  data() {
+    return {
+      user: {},
+    };
+  },
+  async asyncData({ store }) {
+    return {
+      user: store.state.user.userInfo,
+    };
   },
   methods: {
     postProfile: async function () {
       await this.$axios.$post("/users/update", {
-        id: 1,
-        user_id: this.user_id,
-        username: this.username,
-        email: this.email,
-        status: this.status,
-        comment: this.comment,
+        id: this.user.id,
+        user_id: this.user.user_id,
+        username: this.user.username,
+        email: this.user.email,
+        status: this.user.status,
+        comment: this.user.comment,
       });
     },
   },
-  computed: {},
-  mounted: function () {},
+  computed: {
+    ...mapState("user", ["statusList"]),
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
+  },
 };
 </script>
 
