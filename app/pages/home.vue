@@ -328,6 +328,9 @@
                       <div>
                         {{ friend.status_update_at }}
                       </div>
+                      <div>
+                        {{ getDistance(friend) }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -342,6 +345,7 @@
 
 <script>
 import { mapState } from "vuex";
+import calcDistance from "@/modules/calcDistance"
 export default {
   layout: "home",
   data: () => ({
@@ -376,6 +380,13 @@ export default {
       this.searchlist = this.friendslist.filter(
         friend => friend.status == keyword
       );
+    },
+    getDistance(friend) {
+      if(this.$store.state.user.userInfo.latitude != null && friend.latitude != null){
+        return calcDistance(this.$store.state.user.userInfo.latitude, friend.latitude, friend.longitude)
+      }else{
+        return ""
+      }
     }
   },
   created() {
