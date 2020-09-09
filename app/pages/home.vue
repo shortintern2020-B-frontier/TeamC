@@ -3,21 +3,77 @@
   <v-app>
     <v-main>
       <!-- <v-app-bar color="" dense></v-app-bar> -->
+      <div class="text-center">
+        <v-card color="red">
+          <v-menu
+            bottom
+            right
+            transition="slide-x-transition"
+            origin="top right"
+          >
+            <template v-slot:activator="{ on }">
+              <v-chip-group>
+                <v-divider class="mx-1" vertical></v-divider>
+                <v-chip label pill v-on="on" @click="search(0)">
+                  Busy
+                </v-chip>
+                <v-chip label pill v-on="on" @click="search(1)">
+                  Free
+                </v-chip>
+              </v-chip-group>
+            </template>
+            <v-card width="300">
+              <v-list-item v-for="user in searchlist" :key="user.username">
+                <v-card>
+                  <div class="d-flex flex-no-wrap justify-space-between">
+                    <v-avatar size="100" tile>
+                      <span class="white--text headline">
+                        {{ user.username }}
+                      </span>
+                    </v-avatar>
+                    <div>
+                      <v-card-title class="headline" v-if="user.status == 0">
+                        Busy
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 1">
+                        Free
+                      </v-card-title>
+                      <v-card-subtitle>
+                        <div>
+                          {{ user.comment }}
+                        </div>
+                        <div>
+                          {{ user.status_update_at }}
+                        </div>
+                      </v-card-subtitle>
+                    </div>
+                  </div>
+                </v-card>
+              </v-list-item>
+            </v-card>
+          </v-menu>
+        </v-card>
+        <v-divider class="mx-20"></v-divider>
+        <v-btn @click="findData">
+          Refresh
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
+      </div>
+
       <v-container class="fill-height" fluid>
         <v-container>
-          <v-btn @click="findData">Refresh</v-btn>
           <v-row dense>
             <v-card>お気に入り</v-card>
             <v-spacer></v-spacer>
             <v-col cols="12">
               <v-card>
-                <v-card-title class="headline"
-                  >Unlimited music now</v-card-title
-                >
-                <v-card-subtitle
-                  >Listen to your favorite artists and albums whenever and
-                  wherever, online and offline.</v-card-subtitle
-                >
+                <v-card-title class="headline">
+                  Unlimited music now
+                </v-card-title>
+                <v-card-subtitle>
+                  Listen to your favorite artists and albums whenever and
+                  wherever, online and offline.
+                </v-card-subtitle>
               </v-card>
             </v-col>
             <v-card>おすすめ</v-card>
@@ -30,17 +86,17 @@
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <v-avatar size="100" tile>
-                    <span class="white--text headline">{{
-                      recommend.username
-                    }}</span>
+                    <span class="white--text headline">
+                      {{ recommend.username }}
+                    </span>
                   </v-avatar>
                   <div>
-                    <v-card-title class="headline" v-if="recommend.status == 0"
-                      >Bussy</v-card-title
-                    >
-                    <v-card-title class="headline" v-if="recommend.status == 1"
-                      >Free</v-card-title
-                    >
+                    <v-card-title class="headline" v-if="recommend.status == 0">
+                      Busy
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 1">
+                      Free
+                    </v-card-title>
                     <v-card-subtitle>
                       <div>
                         {{ recommend.comment }}
@@ -53,6 +109,7 @@
                 </div>
               </v-card>
             </v-col>
+            <v-col cols="12"></v-col>
             <v-card>友達</v-card>
             <v-spacer></v-spacer>
             <v-col
@@ -63,22 +120,24 @@
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <v-avatar size="100" tile>
-                    <span class="white--text headline">{{
-                      friend.username
-                    }}</span>
+                    <span class="white--text headline">
+                      {{ friend.username }}
+                    </span>
                   </v-avatar>
                   <div>
-                    <v-card-title class="headline" v-if="friend.status == 0"
-                      >Bussy</v-card-title
-                    >
-                    <v-card-title class="headline" v-if="friend.status == 1"
-                      >Free</v-card-title
-                    >
+                    <v-card-title class="headline" v-if="friend.status == 0">
+                      Busy
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 1">
+                      Free
+                    </v-card-title>
                     <v-card-subtitle>
                       <div>
                         {{ friend.comment }}
                       </div>
-                      <div>{{ friend.status_update_at }}</div>
+                      <div>
+                        {{ friend.status_update_at }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -96,7 +155,8 @@ export default {
   layout: "home",
   data: () => ({
     friendslist: [],
-    recommendlist: []
+    recommendlist: [],
+    searchlist: []
   }),
   methods: {
     findData: async function() {
@@ -119,6 +179,11 @@ export default {
       if (recommendlist != null) {
         this.recommendlist = recommendlist;
       }
+    },
+    search(keyword) {
+      this.searchlist = this.friendslist.filter(
+        friend => friend.status == keyword
+      );
     }
   },
   created() {

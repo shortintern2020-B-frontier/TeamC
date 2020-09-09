@@ -8,7 +8,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn depressed icon v-bind="attrs" v-on="on">
                 <v-avatar color="" size="40">
-                  <img src="~/static/v.png" />
+                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" />
                 </v-avatar>
               </v-btn>
             </template>
@@ -66,8 +66,12 @@
             <v-card width="300">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>{{ originalcomment }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ commentTime }}</v-list-item-subtitle>
+                  <v-list-item-title>
+                    {{ originalcomment }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ commentTime }}
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-card>
@@ -83,19 +87,19 @@
     <v-bottom-navigation app :value="activeBtn" color="purple lighten-1">
       <v-btn value="home" to="/home">
         <span>Home</span>
-        <v-icon>mdi-history</v-icon>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn value="Chat">
-        <span>account</span>
-        <v-icon>mdi-account</v-icon>
+      <v-btn value="chat">
+        <span>Chat</span>
+        <v-icon>mdi-chat</v-icon>
       </v-btn>
-      <v-btn value="test">
-        <span>Favorites</span>
-        <v-icon>mdi-heart</v-icon>
+      <v-btn value="timeline">
+        <span>Timeline</span>
+        <v-icon>mdi-timeline</v-icon>
       </v-btn>
       <v-btn value="mypage" to="/mypage">
         <span>MyPage</span>
-        <v-icon>mdi-map-marker</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </v-app>
@@ -124,8 +128,8 @@ export default {
     },
     findData: async function() {
       if (this.updateflag) {
-        const res = await this.search();
-        this.$store.commit("user/add", res);
+        const user = await this.search();
+        this.$store.commit("user/add", user);
       } else {
         this.updateflag = true;
       }
