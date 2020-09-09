@@ -4,21 +4,21 @@
     <v-app-bar app color="red" dense></v-app-bar>
     <nuxt />
     <v-bottom-navigation app :value="activeBtn" color="purple lighten-1">
-      <v-btn value="home">
+      <v-btn value="home" to="/home">
         <span>Home</span>
-        <v-icon>mdi-history</v-icon>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn value="Chat">
-        <span>account</span>
-        <v-icon>mdi-account</v-icon>
+      <v-btn value="chat">
+        <span>Chat</span>
+        <v-icon>mdi-chat</v-icon>
       </v-btn>
-      <v-btn value="test">
-        <span>Favorites</span>
-        <v-icon>mdi-heart</v-icon>
+      <v-btn value="timeline">
+        <span>Timeline</span>
+        <v-icon>mdi-timeline</v-icon>
       </v-btn>
       <v-btn value="mypage" to="/mypage">
         <span>MyPage</span>
-        <v-icon>mdi-map-marker</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </v-app>
