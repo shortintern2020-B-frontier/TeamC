@@ -70,7 +70,7 @@
               </v-list-item>
             </v-card>
           </v-menu>
-          <v-divider class="mx-10" vertical></v-divider>
+          <v-divider class="mx-8" vertical></v-divider>
           <v-btn color="red" inset to="/searchFriend">
             友達追加
           </v-btn>
