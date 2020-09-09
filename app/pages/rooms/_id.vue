@@ -25,6 +25,7 @@
 <script>
 import moment from 'moment/moment'
 export default {
+  layout: "_id",
   asyncData({ params }) {
     const { id } = params;
     return { chat_room_id: id };
@@ -45,7 +46,7 @@ export default {
       _this.messages.push(JSON.parse(event.data));
     };
   },
-    methods: {
+  methods: {
     sendMessage: async function (event) {
       var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
       console.log(this.send_message);
@@ -80,6 +81,7 @@ export default {
   computed: {
     avatar() {
       return (id) => {
+        console.log(id)
         const imageLen = 10;
         return `/user_icon_${id % imageLen + 1}.jpg`;
       }
