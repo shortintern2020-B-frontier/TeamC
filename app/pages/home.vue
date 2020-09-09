@@ -110,9 +110,23 @@
               :key="index"
               cols="12"
             >
-              <!-- <v-card v-if="index == 1"> ss</v-card> -->
+              <v-card v-if="index == 0">
+                <v-avatar class="ma-3" size="70" tile>
+                  <img :src="avatar(userInfo.id)" :alt="userInfo.username" />
+                </v-avatar>
+                <v-avatar class="ma-3" size="70" tile>
+                  <img :src="avatar(recommend.id)" :alt="recommend.username" />
+                </v-avatar>
+                <span class="headline">
+                  一緒にしないが？
+                </span>
+                <v-btn>ok</v-btn>
+              </v-card>
               <v-card>
-                <div class="d-flex flex-no-wrap justify-space-between">
+                <div
+                  class="d-flex flex-no-wrap justify-space-between"
+                  v-if="index != 0"
+                >
                   <v-avatar class="ma-3" size="70" tile>
                     <img
                       :src="avatar(recommend.id)"
@@ -229,7 +243,7 @@ export default {
     this.findData();
   },
   computed: {
-    ...mapState("user", ["statusList"]),
+    ...mapState("user", ["statusList", "userInfo"]),
     avatar() {
       return id => {
         const imageLen = 10;
