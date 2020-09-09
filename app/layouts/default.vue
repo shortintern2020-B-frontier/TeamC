@@ -16,6 +16,10 @@
         <span>TimeLine</span>
         <v-icon>mdi-timeline</v-icon>
       </v-btn>
+      <v-btn value="invites" to="/invites">
+        <span>Invites</span>
+        <v-icon>mdi-chat</v-icon>
+      </v-btn>
       <v-btn value="mypage" to="/mypage">
         <span>MyPage</span>
         <v-icon>mdi-account</v-icon>
