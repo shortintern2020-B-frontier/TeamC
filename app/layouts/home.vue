@@ -30,25 +30,16 @@
                   </v-form>
                   <v-card>
                     <p>{{ choosedStatusLabel || "null" }}</p>
-                    <v-radio-group v-model="choosedStatus" :mandatory="false">
+                    <v-radio-group
+                      v-model="choosedStatus"
+                      :mandatory="false"
+                      v-for="status in statusList"
+                      :key="status.id"
+                    >
                       <v-radio
-                        label="Busy"
-                        value="0"
-                        @click="showStatusLabel"
-                      ></v-radio>
-                      <v-radio
-                        label="Free"
-                        value="1"
-                        @click="showStatusLabel"
-                      ></v-radio>
-                      <v-radio
-                        label="Radio 3"
-                        value="2"
-                        @click="showStatusLabel"
-                      ></v-radio>
-                      <v-radio
-                        label="Radio 4"
-                        value="3"
+                        v-bind:label="status.title"
+                        v-bind:value="status.id"
+                        v-bind:class="status.class"
                         @click="showStatusLabel"
                       ></v-radio>
                     </v-radio-group>
@@ -106,6 +97,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: () => ({
     activeBtn: "",
@@ -150,7 +142,7 @@ export default {
       const { comment, choosedStatus } = this;
       this.$axios({
         method: "post",
-        url: "http://127.0.0.1:8000/users/update",
+        url: "users/update",
         data: {
           id: this.$store.state.user.userInfo.id,
           status: choosedStatus,
@@ -173,19 +165,35 @@ export default {
       switch (status) {
         case "0":
         case 0:
-          statusName = "Busy";
+          statusName = "Free";
           break;
         case "1":
         case 1:
-          statusName = "Free";
+          statusName = "Busy";
           break;
         case "2":
         case 2:
-          statusName = "test2";
+          statusName = "Movie";
           break;
         case "3":
         case 3:
-          statusName = "test3";
+          statusName = "Karaoke";
+          break;
+        case "4":
+        case 4:
+          statusName = "Food";
+          break;
+        case "5":
+        case 5:
+          statusName = "Sports";
+          break;
+        case "6":
+        case 6:
+          statusName = "Shopping";
+          break;
+        case "7":
+        case 7:
+          statusName = "Sleeping";
           break;
         default:
           statusName = "Busy";
@@ -199,6 +207,9 @@ export default {
   },
   created() {
     this.findData();
+  },
+  computed: {
+    ...mapState("user", ["statusList"])
   }
 };
 </script>

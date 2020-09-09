@@ -14,12 +14,11 @@
             <template v-slot:activator="{ on }">
               <v-chip-group>
                 <v-divider class="mx-1" vertical></v-divider>
-                <v-chip label pill v-on="on" @click="search(0)">
-                  Busy
+                <div v-for="status in statusList" :key="status.id">
+                <v-chip label pill v-on="on" @click="search(status.id)">
+                  {{status.title}}
                 </v-chip>
-                <v-chip label pill v-on="on" @click="search(1)">
-                  Free
-                </v-chip>
+                </div>
               </v-chip-group>
             </template>
             <v-card width="300">
@@ -33,10 +32,28 @@
                     </v-avatar>
                     <div>
                       <v-card-title class="headline" v-if="user.status == 0">
-                        Busy
+                        Free
                       </v-card-title>
                       <v-card-title class="headline" v-if="user.status == 1">
-                        Free
+                        Busy
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 2">
+                        Movie
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 3">
+                        Karaoke
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 4">
+                        Food
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 5">
+                        Sports
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 6">
+                        Shopping
+                      </v-card-title>
+                      <v-card-title class="headline" v-if="user.status == 7">
+                        Sleeping
                       </v-card-title>
                       <v-card-subtitle>
                         <div>
@@ -67,13 +84,26 @@
             <v-spacer></v-spacer>
             <v-col cols="12">
               <v-card>
-                <v-card-title class="headline">
-                  Unlimited music now
-                </v-card-title>
-                <v-card-subtitle>
-                  Listen to your favorite artists and albums whenever and
-                  wherever, online and offline.
-                </v-card-subtitle>
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <v-avatar size="100" tile>
+                    <span class="white--text headline">
+                      Mike
+                    </span>
+                  </v-avatar>
+                  <div>
+                    <v-card-title class="headline">
+                      Free
+                    </v-card-title>
+                    <v-card-subtitle>
+                      <div>
+                        Doing Nothing
+                      </div>
+                      <div>
+                        2020-09-08 09:00:00
+                      </div>
+                    </v-card-subtitle>
+                  </div>
+                </div>
               </v-card>
             </v-col>
             <v-card>おすすめ</v-card>
@@ -92,10 +122,28 @@
                   </v-avatar>
                   <div>
                     <v-card-title class="headline" v-if="recommend.status == 0">
-                      Busy
+                      Free
                     </v-card-title>
                     <v-card-title class="headline" v-if="recommend.status == 1">
-                      Free
+                      Busy
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 2">
+                      Movie
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 3">
+                      Karaoke
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 4">
+                      Food
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 5">
+                      Sports
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 6">
+                      Shopping
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="recommend.status == 7">
+                      Sleeping
                     </v-card-title>
                     <v-card-subtitle>
                       <div>
@@ -126,10 +174,28 @@
                   </v-avatar>
                   <div>
                     <v-card-title class="headline" v-if="friend.status == 0">
-                      Busy
+                      Free
                     </v-card-title>
                     <v-card-title class="headline" v-if="friend.status == 1">
-                      Free
+                      Busy
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 2">
+                      Movie
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 3">
+                      Karaoke
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 4">
+                      Food
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 5">
+                      Sports
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 6">
+                      Shopping
+                    </v-card-title>
+                    <v-card-title class="headline" v-if="friend.status == 7">
+                      Sleeping
                     </v-card-title>
                     <v-card-subtitle>
                       <div>
@@ -151,6 +217,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   layout: "home",
   data: () => ({
@@ -188,6 +255,9 @@ export default {
   },
   created() {
     this.findData();
+  },
+  computed: {
+    ...mapState("user", ["statusList"])
   }
 };
 </script>
