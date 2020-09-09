@@ -8,13 +8,17 @@
         <span>Home</span>
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn value="chat" to="/chat-list">
+      <v-btn value="chat-list" to="/chat-list">
         <span>Chat</span>
         <v-icon>mdi-chat</v-icon>
       </v-btn>
       <v-btn value="timeline" to="/timeline">
         <span>TimeLine</span>
         <v-icon>mdi-timeline</v-icon>
+      </v-btn>
+      <v-btn value="invites" to="/invites">
+        <span>Invites</span>
+        <v-icon>mdi-chat</v-icon>
       </v-btn>
       <v-btn value="mypage" to="/mypage">
         <span>MyPage</span>
@@ -26,6 +30,7 @@
 
 <script>
 export default {
+  middleware: "getPosition",
   data: () => ({
     activeBtn: ""
   }),

@@ -6,7 +6,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4" align="center" justify="center">
             <v-avatar color="" size="62">
-              <img src="~/static/v.png" alt="logo" />
+              <img src="~/static/icon.jpg" alt="logo" />
             </v-avatar>
             <v-card-title class="layout justify-center" disabled="true">
               ようこそ～ゆるまっちへ
