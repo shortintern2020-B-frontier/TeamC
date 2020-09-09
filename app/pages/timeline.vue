@@ -36,7 +36,8 @@
 
 <script>
 export default {
-  layout: "home",
+  layout: "defaut",
+
   data: () => ({
     is_friend: false,
     friend_list: [],

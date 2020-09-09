@@ -29,4 +29,7 @@
 </template>
 
 <script>
+export default {
+  middleware: "getPosition",
+};
 </script>
