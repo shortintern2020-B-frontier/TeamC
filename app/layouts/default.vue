@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  middleware: "getPosition",
   data: () => ({
     activeBtn: ""
   }),
