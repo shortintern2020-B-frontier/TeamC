@@ -121,7 +121,7 @@ export default {
         const { username, userid, email, password } = this;
         this.$axios({
           method: "post",
-          url: "http://127.0.0.1:8000/users/create",
+          url: "/users/create",
           data: {
             username: username,
             user_id: userid,
