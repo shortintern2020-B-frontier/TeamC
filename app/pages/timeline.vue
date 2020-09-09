@@ -64,7 +64,11 @@ export default {
       return new Date(date);
     },
     getFriendName: function (friend_id) {
-      return this.friend_list.filter((n) => n.id == friend_id)[0].username;
+      const matchFriends = this.friend_list.filter((n) => n.id == friend_id);
+      if(!matchFriends.length){
+        return '';
+      }
+      return matchFriends[0].username;
     },
   },
   created() {
