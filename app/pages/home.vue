@@ -56,11 +56,10 @@
         </v-card>
         <v-divider class="mx-20"></v-divider>
         <v-btn @click="findData">
-          Refresh
+          Recommend Again
           <v-icon>mdi-cached</v-icon>
         </v-btn>
       </div>
-
       <v-container class="fill-height" fluid>
         <v-container>
           <v-row dense>
@@ -113,9 +112,30 @@
               :key="index"
               cols="12"
             >
-              <!-- <v-card v-if="index == 1"> ss</v-card> -->
+              <v-card v-if="index == 0" class="text-center">
+                <div class="text-center">
+                  <v-avatar class="ma-3" size="70">
+                    <img :src="avatar(userInfo.id)" :alt="userInfo.username" />
+                  </v-avatar>
+                  <v-avatar class="ma-3" size="70">
+                    <img
+                      :src="avatar(recommend.id)"
+                      :alt="recommend.username"
+                    />
+                  </v-avatar>
+                </div>
+                <v-card-text class="headline text-center">
+                  一緒に{{statusList[recommend.status].title}}しないが？
+                </v-card-text>
+                <v-btn class="ma-3">
+                  ok
+                </v-btn>
+              </v-card>
               <v-card>
-                <div class="d-flex flex-no-wrap justify-space-between">
+                <div
+                  class="d-flex flex-no-wrap justify-space-between"
+                  v-if="index != 0"
+                >
                   <v-avatar class="ma-3" size="70" tile>
                     <img
                       :src="avatar(recommend.id)"
@@ -198,7 +218,7 @@
 
 <script>
 import { mapState } from "vuex";
-import calcDistance from "@/modules/calcDistance"
+import calcDistance from "@/modules/calcDistance";
 export default {
   layout: "home",
   data: () => ({
@@ -235,12 +255,20 @@ export default {
       );
     },
     getDistance(friend) {
-      if(this.$store.state.user.userInfo.latitude != null && friend.latitude != null){
-        let dis = calcDistance(this.$store.state.user.userInfo.latitude, this.$store.state.user.userInfo.longitude, friend.latitude, friend.longitude)
+      if (
+        this.$store.state.user.userInfo.latitude != null &&
+        friend.latitude != null
+      ) {
+        let dis = calcDistance(
+          this.$store.state.user.userInfo.latitude,
+          this.$store.state.user.userInfo.longitude,
+          friend.latitude,
+          friend.longitude
+        );
 
-        return dis.toFixed(1).toString() + " km"
-      }else{
-        return ""
+        return dis.toFixed(1).toString() + " km";
+      } else {
+        return "";
       }
     }
   },
@@ -248,7 +276,7 @@ export default {
     this.findData();
   },
   computed: {
-    ...mapState("user", ["statusList"]),
+    ...mapState("user", ["statusList", "userInfo"]),
     avatar() {
       return id => {
         const imageLen = 10;

@@ -135,9 +135,11 @@ export default {
       }
       this.user_id = this.$store.state.user.userInfo.user_id;
       this.status = this.$store.state.user.userInfo.status;
+      this.choosedStatus = this.$store.state.user.userInfo.status;
       this.originalStatus = this.showStatusName(
         this.$store.state.user.userInfo.status
       );
+      this.choosedStatusLabel = this.originalStatus
       if (this.$store.state.user.userInfo.comment == "") {
         this.originalcomment = this.originalStatus;
       } else {
