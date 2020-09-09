@@ -125,9 +125,9 @@
                   </v-avatar>
                 </div>
                 <v-card-text class="headline text-center">
-                  一緒に{{statusList[recommend.status].title}}しないが？
+                  一緒に{{ statusList[recommend.status].title }}しないが？
                 </v-card-text>
-                <v-btn class="ma-3">
+                <v-btn class="ma-3" @click="sendInvites(recommend.id)">
                   ok
                 </v-btn>
               </v-card>
@@ -270,6 +270,25 @@ export default {
       } else {
         return "";
       }
+    },
+    sendInvites: function(guest_user_id) {
+      this.$axios({
+        method: "post",
+        url: "/invites/create",
+        data: {
+          host_user_id: this.$store.state.user.userInfo.id,
+          guest_user_id: guest_user_id
+        }
+      })
+        .then(function(response) {
+          if (response.data == null) {
+          } else {
+            console.log(response);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   },
   created() {
