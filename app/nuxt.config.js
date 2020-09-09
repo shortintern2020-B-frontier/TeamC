@@ -25,7 +25,7 @@ export default {
     ],
     script: [
       {
-        
+
       }
     ],
     link: [
@@ -36,12 +36,14 @@ export default {
   ** Global CSS
   */
   css: [
+    '@mdi/font/css/materialdesignicons.css'
   ],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: "~plugins/persistedstate.js" }
   ],
   /*
   ** Auto import components
@@ -67,7 +69,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
