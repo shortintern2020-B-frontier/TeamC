@@ -8,12 +8,12 @@ class TimeLineCreate(BaseModel):
     place: str
     content: str
 
-class TimeLineSelect(BaseModel):
+class TimeLineUpdate(BaseModel):
     id: int
     user_id: int
-    event_date: int
-    place: str
-    content: str
+    event_date: Optional[int] = None
+    place: Optional[str] = None
+    content: Optional[str] = None
 
 class TimeLineJoin(BaseModel):
     id: int

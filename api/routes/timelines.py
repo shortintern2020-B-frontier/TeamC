@@ -20,7 +20,7 @@ from utils.dbutils import get_connection
 router = APIRouter()
 
 # timelinesを新規登録します。
-@router.post("/timelines/", response_model=TimeLineSelect)
+@router.post("/timelines/", response_model=TimeLineUpdate)
 async def timelines_create(timeline: TimeLineCreate, database: Database = Depends(get_connection)):
     insert_query = timelines.insert()
     values = timeline.dict()
@@ -33,7 +33,7 @@ async def timelines_create(timeline: TimeLineCreate, database: Database = Depend
     return values
 
 # 自分とfrends_idに紐づいているtimelineの情報を返す
-@router.get("/timelines/", response_model=List[TimeLineSelect])
+@router.get("/timelines/", response_model=List[TimeLineUpdate])
 async def timelines_findall(user_id: int, database: Database = Depends(get_connection)):
     select_query = f"select timelines.id, timelines.user_id, timelines.event_date, timelines.place, timelines.content from timelines left join friends on timelines.user_id = friends.user_1_id where timelines.deleted = 0 and (timelines.user_id={user_id} or friends.user_2_id = {user_id})"
     return await database.fetch_all(select_query)
@@ -67,9 +67,16 @@ async def timeline_join(req: TimeLineJoin, database: Database = Depends(get_conn
     return {"result":"join success"}
 
 # timelinesを更新します。
-@router.post("/timelines/update", response_model=TimeLineSelect)
-async def timeline_update(timeline: TimeLineSelect, database: Database = Depends(get_connection)):
+@router.post("/timelines/update", response_model=TimeLineUpdate)
+async def timeline_update(timeline: TimeLineUpdate, database: Database = Depends(get_connection)):
+    select_query = f"select * from timelines where id = {timeline.id} and user_id = {timeline.user_id}"
+    timeline_data = await database.fetch_one(select_query)
+    if timeline_data is None:
+        return None
     update_query = timelines.update().where(timelines.columns.id==timeline.id)
+    for k, v in dict(timeline).items():
+        if v == None and hasattr(timeline_data, k):
+            setattr(timeline, k, getattr(timeline_data, k))
     values = dict(timeline)
     ret = await database.execute(update_query, values)
     return values
