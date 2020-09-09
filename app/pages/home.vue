@@ -258,9 +258,9 @@ export default {
         params: { id: userid }
       });
       const invitedStatus = await this.$axios.$post("/invites/recommend", {
-        host_user_id: userid,
-        guest_user_id: recommendlist[0].id
-      });
+          host_user_id: userid,
+          guest_user_id: recommendlist[0].id
+        });
       if (favoritelist.length != 0) {
         this.favoritelist = favoritelist;
       }
@@ -270,9 +270,10 @@ export default {
       if (recommendlist.length != 0) {
         this.recommendlist = recommendlist;
       }
-      if (invitedStatus.count_valid != 1) {
-        this.invited = true;
-      }
+      debugger
+      if (invitedStatus[0].count_valid == 2) {
+          this.invited = true;
+        }
     },
     search(keyword) {
       this.searchlist = this.friendslist.filter(

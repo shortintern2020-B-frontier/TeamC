@@ -79,6 +79,6 @@ async def invite_agree(req: InviteAgree, database: Database = Depends(get_connec
 @router.post("/invites/recommend", response_model=List[InviteRecommend])
 async def invites_recommend(invite:InviteCreate, database: Database = Depends(get_connection)):
 
-    select_query = f"select valid, COUNT(DISTINCT valid)as count_valid from user_chat_rooms where chat_room_id IN (SELECT chat_room_id FROM user_chat_rooms WHERE user_id={invite.host_user_id}) AND chat_room_id IN (SELECT chat_room_id FROM user_chat_rooms WHERE user_id ={invite.guest_user_id})"
+    select_query = f"select COUNT(DISTINCT valid)as count_valid from user_chat_rooms where chat_room_id IN (SELECT chat_room_id FROM user_chat_rooms WHERE user_id={invite.host_user_id}) AND chat_room_id IN (SELECT chat_room_id FROM user_chat_rooms WHERE user_id ={invite.guest_user_id})"
     invites_data = await database.fetch_all(select_query)
     return invites_data
