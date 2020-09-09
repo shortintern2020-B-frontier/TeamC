@@ -43,6 +43,7 @@ user_2_id              bigint(20) NOT NULL,
 PRIMARY KEY (id),
 KEY index_friends_on_user_1_id (user_1_id),
 KEY index_friends_on_user_2_id (user_2_id),
+UNIQUE index_friends_on_user_1_2_id (user_1_id, user_2_id),
 CONSTRAINT fk_3 FOREIGN KEY (user_1_id) REFERENCES users (id),
 CONSTRAINT fk_4 FOREIGN KEY (user_2_id) REFERENCES users (id)
 );
