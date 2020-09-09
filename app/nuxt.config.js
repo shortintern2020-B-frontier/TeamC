@@ -43,6 +43,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: "~plugins/persistedstate.js" }
   ],
   /*
   ** Auto import components
