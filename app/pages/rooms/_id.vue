@@ -33,42 +33,33 @@ export default {
   async created() {
     const res = await this.$axios.get("/chats", {
       params: {
-        chat_room_id: 1,//this.chat_room_id,
+        chat_room_id: this.chat_room_id,
       },
     }); 
     const _this = this;
     this.messages = res.data;
 
-    var ws = new WebSocket(`ws://localhost:8000/ws/1`);
+    var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
     ws.onmessage = function(event) {
-
-                /*var messages = document.getElementById('messages')
-                var message = document.createElement('li')
-                var content = document.createTextNode(event.data)
-                message.appendChild(content)
-                messages.appendChild(message)*/
-
-                //リスト更新の処理を書く
-                console.log("seeeeeeeentt!!!");
-                _this.messages.push(JSON.parse(event.data));
+      console.log("seeeeeeeentt!!!");
+      _this.messages.push(JSON.parse(event.data));
     };
-    
   },
     methods: {
     sendMessage: async function (event) {
-      var ws = new WebSocket(`ws://localhost:8000/ws/1`);
+      var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
       console.log(this.send_message);
       await this.$axios.post("/chats/", {
-        user_id: 1,//this.$store.state.user.userInfo.id,
-        chat_room_id: 1,//this.chat_room_id,
+        user_id: this.$store.state.user.userInfo.id,
+        chat_room_id: this.chat_room_id,
         content: this.send_message
       });
       var chat_data = {
         "id": null,
-        "user_id": 1,//this.userInfo.id,
+        "user_id": this.userInfo.id,
         "created_at": moment().format("YYYY/MM/DD HH:MM"),
         "content": this.send_message,
-        "username": "shun"//this.userInfo.username
+        "username": this.userInfo.username
       }
       ws.send(JSON.stringify(chat_data))
       this.send_message = ""
