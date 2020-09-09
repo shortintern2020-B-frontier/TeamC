@@ -108,8 +108,8 @@
             <v-card>お気に入り</v-card>
             <v-spacer></v-spacer>
             <v-col
-              v-for="(favorite, index) in favoritelist"
-              :key="index"
+              v-for="favorite in favoritelist"
+              :key="favorite.email"
               cols="12"
             >
               <v-card>
