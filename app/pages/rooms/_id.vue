@@ -7,7 +7,7 @@
           <template v-for="(message) in messages">
             <v-list-item true :key="message.content">
               <v-list-item-avatar>
-                <v-img :src="items[1].avatar"></v-img>
+                <v-img :src="avatar(message.user_id)"></v-img>
               </v-list-item-avatar>
               <v-list-item-content > <!--style="height: 200px"-->
                 <v-list-item-subtitle v-html="message.content"></v-list-item-subtitle>
@@ -77,5 +77,13 @@ export default {
       { divider: true, inset: true }
     ],
   }),
+  computed: {
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
+  }
 };
 </script>
