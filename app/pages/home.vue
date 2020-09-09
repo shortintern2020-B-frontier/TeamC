@@ -128,7 +128,7 @@
                   </v-avatar>
                 </div>
                 <v-card-text class="headline text-center">
-                  一緒に{{ statusList[recommend.status].title }}しないが？
+                  一緒に{{ statusList[recommend.status].title }}しない？
                 </v-card-text>
                 <v-btn class="ma-3" @click="sendInvites(recommend.id)">
                   ok
