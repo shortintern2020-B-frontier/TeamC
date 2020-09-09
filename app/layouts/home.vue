@@ -142,7 +142,7 @@ export default {
       const { comment, choosedStatus } = this;
       this.$axios({
         method: "post",
-        url: "users/update",
+        url: "/users/update",
         data: {
           id: this.$store.state.user.userInfo.id,
           status: choosedStatus,

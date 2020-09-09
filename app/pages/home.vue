@@ -229,13 +229,13 @@ export default {
     findData: async function() {
       let userid = this.$store.state.user.userInfo.id;
       const friendslist = await this.$axios.$get(
-        "http://127.0.0.1:8000/users/friends",
+        "/users/friends",
         {
           params: { id: userid }
         }
       );
       const recommendlist = await this.$axios.$get(
-        "http://127.0.0.1:8000/users/recommend",
+        "/users/recommend",
         {
           params: { id: userid }
         }
