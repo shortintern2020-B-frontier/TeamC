@@ -3,11 +3,11 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-        <v-list style="max-height: 500px" class="overflow-y-auto">
+        <v-list style="max-height: 450px" class="overflow-y-auto">
           <template v-for="(message) in messages">
             <v-list-item true :key="message.content">
               <v-list-item-avatar>
-                <v-img :src="items[1].avatar"></v-img>
+                <v-img :src="avatar(message.user_id)"></v-img>
               </v-list-item-avatar>
               <v-list-item-content > <!--style="height: 200px"-->
                 <v-list-item-subtitle v-html="message.content"></v-list-item-subtitle>
@@ -23,49 +23,67 @@
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
-import VuetifyLogo from "~/components/VuetifyLogo.vue";
-
+import moment from 'moment/moment'
 export default {
-  components: {
-    Logo,
-    VuetifyLogo,
-  },
   asyncData({ params }) {
     const { id } = params;
     return { chat_room_id: id };
   },
+  
   async created() {
     const res = await this.$axios.get("/chats", {
       params: {
         chat_room_id: this.chat_room_id,
       },
-    }); 
+    });
     this.messages = res.data;
+ 
+    const _this = this;
+    var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
+    ws.onmessage = function(event) {
+      console.log("seeeeeeeentt!!!");
+      _this.messages.push(JSON.parse(event.data));
+    };
   },
     methods: {
-    sendMessage: async function () {
+    sendMessage: async function (event) {
+      var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
       console.log(this.send_message);
       await this.$axios.post("/chats/", {
-        user_id: 1,//this.$store.state.user.userInfo.id,
+        user_id: this.$store.state.user.userInfo.id,
         chat_room_id: this.chat_room_id,
         content: this.send_message
       });
+      var chat_data = {
+        "id": null,
+        "user_id": this.$store.state.user.userInfo.id,
+        "created_at": moment().format("YYYY/MM/DD HH:MM"),
+        "content": this.send_message,
+        "username": this.$store.state.user.userInfo.username
+      }
+      ws.send(JSON.stringify(chat_data))
+      this.send_message = ""
+      event.preventDefault()
     },
   },
   data: () => ({
-    chat_room_id: 1,
+    chat_room_id: null,
     messages: [],
     items: [
       { header: "Chat" },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        title: "Brunch this weekend?",
-        subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-      },
+        },
       { divider: true, inset: true }
     ],
   }),
+  computed: {
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
+  }
 };
 </script>

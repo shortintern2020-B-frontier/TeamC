@@ -6,7 +6,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4" align="center" justify="center">
             <v-avatar color="" size="62">
-              <img src="~/static/v.png" alt="logo" />
+              <img src="~/static/icon.jpg" alt="logo" />
             </v-avatar>
             <v-card-title class="layout justify-center" disabled="true">
               ゆる～くつながる
@@ -127,7 +127,7 @@ export default {
         let errorflag = false;
         this.$axios({
           method: "post",
-          url: "http://127.0.0.1:8000/users/login",
+          url: "/users/login",
           data: { email: email, password: password }
         })
           .then(function(response) {
@@ -136,7 +136,7 @@ export default {
             } else {
               const user = response.data;
               _this.$store.commit("user/add", user);
-              //_this.$router.push("/home");
+              _this.$router.push("/home");
             }
           })
           .catch(function(error) {

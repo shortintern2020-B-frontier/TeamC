@@ -11,6 +11,11 @@ class InviteSelect(BaseModel):
     chat_room_id: str
     users: list
 
+class InviteResponse(BaseModel):
+    id: int
+    chat_room_id: str
+    users: list
+
 class InviteAgree(BaseModel):
     user_id: str
-    chat_room_id: str
+    chat_room_id: int

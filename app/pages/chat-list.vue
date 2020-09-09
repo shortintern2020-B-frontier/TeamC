@@ -3,11 +3,11 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-        <v-list three-line style="max-height: 500px; width: 1000px" class="overflow-y-auto">
+        <v-list three-line style="max-height: 500px" class="overflow-y-auto">
           <template v-for="room in rooms">
             <v-list-item true :key="room.chat_room_id" link :to="`/rooms/${room.id}`">
               <v-list-item-avatar>
-                <v-img :src="items[1].avatar"></v-img>
+                <v-img :src="avatar(room.users[0].id)"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-html="room.users[0].username"></v-list-item-title>
@@ -49,5 +49,13 @@ export default {
       names += name;
     },
   },
+  computed: {
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
+  }
 };
 </script>
