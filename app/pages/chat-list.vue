@@ -1,7 +1,7 @@
 <!-- Author:Shun Kiyoura-->
 <template>
   <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
+    <v-container xs12 sm8 md6>
       <div class="text-center">
         <v-list three-line style="max-height: 500px" class="overflow-y-auto">
           <template v-for="room in rooms">
@@ -17,7 +17,7 @@
           </template>
         </v-list>
       </div>
-    </v-flex>
+    </v-container>
   </v-layout>
 </template>
 
