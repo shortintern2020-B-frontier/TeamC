@@ -27,10 +27,7 @@
                 <v-card>
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
-                      <img
-                        :src="avatar(user.id)"
-                        :alt="user.username"
-                      >
+                      <img :src="avatar(user.id)" :alt="user.username" />
                     </v-avatar>
                     <span class="headline">
                       {{ user.username }}
@@ -75,15 +72,16 @@
               cols="12"
             >
               <v-card>
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar size="70">
-                    <img
-                      :src="avatar(favorite.id)"
-                      :alt="favorite.username"
-                    >
+                <div v-if="favorite.id == 0">No favorite</div>
+                <div
+                  class="d-flex flex-no-wrap justify-space-between"
+                  v-if="favorite.id != 0"
+                >
+                  <v-avatar class="ma-3" size="70" tile>
+                    <img :src="avatar(favorite.id)" :alt="favorite.username" />
                   </v-avatar>
                   <span class="headline">
-                    {{ favorite.username }}{{ favorite.id}}
+                    {{ favorite.username }}
                   </span>
                   <div>
                     <v-card-title class="headline">
@@ -115,11 +113,11 @@
               <!-- <v-card v-if="index == 1"> ss</v-card> -->
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar size="70">
+                  <v-avatar class="ma-3" size="70" tile>
                     <img
                       :src="avatar(recommend.id)"
                       :alt="recommend.username"
-                    >
+                    />
                   </v-avatar>
                   <span class="headline">
                     {{ recommend.username }}
@@ -152,12 +150,13 @@
               cols="12"
             >
               <v-card>
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar size="70">
-                    <img
-                      :src="avatar(friend.id)"
-                      :alt="friend.username"
-                    >
+                <div v-if="friend.id == 0">No Friends</div>
+                <div
+                  class="d-flex flex-no-wrap justify-space-between"
+                  v-if="friend.id != 0"
+                >
+                  <v-avatar class="ma-3" size="70" tile>
+                    <img :src="avatar(friend.id)" :alt="friend.username" />
                   </v-avatar>
                   <span class="headline">
                     {{ friend.username }}
@@ -193,8 +192,8 @@ import { mapState } from "vuex";
 export default {
   layout: "home",
   data: () => ({
-    favoritelist: [],
-    friendslist: [],
+    favoritelist: [{ id: 0 }],
+    friendslist: [{ id: 0 }],
     recommendlist: [],
     searchlist: []
   }),
@@ -210,13 +209,13 @@ export default {
       const recommendlist = await this.$axios.$get("/users/recommend", {
         params: { id: userid }
       });
-      if (favoritelist != null) {
+      if (favoritelist.length != 0) {
         this.favoritelist = favoritelist;
       }
-      if (friendslist != null) {
+      if (friendslist.length != 0) {
         this.friendslist = friendslist;
       }
-      if (recommendlist != null) {
+      if (recommendlist.length != 0) {
         this.recommendlist = recommendlist;
       }
     },
@@ -232,10 +231,10 @@ export default {
   computed: {
     ...mapState("user", ["statusList"]),
     avatar() {
-      return (id) => {
+      return id => {
         const imageLen = 10;
-        return `/user_icon_${id % imageLen + 1}.jpg`;
-      }
+        return `/user_icon_${(id % imageLen) + 1}.jpg`;
+      };
     }
   }
 };
