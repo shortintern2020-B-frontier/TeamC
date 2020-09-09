@@ -97,11 +97,15 @@ export default {
       }
     },
     addFriend: async function () {
-      await this.$axios.$post("/users/friends", {
-        user_id: this.$store.state.user.userInfo.id,
-        target_user_id: this.target_id,
-      });
-      this.isFriend = true;
+      try {
+        await this.$axios.$post("/users/friends", {
+          user_id: this.$store.state.user.userInfo.id,
+          target_user_id: this.target_id,
+        });
+        this.isFriend = true;
+      } catch (e) {
+        alert('すでに友達です');
+      }
     },
   },
 };
