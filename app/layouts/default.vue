@@ -12,9 +12,6 @@
         <span>Chat</span>
         <v-icon>mdi-chat</v-icon>
       </v-btn>
-      <v-btn value="timeline">
-        <span>Timeline</span>
-        <v-icon>mdi-timeline</v-icon>
       <v-btn to="/timeline">
         <span>TimeLine</span>
         <v-icon>mdi-map-marker</v-icon>
