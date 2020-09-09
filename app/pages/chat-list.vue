@@ -3,7 +3,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-        <v-list three-line style="max-height: 500px; width: 1000px" class="overflow-y-auto">
+        <v-list three-line style="max-height: 500px" class="overflow-y-auto">
           <template v-for="room in rooms">
             <v-list-item true :key="room.chat_room_id" link :to="`/rooms/${room.id}`">
               <v-list-item-avatar>

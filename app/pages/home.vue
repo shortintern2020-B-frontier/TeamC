@@ -26,59 +26,21 @@
               <v-list-item v-for="user in searchlist" :key="user.username">
                 <v-card>
                   <div class="d-flex flex-no-wrap justify-space-between">
-                    <v-avatar size="100" tile>
-                      <span class="white--text headline">
-                        {{ user.username }}
-                      </span>
+                    <v-avatar size="70">
+                      <img
+                        :src="avatar(user.id)"
+                        :alt="user.username"
+                      >
                     </v-avatar>
+                    <span class="headline">
+                      {{ user.username }}
+                    </span>
                     <div>
-                      <v-card-title class="headline" v-if="user.status == 0">
+                      <v-card-title class="headline">
                         <v-icon left>
-                          mdi mdi-emoticon-happy-outline
+                          {{ statusList[user.status].class }}
                         </v-icon>
-                        Free
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 1">
-                        <v-icon left>
-                          mdi mdi-clock
-                        </v-icon>
-                        Busy
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 2">
-                        <v-icon left>
-                          mdi mdi-movie-open
-                        </v-icon>
-                        Movie
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 3">
-                        <v-icon left>
-                          mdi mdi-music-note-sixteenth
-                        </v-icon>
-                        Karaoke
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 4">
-                        <v-icon left>
-                          mdi mdi-pasta
-                        </v-icon>
-                        Food
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 5">
-                        <v-icon left>
-                          mdi mdi-basketball
-                        </v-icon>
-                        Sports
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 6">
-                        <v-icon left>
-                          mdi mdi-basket
-                        </v-icon>
-                        Shopping
-                      </v-card-title>
-                      <v-card-title class="headline" v-if="user.status == 7">
-                        <v-icon left>
-                          mdi mdi-power-sleep
-                        </v-icon>
-                        Sleeping
+                        {{ statusList[user.status].title }}
                       </v-card-title>
                       <v-card-subtitle>
                         <div>
@@ -108,65 +70,27 @@
             <v-card>お気に入り</v-card>
             <v-spacer></v-spacer>
             <v-col
-              v-for="(favorite, index) in favoritelist"
-              :key="index"
+              v-for="favorite in favoritelist"
+              :key="favorite.email"
               cols="12"
             >
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar size="100" tile>
-                    <span class="white--text headline">
-                      {{ favorite.username }}
-                    </span>
+                  <v-avatar size="70">
+                    <img
+                      :src="avatar(favorite.id)"
+                      :alt="favorite.username"
+                    >
                   </v-avatar>
+                  <span class="headline">
+                    {{ favorite.username }}{{ favorite.id}}
+                  </span>
                   <div>
-                    <v-card-title class="headline" v-if="favorite.status == 0">
+                    <v-card-title class="headline">
                       <v-icon left>
-                        mdi mdi-emoticon-happy-outline
+                        {{ statusList[favorite.status].class }}
                       </v-icon>
-                      Free
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 1">
-                      <v-icon left>
-                        mdi mdi-clock
-                      </v-icon>
-                      Busy
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 2">
-                      <v-icon left>
-                        mdi mdi-movie-open
-                      </v-icon>
-                      Movie
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 3">
-                      <v-icon left>
-                        mdi mdi-music-note-sixteenth
-                      </v-icon>
-                      Karaoke
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 4">
-                      <v-icon left>
-                        mdi mdi-pasta
-                      </v-icon>
-                      Food
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 5">
-                      <v-icon left>
-                        mdi mdi-basketball
-                      </v-icon>
-                      Sports
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 6">
-                      <v-icon left>
-                        mdi mdi-basket
-                      </v-icon>
-                      Shopping
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="favorite.status == 7">
-                      <v-icon left>
-                        mdi mdi-power-sleep
-                      </v-icon>
-                      Sleeping
+                      {{ statusList[favorite.status].title }}
                     </v-card-title>
                     <v-card-subtitle>
                       <div>
@@ -191,59 +115,21 @@
               <!-- <v-card v-if="index == 1"> ss</v-card> -->
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar size="100" tile>
-                    <span class="white--text headline">
-                      {{ recommend.username }}
-                    </span>
+                  <v-avatar size="70">
+                    <img
+                      :src="avatar(recommend.id)"
+                      :alt="recommend.username"
+                    >
                   </v-avatar>
+                  <span class="headline">
+                    {{ recommend.username }}
+                  </span>
                   <div>
-                    <v-card-title class="headline" v-if="recommend.status == 0">
+                    <v-card-title class="headline">
                       <v-icon left>
-                        mdi mdi-emoticon-happy-outline
+                        {{ statusList[recommend.status].class }}
                       </v-icon>
-                      Free
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 1">
-                      <v-icon left>
-                        mdi mdi-clock
-                      </v-icon>
-                      Busy
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 2">
-                      <v-icon left>
-                        mdi mdi-movie-open
-                      </v-icon>
-                      Movie
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 3">
-                      <v-icon left>
-                        mdi mdi-music-note-sixteenth
-                      </v-icon>
-                      Karaoke
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 4">
-                      <v-icon left>
-                        mdi mdi-pasta
-                      </v-icon>
-                      Food
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 5">
-                      <v-icon left>
-                        mdi mdi-basketball
-                      </v-icon>
-                      Sports
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 6">
-                      <v-icon left>
-                        mdi mdi-basket
-                      </v-icon>
-                      Shopping
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="recommend.status == 7">
-                      <v-icon left>
-                        mdi mdi-power-sleep
-                      </v-icon>
-                      Sleeping
+                      {{ statusList[recommend.status].title }}
                     </v-card-title>
                     <v-card-subtitle>
                       <div>
@@ -267,59 +153,21 @@
             >
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar size="100" tile>
-                    <span class="white--text headline">
-                      {{ friend.username }}
-                    </span>
+                  <v-avatar size="70">
+                    <img
+                      :src="avatar(friend.id)"
+                      :alt="friend.username"
+                    >
                   </v-avatar>
+                  <span class="headline">
+                    {{ friend.username }}
+                  </span>
                   <div>
-                    <v-card-title class="headline" v-if="friend.status == 0">
+                    <v-card-title class="headline">
                       <v-icon left>
-                        mdi mdi-emoticon-happy-outline
+                        {{ statusList[friend.status].class }}
                       </v-icon>
-                      Free
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 1">
-                      <v-icon left>
-                        mdi mdi-clock
-                      </v-icon>
-                      Busy
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 2">
-                      <v-icon left>
-                        mdi mdi-movie-open
-                      </v-icon>
-                      Movie
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 3">
-                      <v-icon left>
-                        mdi mdi-music-note-sixteenth
-                      </v-icon>
-                      Karaoke
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 4">
-                      <v-icon left>
-                        mdi mdi-pasta
-                      </v-icon>
-                      Food
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 5">
-                      <v-icon left>
-                        mdi mdi-basketball
-                      </v-icon>
-                      Sports
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 6">
-                      <v-icon left>
-                        mdi mdi-basket
-                      </v-icon>
-                      Shopping
-                    </v-card-title>
-                    <v-card-title class="headline" v-if="friend.status == 7">
-                      <v-icon left>
-                        mdi mdi-power-sleep
-                      </v-icon>
-                      Sleeping
+                      {{ statusList[friend.status].title }}
                     </v-card-title>
                     <v-card-subtitle>
                       <div>
@@ -393,7 +241,13 @@ export default {
     this.findData();
   },
   computed: {
-    ...mapState("user", ["statusList"])
+    ...mapState("user", ["statusList"]),
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
   }
 };
 </script>

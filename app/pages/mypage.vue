@@ -6,9 +6,8 @@
         <div id="profile">
           <div id="icon">
             <v-avatar>
-              <img src="@/static/v.png" />
+              <img :src="avatar(id)" />
             </v-avatar>
-            <v-btn>画像を変更する</v-btn>
           </div>
           <v-text-field v-model="user_id" :counter="10" label="ID" required></v-text-field>
           <v-text-field v-model="username" label="Name" required></v-text-field>
@@ -51,6 +50,12 @@ export default {
   },
   computed: {
     ...mapState("user", ["statusList"]),
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
   },
 };
 </script>

@@ -8,7 +8,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn depressed icon v-bind="attrs" v-on="on">
                 <v-avatar color="" size="40">
-                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" />
+                  <img :src="avatar(userInfo.id)" />
                 </v-avatar>
               </v-btn>
             </template>
@@ -52,29 +52,8 @@
             <template v-slot:activator="{ on }">
               <v-chip label pill v-on="on">
                 {{ originalStatus }}
-                <v-icon right v-if="status == 0">
-                  mdi mdi-emoticon-happy-outline
-                </v-icon>
-                <v-icon right v-if="status == 1">
-                  mdi mdi-clock
-                </v-icon>
-                <v-icon right v-if="status == 2">
-                  mdi mdi-movie-open
-                </v-icon>
-                <v-icon right v-if="status == 3">
-                  mdi mdi-music-note-sixteenth
-                </v-icon>
-                <v-icon right v-if="status == 4">
-                  mdi mdi-pasta
-                </v-icon>
-                <v-icon right v-if="status == 5">
-                  mdi mdi-basketball
-                </v-icon>
-                <v-icon right v-if="status == 6">
-                  mdi mdi-basket
-                </v-icon>
-                <v-icon right v-if="status == 7">
-                  mdi mdi-power-sleep
+                <v-icon right>
+                  {{ statusList[status].class }}
                 </v-icon>
               </v-chip>
             </template>
@@ -104,11 +83,11 @@
         <span>Home</span>
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn value="chat">
+      <v-btn value="chat" to="/chat-list">
         <span>Chat</span>
         <v-icon>mdi-chat</v-icon>
       </v-btn>
-      <v-btn value="timeline">
+      <v-btn value="timeline" to="/timeline">
         <span>Timeline</span>
         <v-icon>mdi-timeline</v-icon>
       </v-btn>
@@ -235,7 +214,13 @@ export default {
     this.findData();
   },
   computed: {
-    ...mapState("user", ["statusList"])
+    ...mapState("user", ["statusList", "userInfo"]),
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${id % imageLen + 1}.jpg`;
+      }
+    }
   }
 };
 </script>

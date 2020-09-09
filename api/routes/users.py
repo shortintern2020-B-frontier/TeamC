@@ -65,7 +65,7 @@ async def make_friends(req: RequestForMakeFriends, database: Database = Depends(
 
 @router.get("/users/friends", response_model=List[UserDetail])
 async def get_friends(id: int, database: Database = Depends(get_connection)):
-    query = f"select * from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {id}"
+    query = f"select users.* from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {id}"
     return await database.fetch_all(query)
 
 @router.post("/users/favorites")
@@ -84,7 +84,7 @@ async def make_favorite(req: RequestForFavorite, database: Database = Depends(ge
 
 @router.get("/users/favorites", response_model=List[UserDetail])
 async def get_favorite(id: int, database: Database = Depends(get_connection)):
-    query = f"select * from users left join favorites on users.id = favorites.target_user_id where favorites.user_id = {id}"
+    query = f"select users.* from users left join favorites on users.id = favorites.target_user_id where favorites.user_id = {id}"
     return await database.fetch_all(query)
 
 @router.get("/users/recommend", response_model=List[UserDetail])
