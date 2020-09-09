@@ -35,10 +35,10 @@ export default {
       params: {
         chat_room_id: this.chat_room_id,
       },
-    }); 
-    const _this = this;
+    });
     this.messages = res.data;
-
+ 
+    const _this = this;
     var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
     ws.onmessage = function(event) {
       console.log("seeeeeeeentt!!!");
@@ -56,10 +56,10 @@ export default {
       });
       var chat_data = {
         "id": null,
-        "user_id": this.userInfo.id,
+        "user_id": this.$store.state.user.userInfo.id,
         "created_at": moment().format("YYYY/MM/DD HH:MM"),
         "content": this.send_message,
-        "username": this.userInfo.username
+        "username": this.$store.state.user.userInfo.username
       }
       ws.send(JSON.stringify(chat_data))
       this.send_message = ""
@@ -67,7 +67,7 @@ export default {
     },
   },
   data: () => ({
-    chat_room_id: 1,
+    chat_room_id: null,
     messages: [],
     items: [
       { header: "Chat" },
