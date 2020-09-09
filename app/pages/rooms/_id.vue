@@ -3,7 +3,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-center">
-        <v-list style="max-height: 500px" class="overflow-y-auto">
+        <v-list style="max-height: 450px" class="overflow-y-auto">
           <template v-for="(message) in messages">
             <v-list-item true :key="message.content">
               <v-list-item-avatar>
