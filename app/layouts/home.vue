@@ -52,6 +52,30 @@
             <template v-slot:activator="{ on }">
               <v-chip label pill v-on="on">
                 {{ originalStatus }}
+                <v-icon right v-if="status == 0">
+                  mdi mdi-emoticon-happy-outline
+                </v-icon>
+                <v-icon right v-if="status == 1">
+                  mdi mdi-clock
+                </v-icon>
+                <v-icon right v-if="status == 2">
+                  mdi mdi-movie-open
+                </v-icon>
+                <v-icon right v-if="status == 3">
+                  mdi mdi-music-note-sixteenth
+                </v-icon>
+                <v-icon right v-if="status == 4">
+                  mdi mdi-pasta
+                </v-icon>
+                <v-icon right v-if="status == 5">
+                  mdi mdi-basketball
+                </v-icon>
+                <v-icon right v-if="status == 6">
+                  mdi mdi-basket
+                </v-icon>
+                <v-icon right v-if="status == 7">
+                  mdi mdi-power-sleep
+                </v-icon>
               </v-chip>
             </template>
             <v-card width="300">
@@ -67,7 +91,7 @@
               </v-list-item>
             </v-card>
           </v-menu>
-          <v-divider class="mx-13" vertical></v-divider>
+          <v-divider class="mx-10" vertical></v-divider>
           <v-btn color="red" inset to="/searchFriend">
             友達追加
           </v-btn>
@@ -103,6 +127,7 @@ export default {
     activeBtn: "",
     statusShell: false,
     comment: "",
+    status: 0,
     originalStatus: "status",
     originalcomment: "Your Comment",
     commentTime: "2020-09-08 09:00:00",
@@ -126,10 +151,11 @@ export default {
         this.updateflag = true;
       }
       this.user_id = this.$store.state.user.userInfo.user_id;
+      this.status = this.$store.state.user.userInfo.status;
       this.originalStatus = this.showStatusName(
         this.$store.state.user.userInfo.status
       );
-      if (this.$store.state.user.userInfo.comment == null) {
+      if (this.$store.state.user.userInfo.comment == "") {
         this.originalcomment = this.originalStatus;
       } else {
         this.originalcomment = this.$store.state.user.userInfo.comment;
