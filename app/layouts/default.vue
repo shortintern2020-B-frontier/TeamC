@@ -26,9 +26,7 @@
 
 <script>
 export default {
-<<<<<<< HEAD
   middleware: "getPosition",
-=======
   data: () => ({
     activeBtn: ""
   }),
@@ -40,6 +38,5 @@ export default {
   created() {
     this.findRoute();
   }
->>>>>>> a49c6a0d77e93603f1852efb313e8edd81492b11
 };
 </script>

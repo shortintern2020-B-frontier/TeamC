@@ -99,6 +99,9 @@
                       <div>
                         {{ favorite.status_update_at }}
                       </div>
+                      <div class="distance">
+                        {{ getDistance(favorite) }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -138,6 +141,9 @@
                       <div>
                         {{ recommend.status_update_at }}
                       </div>
+                      <div class="distance">
+                        {{ getDistance(recommend) }}
+                      </div>
                     </v-card-subtitle>
                   </div>
                 </div>
@@ -176,7 +182,7 @@
                       <div>
                         {{ friend.status_update_at }}
                       </div>
-                      <div>
+                      <div class="distance">
                         {{ getDistance(friend) }}
                       </div>
                     </v-card-subtitle>
@@ -230,8 +236,13 @@ export default {
       );
     },
     getDistance(friend) {
+      console.log(friend.latitude)
       if(this.$store.state.user.userInfo.latitude != null && friend.latitude != null){
-        return calcDistance(this.$store.state.user.userInfo.latitude, friend.latitude, friend.longitude)
+        let dis = calcDistance(this.$store.state.user.userInfo.latitude, this.$store.state.user.userInfo.longitude, friend.latitude, friend.longitude)
+        console.log(dis)
+        console.log(friend.latitude)
+        console.log(this.$store.state.user.userInfo.latitude)
+        return dis.toFixed(1).toString() + " km"
       }else{
         return ""
       }
