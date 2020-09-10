@@ -35,7 +35,7 @@ async def timelines_create(timeline: TimeLineCreate, database: Database = Depend
 # 自分とfrends_idに紐づいているtimelineの情報を返す
 @router.get("/timelines/", response_model=List[TimeLineUpdate])
 async def timelines_findall(user_id: int, database: Database = Depends(get_connection)):
-    select_query = f"select timelines.id, timelines.user_id, timelines.event_date, timelines.place, timelines.content from timelines left join friends on timelines.user_id = friends.user_1_id where timelines.deleted = 0 and (timelines.user_id={user_id} or friends.user_2_id = {user_id})"
+    select_query = f"select distinct timelines.id, timelines.user_id, timelines.event_date, timelines.place, timelines.content from timelines left join friends on timelines.user_id = friends.user_1_id where timelines.deleted = 0 and (timelines.user_id={user_id} or friends.user_2_id = {user_id})"
     return await database.fetch_all(select_query)
 
 # timeline参加希望者からchat_roomへのinviteを生成
