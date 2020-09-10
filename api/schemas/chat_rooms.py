@@ -4,4 +4,4 @@ from typing import Optional
 from typing import List
 
 class ChatRoomCreate(BaseModel):
-    guest_user_id: List[str]
+    guest_user_id: List[int]
