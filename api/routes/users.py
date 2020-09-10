@@ -110,7 +110,7 @@ async def users_create(user: UserCreate, database: Database = Depends(get_connec
     return {**user.dict()}
 
 # usersを更新します。
-@router.post("/users/update", response_model=UserSelect)
+@router.post("/users/update", response_model=UserDetail)
 async def users_update(user: UserUpdate, database: Database = Depends(get_connection)):
     # validatorは省略
     select_query = users.select().where(users.columns.id==user.id)
