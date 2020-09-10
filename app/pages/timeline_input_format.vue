@@ -4,15 +4,16 @@
   <v-app style="margin:5%;">
     <v-main>
       <form align="center">
-        <h1 style="display: inline-block; text-align: center; margin: 0 auto;">タイムライン</h1>
-        <v-text-field v-model="place" :counter="10" label="Place" required></v-text-field>
+        <h1 style="display: inline-block; text-align: center; margin: 0 auto;">Timeline</h1>
+        <v-text-field v-model="place" :counter="10" label="Place" required color="deep-purple accent-3"></v-text-field>
         <Datetime
           v-model="event_date"
           :minute-interval="10"
           :format="'YYYY-MM-DD HH:mm'"
           :overlay="true"
+          color="deep-purple accent-3"
         ></Datetime>
-        <v-text-field v-model="comment" :counter="10" label="Comment" required></v-text-field>
+        <v-text-field v-model="comment" :counter="10" label="Comment" required color="deep-purple accent-3"></v-text-field>
 
         <v-btn class="mr-4" @click="submit">submit</v-btn>
         <v-btn @click="clear">clear</v-btn>
