@@ -95,9 +95,13 @@ async def get_recommend(id: int, database: Database = Depends(get_connection)):
     return await database.fetch_all(query)
 
 # usersを新規登録します。
-@router.post("/users/create", response_model=UserSelect)
+@router.post("/users/create")
 async def users_create(user: UserCreate, database: Database = Depends(get_connection)):
     # validatorは省略
+    select_query = users.select().where(users.columns.user_id==user.user_id)
+    user_data = await database.fetch_one(select_query)
+    if user_data is not None:
+        return None
     query = users.insert()
     values = get_users_insert_dict(user)
     ret = await database.execute(query, values)
