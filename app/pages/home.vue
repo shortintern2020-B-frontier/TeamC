@@ -274,7 +274,7 @@ export default {
         params: { id: userid }
       });
       let invitedStatus = [];
-      if (recommendList.length > 0) {
+      if (recommendlist.length > 0) {
         invitedStatus = await this.$axios.$post("/invites/confirm", {
           host_user_id: userid,
           guest_user_id: recommendlist[0].id
