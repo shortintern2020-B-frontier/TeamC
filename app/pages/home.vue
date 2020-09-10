@@ -4,7 +4,7 @@
     <v-main>
       <!-- <v-app-bar color="" dense></v-app-bar> -->
       <div class="text-center">
-        <v-card color="deep-purple lighten-1">
+        <v-card color="deep-purple lighten-1" tile>
           <v-menu
             bottom
             right
@@ -13,7 +13,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-chip-group>
-                <v-divider class="mx-1" vertical></v-divider>
+                <div class="mx-1" vertical></div>
                 <div v-for="status in statusList" :key="status.id">
                   <v-chip
                     color="deep-purple lighten-5"
@@ -28,12 +28,16 @@
                 </div>
               </v-chip-group>
             </template>
-            <v-card width="100%">
+            <v-card flat width="100%">
               <v-list-item
                 v-for="user in searchlist"
                 :key="`user_${user.username}`"
               >
-                <v-card v-bind:to="getIndividualURL(user.user_id)">
+                <v-card
+                  class="ma-3"
+                  flat
+                  v-bind:to="getIndividualURL(user.user_id)"
+                >
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
                       <img :src="avatar(user.id)" :alt="user.username" />
@@ -147,13 +151,16 @@
                 >
                   Invite
                 </v-btn>
-                <v-progress-circular
-                  indeterminate
-                  color="deep-purple accent-3"
-                  class="ma-3"
-                  v-if="invited == true && invitedconfirm == false"
-                  >Waiting for confirmation
-                </v-progress-circular>
+                <v-container v-if="invited == true && invitedconfirm == false"
+                  ><v-progress-circular
+                    indeterminate
+                    color="deep-purple accent-3"
+                    class="ma-3"
+                  >
+                  </v-progress-circular
+                  >Waiting for confirmation</v-container
+                >
+
                 <v-btn
                   class="ma-3"
                   v-if="invited == true && invitedconfirm == true"
@@ -167,7 +174,7 @@
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="index != 0"
                 >
-                  <v-avatar class="ma-3" size="70" >
+                  <v-avatar class="ma-3" size="70">
                     <img
                       :src="avatar(recommend.id)"
                       :alt="`recommend_${recommend.username}`"
