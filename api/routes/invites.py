@@ -73,3 +73,13 @@ async def invite_agree(req: InviteAgree, database: Database = Depends(get_connec
         "users": user_datas
     }
     return chat_room_data
+
+# Author:ZHANG CHI
+# ユーザーAがBお誘いしましたの確認（フロントエンドのおすすめ部分使用）。
+# valid_status=0:お誘いしない、1：承認された、2：承認されていない。
+@router.post("/invites/confirm", response_model=List[InviteConfirm])
+async def invites_recommend(invite:InviteCreate, database: Database = Depends(get_connection)):
+
+    select_query = f"select COUNT(DISTINCT valid)as valid_status from user_chat_rooms where chat_room_id IN (SELECT chat_room_id FROM user_chat_rooms WHERE user_id={invite.host_user_id}) AND chat_room_id IN (SELECT chat_room_id FROM user_chat_rooms WHERE user_id ={invite.guest_user_id})"
+    invites_data = await database.fetch_all(select_query)
+    return invites_data

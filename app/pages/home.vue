@@ -1,10 +1,10 @@
-// Author: ZHANG CHI
+<!-- Author:ZHANG CHI-->
 <template>
   <v-app>
     <v-main>
       <!-- <v-app-bar color="" dense></v-app-bar> -->
       <div class="text-center">
-        <v-card color="red">
+        <v-card color="deep-purple lighten-1">
           <v-menu
             bottom
             right
@@ -15,14 +15,20 @@
               <v-chip-group>
                 <v-divider class="mx-1" vertical></v-divider>
                 <div v-for="status in statusList" :key="status.id">
-                  <v-chip label pill v-on="on" @click="search(status.id)">
+                  <v-chip
+                    color="deep-purple lighten-5"
+                    label
+                    pill
+                    v-on="on"
+                    @click="search(status.id)"
+                  >
                     {{ status.title }}
                     <v-icon right>{{ status.class }}</v-icon>
                   </v-chip>
                 </div>
               </v-chip-group>
             </template>
-            <v-card width="300">
+            <v-card width="100%">
               <v-list-item
                 v-for="user in searchlist"
                 :key="`user_${user.username}`"
@@ -66,7 +72,7 @@
       <v-container class="fill-height" fluid>
         <v-container>
           <v-row dense>
-            <v-card>お気に入り</v-card>
+            <v-card>Favorite</v-card>
             <v-spacer></v-spacer>
             <v-col
               v-for="favorite in favoritelist"
@@ -108,14 +114,18 @@
               </v-card>
             </v-col>
             <v-col cols="12"></v-col>
-            <v-card>おすすめ</v-card>
+            <v-card>Recommend</v-card>
             <v-spacer></v-spacer>
             <v-col
               v-for="(recommend, index) in recommendlist"
               :key="index"
               cols="12"
             >
-              <v-card v-if="index == 0" class="text-center">
+              <div v-if="recommend.id == 0">No Recommend</div>
+              <v-card
+                v-if="index == 0 && recommend.id != 0"
+                class="text-center"
+              >
                 <div class="text-center">
                   <v-avatar class="ma-3" size="70">
                     <img :src="avatar(userInfo.id)" :alt="userInfo.username" />
@@ -128,13 +138,31 @@
                   </v-avatar>
                 </div>
                 <v-card-text class="headline text-center">
-                  一緒に{{ statusList[recommend.status].title }}しない？
+                  Let's {{ statusList[recommend.status].title }} !
                 </v-card-text>
-                <v-btn class="ma-3" @click="sendInvites(recommend.id)">
-                  ok
+                <v-btn
+                  class="ma-3"
+                  v-if="invited == false"
+                  @click="sendInvites(recommend.id)"
+                >
+                  Invite
+                </v-btn>
+                <v-progress-circular
+                  indeterminate
+                  color="deep-purple accent-3"
+                  class="ma-3"
+                  v-if="invited == true && invitedconfirm == false"
+                  >Waiting for confirmation
+                </v-progress-circular>
+                <v-btn
+                  class="ma-3"
+                  v-if="invited == true && invitedconfirm == true"
+                  disabled
+                >
+                  invited
                 </v-btn>
               </v-card>
-              <v-card>
+              <v-card v-bind:to="getIndividualURL(recommend.user_id)">
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="index != 0"
@@ -171,7 +199,7 @@
               </v-card>
             </v-col>
             <v-col cols="12"></v-col>
-            <v-card>友達</v-card>
+            <v-card>friends</v-card>
             <v-spacer></v-spacer>
             <v-col
               v-for="friend in friendslist"
@@ -227,8 +255,11 @@ export default {
   data: () => ({
     favoritelist: [{ id: 0 }],
     friendslist: [{ id: 0 }],
-    recommendlist: [],
-    searchlist: []
+    recommendlist: [{ id: 0 }],
+    searchlist: [],
+    invited: false,
+    invitedconfirm: false,
+    invitedlist: []
   }),
   methods: {
     findData: async function() {
@@ -242,6 +273,10 @@ export default {
       const recommendlist = await this.$axios.$get("/users/recommend", {
         params: { id: userid }
       });
+      const invitedStatus = await this.$axios.$post("/invites/confirm", {
+        host_user_id: userid,
+        guest_user_id: recommendlist[0].id
+      });
       if (favoritelist.length != 0) {
         this.favoritelist = favoritelist;
       }
@@ -250,6 +285,13 @@ export default {
       }
       if (recommendlist.length != 0) {
         this.recommendlist = recommendlist;
+      }
+      if (invitedStatus[0].valid_status == 2) {
+        this.invited = true;
+      }
+      if (invitedStatus[0].valid_status == 1) {
+        this.invited = true;
+        this.invitedconfirm = true;
       }
     },
     search(keyword) {
@@ -274,10 +316,11 @@ export default {
         return "";
       }
     },
-    getIndividualURL(id){
-      return "/individual_user_info?user_id=" + id
+    getIndividualURL(id) {
+      return "/individual_user_info?user_id=" + id;
     },
     sendInvites: function(guest_user_id) {
+      let _this = this;
       this.$axios({
         method: "post",
         url: "/invites/create",
@@ -289,7 +332,7 @@ export default {
         .then(function(response) {
           if (response.data == null) {
           } else {
-            console.log(response);
+            _this.invited = true;
           }
         })
         .catch(function(error) {

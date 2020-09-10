@@ -19,6 +19,11 @@ export const state = () => ({
 export const mutations = {
   add(state, object) {
     state.userInfo = object;
+  },
+  updatePositon(state, data) {
+    state.userInfo.latitude = data.latitude;
+    state.userInfo.longitude = data.longitude;
+    state.userInfo.status_update_at = data.status_update_at;
   }
 }
 

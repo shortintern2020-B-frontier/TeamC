@@ -2,7 +2,7 @@
 <template>
   <v-app>
     <v-row justify="center">
-      <v-app-bar app color="red" dense>
+      <v-app-bar app color="deep-purple" dense>
         <v-col cols="12" sm="8" md="6">
           <v-bottom-sheet v-model="statusShell" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -20,11 +20,12 @@
                 <v-card width="300">
                   <v-form>
                     <v-text-field
+                      color="deep-purple accent-3"
                       v-model="comment"
                       id="comment"
                       label="Comment(Optional)"
                       name="comment"
-                      prepend-icon="mdi-account"
+                      prepend-icon="mdi-message"
                       type="text"
                     ></v-text-field>
                   </v-form>
@@ -37,6 +38,7 @@
                       :key="status.id"
                     >
                       <v-radio
+                        color="deep-purple accent-3"
                         v-bind:label="status.title"
                         v-bind:value="status.id"
                         v-bind:class="status.class"
@@ -50,7 +52,7 @@
           </v-bottom-sheet>
           <v-menu bottom right transition="scale-transition" origin="top left">
             <template v-slot:activator="{ on }">
-              <v-chip label pill v-on="on">
+              <v-chip color="deep-purple lighten-5" label pill v-on="on">
                 {{ originalStatus }}
                 <v-icon right>
                   {{ statusList[status].class }}
@@ -70,9 +72,15 @@
               </v-list-item>
             </v-card>
           </v-menu>
-          <v-divider class="mx-8" vertical></v-divider>
-          <v-btn color="red" inset to="/searchFriend">
-            友達追加
+          <v-divider class="mx-4" vertical></v-divider>
+          <v-btn
+            color="deep-purple darken-1"
+            inset
+            depressed
+            to="/searchFriend"
+            class="white--text"
+          >
+            Add Friends
           </v-btn>
         </v-col>
       </v-app-bar>
@@ -139,7 +147,7 @@ export default {
       this.originalStatus = this.showStatusName(
         this.$store.state.user.userInfo.status
       );
-      this.choosedStatusLabel = this.originalStatus
+      this.choosedStatusLabel = this.originalStatus;
       if (this.$store.state.user.userInfo.comment == "") {
         this.originalcomment = this.originalStatus;
       } else {
@@ -222,10 +230,10 @@ export default {
   computed: {
     ...mapState("user", ["statusList", "userInfo"]),
     avatar() {
-      return (id) => {
+      return id => {
         const imageLen = 10;
-        return `/user_icon_${id % imageLen + 1}.jpg`;
-      }
+        return `/user_icon_${(id % imageLen) + 1}.jpg`;
+      };
     }
   }
 };
