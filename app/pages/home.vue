@@ -4,7 +4,7 @@
     <v-main>
       <!-- <v-app-bar color="" dense></v-app-bar> -->
       <div class="text-center">
-        <v-card color="red">
+        <v-card color="deep-purple lighten-1">
           <v-menu
             bottom
             right
@@ -115,7 +115,8 @@
               :key="index"
               cols="12"
             >
-              <v-card v-if="index == 0" class="text-center">
+              <div v-if="recommend.id == 0">No Recommend</div>
+              <v-card v-if="index == 0 && recommend.id != 0" class="text-center">
                 <div class="text-center">
                   <v-avatar class="ma-3" size="70">
                     <img :src="avatar(userInfo.id)" :alt="userInfo.username" />
@@ -245,7 +246,7 @@ export default {
   data: () => ({
     favoritelist: [{ id: 0 }],
     friendslist: [{ id: 0 }],
-    recommendlist: [],
+    recommendlist: [{ id: 0 }],
     searchlist: [],
     invited: false,
     invitedconfirm: false,
