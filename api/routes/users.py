@@ -10,7 +10,6 @@ from models.user_chat_rooms import user_chat_rooms
 from models.users import users
 from models.friends import friends
 from models.favorites import favorites
-from models.friend_requests import friend_requests
 from schemas.users import *
 
 from databases import Database
@@ -51,27 +50,11 @@ async def login_user(req: RequestForLogin, database: Database = Depends(get_conn
         raise Exception('パスワードが違います')
     return user
 
-# Auther Kosuda
 @router.post("/users/friends")
 async def make_friends(req: RequestForMakeFriends, database: Database = Depends(get_connection)):
-    select_query = f"select * from friend_requests user_id={req.user_id} and target_user_id = {req.target_user_id}"
-    request_data = await database.fetch_one(select_query)
-    if request_data is not None:
-        raise ValueError("The request is already registered.")
-    insert_query = friend_requests.insert()
-    values = {
-        "user_id": req.user_id,
-        "target_user_id": req.target_user_id
-    }
-    await database.execute(insert_query, values)
-    return {"result": "request success"}
-
-# Author: Hirata, Kosuda
-@router.post("/users/friends/approve")
-async def approve_friends(req: ApproveFriendRequest, database: Database = Depends(get_connection)):
     query = users.select().where(users.columns.id==req.user_id)
     user1 = await database.fetch_one(query)
-    query = users.select().where(users.columns.id==req.approved_user_id)
+    query = users.select().where(users.columns.id==req.target_user_id)
     user2 = await database.fetch_one(query)
     query = friends.insert()
     values1 = {
@@ -84,8 +67,6 @@ async def approve_friends(req: ApproveFriendRequest, database: Database = Depend
     }
     await database.execute(query, values1)
     await database.execute(query, values2)
-    delete_query = f"delete from friend_requests where user_id = {req.approved_user_id} and target_user_id = {req.user_id}"
-    ret = await database.execute(delete_query)
     return {"result": "connect success"}
 
 @router.get("/users/friends", response_model=List[UserDetail])
