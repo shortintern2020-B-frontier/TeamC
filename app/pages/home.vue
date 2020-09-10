@@ -83,8 +83,9 @@
               :key="`favorite_${favorite.id}`"
               cols="12"
             >
+            <div v-if="favorite.id == 0">No favorite</div>
               <v-card v-bind:to="getIndividualURL(favorite.user_id)">
-                <div v-if="favorite.id == 0">No favorite</div>
+                
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="favorite.id != 0"
