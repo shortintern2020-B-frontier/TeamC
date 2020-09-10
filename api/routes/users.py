@@ -5,6 +5,8 @@ from fastapi import APIRouter, Depends
 from typing import List
 from starlette.requests import Request
 
+from models.chat_rooms import chat_rooms
+from models.user_chat_rooms import user_chat_rooms
 from models.users import users
 from models.friends import friends
 from models.favorites import favorites
@@ -123,6 +125,35 @@ async def users_update(user: UserUpdate, database: Database = Depends(get_connec
         tdatetime = datetime.now()
         tstr = tdatetime.strftime('%Y/%m/%d')
         values['status_update_at'] = tstr
+        # 自動invite
+        select_invite_query = f'select * from user_chat_rooms where user_id = {user.id} and valid = 0'
+        chat_rooms_data = await database.fetch_all(select_invite_query)
+        if not len(chat_rooms_data):
+            select_friend_query = f'select users.* from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {user.id} and status = {user.status} and users.id != {user.id}'
+            friend = await database.fetch_one(select_friend_query)
+            if friend:
+                friend = dict(friend)
+                insert_query = chat_rooms.insert()
+                chat_room_value = {
+                    "deleted":0
+                }
+                await database.execute(insert_query, chat_room_value)
+                select_query = "select * from chat_rooms order by id desc limit 1"
+                chat_room_data = await database.fetch_one(select_query)
+                chat_room_id = getattr(chat_room_data, "id")
+                invite_insert_query = user_chat_rooms.insert()
+                values1 = {
+                    "user_id": user.id,
+                    "chat_room_id": chat_room_id,
+                    "valid": 0
+                }
+                values2 = {
+                    "user_id": friend['id'],
+                    "chat_room_id": chat_room_id,
+                    "valid": 0
+                }
+                await database.execute(invite_insert_query, values1)
+                await database.execute(invite_insert_query, values2)
     ret = await database.execute(query, values)
     return values
 
