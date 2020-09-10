@@ -57,7 +57,6 @@ export default {
         comment: this.user.comment,
       }).then((data) => {
         if (data != null) {
-          console.log(this.user)
           this.user.status_update_at = data.status_update_at
           this.$store.commit("user/add", this.user)
         }
