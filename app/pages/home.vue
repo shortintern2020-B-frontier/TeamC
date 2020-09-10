@@ -266,7 +266,6 @@ export default {
     searchlist: [],
     invited: false,
     invitedconfirm: false,
-    invitedlist: []
   }),
   methods: {
     findData: async function() {
@@ -293,7 +292,7 @@ export default {
       if (friendslist.length != 0) {
         this.friendslist = friendslist;
       }
-      if (recommendlist.length != 0) {
+      if (recommendlist.length != 0 && this.$store.state.user.userInfo.status !=1) {
         this.recommendlist = recommendlist;
       }
       if (invitedStatus.length > 0 && invitedStatus[0].valid_status == 2) {
