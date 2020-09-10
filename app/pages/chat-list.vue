@@ -3,7 +3,12 @@
   <v-layout column justify-center align-center>
     <v-container xs12 sm8 md6>
       <div class="text-center">
-        <v-list three-line style="max-height: 500px" class="overflow-y-auto">
+        <v-list
+          v-if="rooms.length != 0"
+          three-line
+          style="max-height: 500px"
+          class="overflow-y-auto"
+        >
           <template v-for="room in rooms">
             <v-list-item
               true
@@ -34,6 +39,11 @@
             </v-list-item>
           </template>
         </v-list>
+        <v-card-text v-else
+          ><h2 style="color: gray">
+            Invite your friends to chat!
+          </h2></v-card-text
+        >
       </div>
     </v-container>
   </v-layout>
@@ -49,7 +59,7 @@ export default {
     });
     this.rooms = res.data;
     this.id = this.$store.state.user.userInfo.id;
-    console.log(this.id);
+    console.log(this.rooms);
   },
 
   data: () => ({
