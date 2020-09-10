@@ -28,7 +28,7 @@
                 </div>
               </v-chip-group>
             </template>
-            <v-card width="300">
+            <v-card width="100%">
               <v-list-item
                 v-for="user in searchlist"
                 :key="`user_${user.username}`"
