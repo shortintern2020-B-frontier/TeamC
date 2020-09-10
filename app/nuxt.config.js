@@ -61,7 +61,22 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/pwa',
   ],
+  manifest: {
+    name: 'ゆるちゃっと',
+    lang: 'ja',
+    short_name: 'ゆるちゃっと',
+    title: 'ゆるちゃっと',
+    'og:title': 'ゆるちゃっと',
+    description: 'ゆるちゃっと',
+    'og:description': 'ゆるちゃっとです',
+    theme_color: '#ffffff',
+    background_color: '#ffffff'
+  },
+  workbox: {
+    dev: true, //開発環境でもPWA
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module

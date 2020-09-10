@@ -4,7 +4,7 @@
     <v-main>
       <div id="page">
         <div id="search">
-          <v-toolbar dark color="teal">
+          <v-toolbar dark color="deep-purple darken-1">
             <v-autocomplete
               v-model="select"
               :search-input.sync="search_id"
@@ -16,7 +16,7 @@
               label="ID"
               solo-inverted
             ></v-autocomplete>
-            <v-btn @click="search">検索</v-btn>
+            <v-btn small @click="search">Search</v-btn>
           </v-toolbar>
         </div>
 

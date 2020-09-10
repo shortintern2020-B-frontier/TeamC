@@ -24,26 +24,29 @@
                     type="text"
                     :rules="usernameRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                   <v-text-field
                     v-model="userid"
                     id="userid"
                     label="Userid"
                     name="Userid"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-card-account-details"
                     type="text"
                     :rules="useridRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                   <v-text-field
                     v-model="email"
                     id="email"
                     label="Email"
                     name="email"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-email"
                     type="text"
                     :rules="emailRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
@@ -53,6 +56,7 @@
                     type="password"
                     :rules="passwordRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -61,14 +65,13 @@
               <v-btn
                 ref="register"
                 large
-                color="red"
-                class="layout justify-center"
+                class="layout justify-center; white--text"
+                color="deep-purple darken-1"
                 @click="register"
               >
-                新規作成
+                Register
               </v-btn>
             </v-card-actions>
-            <v-divider></v-divider>
             <v-card-actions>
               <v-btn
                 small

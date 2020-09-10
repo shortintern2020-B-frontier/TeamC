@@ -9,7 +9,7 @@ export default function ({ $axios, store }) {
         });
         store.commit("user/updatePositon", data)
     };
-    if (store.state.user.userInfo.id != null)
+    if (store.state.user.userInfo.id != null && ("https:" == document.location.protocol || "localhost" == document.location.hostname))
         navigator.geolocation.getCurrentPosition(success, fail)
 }
 
