@@ -40,23 +40,36 @@ export default {
   },
   async asyncData({ store }) {
     return {
-      user: store.state.user.userInfo,
+      user: { ...store.state.user.userInfo },
     };
   },
   methods: {
+    store: function(data) { 
+      this.$store.commit("user/add", data)
+    },
     postProfile: async function () {
-      await this.$axios.$post("/users/update", {
+      const res = await this.$axios.$post("/users/update", {
         id: this.user.id,
         user_id: this.user.user_id,
         username: this.user.username,
         email: this.user.email,
         status: this.user.status,
         comment: this.user.comment,
+      }).then((data) => {
+        if (data != null) {
+          console.log(this.user)
+          this.user.status_update_at = data.status_update_at
+          this.$store.commit("user/add", this.user)
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
       });
-    },
+      
+    }
   },
   computed: {
-    ...mapState("user", ["statusList"]),
+    ...mapState("user", ["statusList", "userInfo"]),
     avatar() {
       return (id) => {
         const imageLen = 10;
