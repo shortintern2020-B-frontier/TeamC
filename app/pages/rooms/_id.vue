@@ -68,7 +68,7 @@
               label="Message"
             ></v-text-field></v-col
           ><v-col cols="3"
-            ><v-btn color="red accent-3" text @click="sendMessage"
+            ><v-btn color="deep-purple accent-3" @click="sendMessage"
               >send</v-btn
             ></v-col
           ></v-row

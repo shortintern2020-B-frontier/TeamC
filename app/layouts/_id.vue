@@ -1,8 +1,15 @@
 <!-- Author:Shun Kiyoura-->
 <template>
   <v-app>
-    <v-app-bar app dense>
-      <v-btn text value="back" to="/chat-list">back</v-btn>
+    <v-app-bar color="deep-purple" app dense>
+      <v-btn
+        color="deep-purple darken-4"
+        class="white--text"
+        value="back"
+        to="/chat-list"
+        depressed
+        >back</v-btn
+      >
     </v-app-bar>
     <nuxt />
   </v-app>

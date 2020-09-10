@@ -74,7 +74,7 @@
           </v-menu>
           <v-divider class="mx-4" vertical></v-divider>
           <v-btn
-            color="deep-purple darken-1"
+            color="deep-purple darken-4"
             inset
             depressed
             to="/searchFriend"
