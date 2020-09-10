@@ -7,7 +7,6 @@
         class="white--text"
         value="back"
         to="/chat-list"
-        depressed
         >back</v-btn
       >
     </v-app-bar>

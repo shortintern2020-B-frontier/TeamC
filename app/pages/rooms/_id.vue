@@ -64,11 +64,12 @@
         <v-row align="center"
           ><v-col cols="9"
             ><v-text-field
+              color="deep-purple accent-3"
               v-model="send_message"
               label="Message"
             ></v-text-field></v-col
           ><v-col cols="3"
-            ><v-btn color="deep-purple accent-3" @click="sendMessage"
+            ><v-btn color="white" class="deep-purple--text" @click="sendMessage"
               >send</v-btn
             ></v-col
           ></v-row
