@@ -77,6 +77,15 @@ export default {
   workbox: {
     dev: true, //開発環境でもPWA
   },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'notFound',
+        path: '*',
+        component: resolve(__dirname, 'pages/login.vue')
+      })
+    }
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module

@@ -8,7 +8,7 @@
             <v-avatar>
               <img :src="avatar(user.id)" />
             </v-avatar>
-            <v-div class="mx-5" vertical></v-div>
+            <div class="mx-5" vertical></div>
             <v-btn color="deep-purple lighten-3" depressed @click="postProfile">プロフィールを更新する</v-btn>
           </div>
 

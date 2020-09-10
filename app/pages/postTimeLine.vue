@@ -12,7 +12,7 @@
         <v-text-field
           color="deep-purple accent-3"
           v-model="place"
-          :counter="10"
+          :counter="30"
           label="Place"
           required
         ></v-text-field>
