@@ -22,10 +22,10 @@
                 </span>
               </template>
               <v-list-item-content>
-                <v-list-item-title>お誘いがあります</v-list-item-title>
+                <v-list-item-title>you're invited</v-list-item-title>
                 <v-list-item-subtitle>
                   <v-btn @click="handleClick(invite)">
-                    <span>承認</span>
+                    <span>approve</span>
                     <!-- <v-icon>mdi-home</v-icon> -->
                   </v-btn>
                 </v-list-item-subtitle>
