@@ -20,5 +20,5 @@ class InviteAgree(BaseModel):
     user_id: str
     chat_room_id: int
 
-class InviteRecommend(BaseModel):
-    count_valid: int
+class InviteConfirm(BaseModel):
+    valid_status: int
