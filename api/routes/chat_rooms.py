@@ -60,7 +60,7 @@ async def get_chat_room(id: int, database: Database = Depends(get_connection)):
             chat_room['last_chat'] = chats_of_the_room[0]
         else:
             chat_room['last_chat'] = {}
-    user_select_query = f"select users.id, users.username, chat_room_id from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where chat_room_id in ({','.join(map(str,chat_room_ids))}) and user_chat_rooms.valid = 1"
+    user_select_query = f"select users.id, users.username, chat_room_id, valid from user_chat_rooms left join users on user_chat_rooms.user_id = users.id where chat_room_id in ({','.join(map(str,chat_room_ids))})"
     user_datas = await database.fetch_all(user_select_query)
     for chat_room in chat_rooms:
         chat_room['users'] = list(filter(lambda p: p.chat_room_id == chat_room['id'], user_datas))
