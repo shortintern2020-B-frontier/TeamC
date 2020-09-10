@@ -273,10 +273,13 @@ export default {
       const recommendlist = await this.$axios.$get("/users/recommend", {
         params: { id: userid }
       });
-      const invitedStatus = await this.$axios.$post("/invites/confirm", {
-        host_user_id: userid,
-        guest_user_id: recommendlist[0].id
-      });
+      let invitedStatus = [];
+      if (recommendlist.length > 0) {
+        invitedStatus = await this.$axios.$post("/invites/confirm", {
+          host_user_id: userid,
+          guest_user_id: recommendlist[0].id
+        });
+      }
       if (favoritelist.length != 0) {
         this.favoritelist = favoritelist;
       }
@@ -286,10 +289,10 @@ export default {
       if (recommendlist.length != 0) {
         this.recommendlist = recommendlist;
       }
-      if (invitedStatus[0].valid_status == 2) {
+      if (invitedStatus.length > 0 && invitedStatus[0].valid_status == 2) {
         this.invited = true;
       }
-      if (invitedStatus[0].valid_status == 1) {
+      if (invitedStatus.length > 0 && invitedStatus[0].valid_status == 1) {
         this.invited = true;
         this.invitedconfirm = true;
       }
