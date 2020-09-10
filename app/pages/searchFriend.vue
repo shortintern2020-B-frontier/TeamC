@@ -31,7 +31,7 @@
                   <v-row :key="1" style="font-weight: bold; font-size: 200%;">
                     <p>{{target_username}}</p>
                   </v-row>
-                  <v-row :key="2" width="20">ひとこと: {{target_comment}}</v-row>
+                  <v-row :key="2" width="20">comment: {{target_comment}}</v-row>
                 </v-col>
               </v-row>
               <v-row align="center">
@@ -39,11 +39,11 @@
                   style="display: inline-block; text-align: center; margin: 0 auto;"
                   @click="addFriend"
                   v-if="!isFriend"
-                >追加</v-btn>
+                >Add to friend list</v-btn>
                 <v-card
                   style="display: inline-block; text-align: center; margin: 0 auto;"
                   v-if="isFriend"
-                >追加済</v-card>
+                >Added</v-card>
               </v-row>
             </v-card-text>
           </v-card>
