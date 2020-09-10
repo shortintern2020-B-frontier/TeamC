@@ -1,7 +1,8 @@
 <!-- Author:Shun Kiyoura-->
 <template>
-  <v-layout column justify-center align-center>
+  <v-layout column align-center>
     <v-container xs12 sm8 md6>
+      <div class="mx-20">content</div>
       <div class="text-center">
         <v-list
           v-if="rooms.length != 0"
@@ -25,8 +26,10 @@
                 <v-list-item-content>
                   <v-list-item-title
                     v-html="room.users.find(n => n.id != id).username"
+                    class="text-left"
                   ></v-list-item-title>
                   <v-list-item-subtitle
+                    class="text-left"
                     v-if="room.users.find(n => n.id != id).valid == 0"
                     >{{
                       room.users.find(n => n.id != id).username + "を招待中です"
