@@ -65,15 +65,36 @@ export default {
     '@nuxtjs/axios',
   ],
   manifest: {
-    name: 'ゆるちゃっと',
+    name: 'ゆるまっち',
     lang: 'ja',
-    short_name: 'ゆるちゃっと',
-    title: 'ゆるちゃっと',
-    'og:title': 'ゆるちゃっと',
-    description: 'ゆるちゃっと',
-    'og:description': 'ゆるちゃっとです',
+    short_name: 'ゆるまっち',
+    title: 'ゆるまっち',
+    'og:title': 'ゆるまっち',
+    description: 'ゆるまっち',
+    'og:description': 'ゆるまっち',
     theme_color: '#ffffff',
-    background_color: '#ffffff'
+    background_color: '#ffffff',
+    icons: [{
+      "src": "https://s1.ax1x.com/2020/09/10/wY6kk9.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },{
+      "src": "https://s1.ax1x.com/2020/09/10/wY6Pw4.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },{
+      "src": "https://s1.ax1x.com/2020/09/10/wY6iTJ.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },{
+      "src": "https://s1.ax1x.com/2020/09/10/wY6Ef1.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }, {
+      "src": "https://s1.ax1x.com/2020/09/10/wY6AYR.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    }]
   },
   workbox: {
     dev: true, //開発環境でもPWA
