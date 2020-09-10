@@ -1,4 +1,4 @@
-# Author hirata
+# Author hirata, kosuda
 import hashlib
 
 from fastapi import APIRouter, Depends
@@ -101,7 +101,7 @@ async def users_create(user: UserCreate, database: Database = Depends(get_connec
     select_query = users.select().where(users.columns.user_id==user.user_id)
     user_data = await database.fetch_one(select_query)
     if user_data is not None:
-        return None
+        raise ValueError("This id is already registered.")
     query = users.insert()
     values = get_users_insert_dict(user)
     ret = await database.execute(query, values)
