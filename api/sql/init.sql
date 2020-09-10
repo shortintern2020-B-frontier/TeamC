@@ -1,4 +1,4 @@
--- Author hirata
+-- Author hirata, Kosuda
 CREATE DATABASE IF NOT EXISTS yuru;
 Use yuru;
 
@@ -81,4 +81,13 @@ deleted                tinyint(4) DEFAULT '0',
 PRIMARY KEY (id),
 KEY index_time_lines_on_user_id (user_id),
 CONSTRAINT fk_9 FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS friend_requests (
+id                     bigint(20) NOT NULL AUTO_INCREMENT,
+user_id                bigint(20) NOT NULL,
+target_user_id         bigint(20) NOT NULL,
+PRIMARY KEY (id),
+KEY index_time_lines_on_user_id (user_id),
+CONSTRAINT fk_10 FOREIGN KEY (user_id) REFERENCES users (id)
 );
