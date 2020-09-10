@@ -13,7 +13,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-chip-group>
-                <v-divider class="mx-1" vertical></v-divider>
+                <v-div class="mx-1" vertical></v-div>
                 <div v-for="status in statusList" :key="status.id">
                   <v-chip
                     color="deep-purple lighten-5"
