@@ -62,6 +62,7 @@ export default {
   */
   modules: [
     '@nuxtjs/pwa',
+    '@nuxtjs/axios',
   ],
   manifest: {
     name: 'ゆるちゃっと',
@@ -113,9 +114,6 @@ export default {
   */
   build: {
   },
-  modules: [
-    '@nuxtjs/axios',
-  ],
   axios: {
     baseURL: 'http://127.0.0.1:8000',
   },
