@@ -27,7 +27,7 @@
                 v-for="user in searchlist"
                 :key="`user_${user.username}`"
               >
-                <v-card>
+                <v-card v-bind:to="getIndividualURL(user.user_id)">
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
                       <img :src="avatar(user.id)" :alt="user.username" />
@@ -73,7 +73,7 @@
               :key="`favorite_${favorite.id}`"
               cols="12"
             >
-              <v-card>
+              <v-card v-bind:to="getIndividualURL(favorite.user_id)">
                 <div v-if="favorite.id == 0">No favorite</div>
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
@@ -189,7 +189,7 @@
               :key="`friend_${friend.username}`"
               cols="12"
             >
-              <v-card>
+              <v-card v-bind:to="getIndividualURL(friend.user_id)">
                 <div v-if="friend.id == 0">No Friends</div>
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
@@ -293,6 +293,9 @@ export default {
       } else {
         return "";
       }
+    },
+    getIndividualURL(id){
+      return "/individual_user_info?user_id=" + id
     },
     sendInvites: function(guest_user_id) {
       let _this = this;
