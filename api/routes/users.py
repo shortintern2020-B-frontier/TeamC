@@ -45,7 +45,11 @@ async def users_findone(user_id: str, database: Database = Depends(get_connectio
 @router.post("/users/login", response_model=UserDetail)
 async def login_user(req: RequestForLogin, database: Database = Depends(get_connection)):
     query = users.select().where(users.columns.email==req.email)
-    return await database.fetch_one(query)
+    user = await database.fetch_one(query)
+    user = dict(user)
+    if hashlib.sha256(req.password.encode('utf-8')).hexdigest() != user['hashed_password']:
+        raise Exception('パスワードが違います')
+    return user
 
 # Auther Kosuda
 @router.post("/users/friends")
