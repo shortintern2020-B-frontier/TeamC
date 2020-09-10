@@ -21,7 +21,7 @@
                       id="email"
                       label="Maill Address"
                       name="email"
-                      prepend-icon="mdi-account"
+                      prepend-icon="mdi-email"
                       type="text"
                       :rules="emailRules"
                       required
