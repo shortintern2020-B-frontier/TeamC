@@ -25,6 +25,7 @@
                       type="text"
                       :rules="emailRules"
                       required
+                      color="deep-purple accent-3"
                     ></v-text-field>
                   </v-card-text>
                   <v-card-text>
@@ -36,6 +37,7 @@
                       type="password"
                       :rules="passwordRules"
                       required
+                      color="deep-purple accent-3"
                     ></v-text-field>
                   </v-card-text>
                 </v-form>
@@ -48,24 +50,23 @@
               <v-btn
                 v-if="registerflag"
                 large
-                color="red"
-                class="layout justify-center"
+                color="deep-purple darken-1"
+                class="layout justify-center; white--text "
                 nuxt
                 to="/register"
               >
-                新規作成
+                Register
               </v-btn>
               <v-btn
                 v-if="loginflag"
                 large
-                color="red"
+                color="deep-purple lighten-3"
                 class="layout justify-center"
                 @click="login"
               >
-                ログイン
+                Login
               </v-btn>
             </v-card-actions>
-            <v-divider></v-divider>
             <v-card-actions v-if="registerflag">
               <v-btn
                 small
@@ -77,7 +78,7 @@
                     (registerflag = !registerflag)
                 "
               >
-                ログイン
+                Login
               </v-btn>
             </v-card-actions>
             <v-card-actions v-if="loginflag">
@@ -88,7 +89,7 @@
                 nuxt
                 to="/register"
               >
-                新規作成
+                Register
               </v-btn>
             </v-card-actions>
           </v-col>

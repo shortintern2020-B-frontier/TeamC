@@ -3,7 +3,7 @@
   <v-app>
     <v-app-bar app color="deep-purple" dense></v-app-bar>
     <nuxt />
-    <v-bottom-navigation app :value="activeBtn" color="purple lighten-1">
+    <v-bottom-navigation app :value="activeBtn" color="deep-purple">
       <v-btn value="home" to="/home">
         <span>Home</span>
         <v-icon>mdi-home</v-icon>
