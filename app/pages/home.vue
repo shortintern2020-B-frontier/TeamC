@@ -268,7 +268,7 @@ export default {
       if (recommendlist.length != 0) {
         this.recommendlist = recommendlist;
       }
-      if (invitedStatus[0].count_valid == 2) {
+      if (invitedStatus[0].valid_status == 2) {
         this.invited = true;
       }
     },
