@@ -32,8 +32,9 @@
               <v-list-item
                 v-for="user in searchlist"
                 :key="`user_${user.username}`"
+                width="100%"
               >
-                <v-card v-bind:to="getIndividualURL(user.user_id)">
+                <v-card v-bind:to="getIndividualURL(user.user_id)" width="100%" flat>
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
                       <img :src="avatar(user.id)" :alt="user.username" />
