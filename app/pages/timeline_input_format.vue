@@ -11,6 +11,10 @@
           :minute-interval="10"
           :format="'YYYY-MM-DD HH:mm'"
           :overlay="true"
+<<<<<<< Updated upstream
+=======
+          background-color="red"
+>>>>>>> Stashed changes
         ></Datetime>
         <v-text-field v-model="comment" :counter="10" label="Comment" required></v-text-field>
 
