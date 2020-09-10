@@ -10,7 +10,7 @@
       <v-container class="fill-height" fluid >
         <v-container v-if="is_friend">
           <v-row dense>
-            <v-card>Friend's Timeline</v-card>
+            <v-card>Timeline</v-card>
             <v-spacer></v-spacer>
             <v-col v-for="(timeline) in timelines_list" :key="timeline.id" cols="12">
               <v-card v-bind:to="getIndividualURL(getFriendUserId(timeline.user_id))">
