@@ -1,4 +1,4 @@
-# Author hirata, kosuda
+# Author hirata
 from pydantic import BaseModel
 from typing import Optional
 
@@ -56,8 +56,3 @@ class RequestForMakeFriends(BaseModel):
 class RequestForFavorite(BaseModel):
     user_id: int
     target_user_id: int
-
-# Author: kosuda
-class ApproveFriendRequest(BaseModel):
-    user_id: int
-    approved_user_id: int
