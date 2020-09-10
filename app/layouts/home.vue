@@ -17,7 +17,7 @@
               <v-divider vertical inset></v-divider>
               <v-btn @click="statusShell = !statusShell">close</v-btn>
               <div class="fill-height" fluid align="center" justify="center">
-                <v-card width="300">
+                <v-card flat width="300">
                   <v-form>
                     <v-text-field
                       color="deep-purple accent-3"
@@ -29,7 +29,7 @@
                       type="text"
                     ></v-text-field>
                   </v-form>
-                  <v-card>
+                  <v-card flat>
                     <p>{{ choosedStatusLabel || "null" }}</p>
                     <v-radio-group
                       v-model="choosedStatus"
