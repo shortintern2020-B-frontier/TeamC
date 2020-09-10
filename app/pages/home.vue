@@ -350,8 +350,8 @@ export default {
         });
     }
   },
-  created() {
-    this.findData();
+  async created() {
+    await this.findData();
   },
   computed: {
     ...mapState("user", ["statusList", "userInfo"]),
