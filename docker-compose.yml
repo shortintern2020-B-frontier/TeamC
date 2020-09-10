@@ -14,3 +14,20 @@ services:
     ports:
       - 13306:3306
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+  app:
+    container_name: app
+    build: app
+    command: npm run dev
+    volumes:
+      - app:/app
+    ports:
+      - 3000:3000
+  api:
+    container_name: api
+    build: api
+    restart: always
+    tty: true
+    volumes:
+      - api:/app
+    ports:
+      - 8000:8000
