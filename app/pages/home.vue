@@ -28,13 +28,16 @@
                 </div>
               </v-chip-group>
             </template>
-            <v-card width="100%">
+            <v-card flat width="100%">
               <v-list-item
                 v-for="user in searchlist"
                 :key="`user_${user.username}`"
-                width="100%"
               >
-                <v-card v-bind:to="getIndividualURL(user.user_id)" width="100%" flat>
+                <v-card
+                  class="ma-3"
+                  flat
+                  v-bind:to="getIndividualURL(user.user_id)"
+                >
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
                       <img :src="avatar(user.id)" :alt="user.username" />
@@ -148,13 +151,16 @@
                 >
                   Invite
                 </v-btn>
-                <v-progress-circular
-                  indeterminate
-                  color="deep-purple accent-3"
-                  class="ma-3"
-                  v-if="invited == true && invitedconfirm == false"
-                  >Waiting for confirmation
-                </v-progress-circular>
+                <v-container v-if="invited == true && invitedconfirm == false"
+                  ><v-progress-circular
+                    indeterminate
+                    color="deep-purple accent-3"
+                    class="ma-3"
+                  >
+                  </v-progress-circular
+                  >Waiting for confirmation</v-container
+                >
+
                 <v-btn
                   class="ma-3"
                   v-if="invited == true && invitedconfirm == true"
