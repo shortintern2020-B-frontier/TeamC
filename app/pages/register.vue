@@ -80,7 +80,7 @@
                 nuxt
                 to="/login"
               >
-                ログイン
+                Login
               </v-btn>
             </v-card-actions>
             <v-card>
