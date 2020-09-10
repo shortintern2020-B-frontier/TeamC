@@ -145,7 +145,7 @@
                   >Waiting for confirmation
                 </v-progress-circular>
               </v-card>
-              <v-card>
+              <v-card v-bind:to="getIndividualURL(recommend.user_id)">
                 <div
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="index != 0"
