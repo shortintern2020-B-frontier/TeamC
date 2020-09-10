@@ -85,7 +85,7 @@
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="favorite.id != 0"
                 >
-                  <v-avatar class="ma-3" size="70" tile>
+                  <v-avatar class="ma-3" size="70">
                     <img :src="avatar(favorite.id)" :alt="favorite.username" />
                   </v-avatar>
                   <span class="headline">
@@ -167,7 +167,7 @@
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="index != 0"
                 >
-                  <v-avatar class="ma-3" size="70" tile>
+                  <v-avatar class="ma-3" size="70" >
                     <img
                       :src="avatar(recommend.id)"
                       :alt="`recommend_${recommend.username}`"
@@ -212,7 +212,7 @@
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="friend.id != 0"
                 >
-                  <v-avatar class="ma-3" size="70" tile>
+                  <v-avatar class="ma-3" size="70">
                     <img :src="avatar(friend.id)" :alt="friend.username" />
                   </v-avatar>
                   <span class="headline">

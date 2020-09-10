@@ -86,7 +86,7 @@
       </v-app-bar>
     </v-row>
     <nuxt />
-    <v-bottom-navigation app :value="activeBtn" color="purple lighten-1">
+    <v-bottom-navigation app :value="activeBtn" color="deep-purple">
       <v-btn value="home" to="/home">
         <span>Home</span>
         <v-icon>mdi-home</v-icon>

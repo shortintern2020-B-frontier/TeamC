@@ -24,6 +24,7 @@
                     type="text"
                     :rules="usernameRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                   <v-text-field
                     v-model="userid"
@@ -34,6 +35,7 @@
                     type="text"
                     :rules="useridRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                   <v-text-field
                     v-model="email"
@@ -44,6 +46,7 @@
                     type="text"
                     :rules="emailRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
@@ -53,6 +56,7 @@
                     type="password"
                     :rules="passwordRules"
                     required
+                    color="deep-purple accent-3"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
