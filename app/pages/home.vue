@@ -141,9 +141,16 @@
                   indeterminate
                   color="primary"
                   class="ma-3"
-                  v-if="invited == true"
+                  v-if="invited == true && invitedconfirm == false"
                   >Waiting for confirmation
                 </v-progress-circular>
+                <v-btn
+                  class="ma-3"
+                  v-if="invited == true && invitedconfirm == true"
+                  disabled
+                >
+                  Done
+                </v-btn>
               </v-card>
               <v-card v-bind:to="getIndividualURL(recommend.user_id)">
                 <div
@@ -241,6 +248,7 @@ export default {
     recommendlist: [],
     searchlist: [],
     invited: false,
+    invitedconfirm: false,
     invitedlist: []
   }),
   methods: {
@@ -271,6 +279,10 @@ export default {
       if (invitedStatus[0].valid_status == 2) {
         this.invited = true;
       }
+      if (invitedStatus[0].valid_status == 1) {
+        this.invited = true;
+        this.invitedconfirm = true;
+      }
     },
     search(keyword) {
       this.searchlist = this.friendslist.filter(
@@ -294,8 +306,8 @@ export default {
         return "";
       }
     },
-    getIndividualURL(id){
-      return "/individual_user_info?user_id=" + id
+    getIndividualURL(id) {
+      return "/individual_user_info?user_id=" + id;
     },
     sendInvites: function(guest_user_id) {
       let _this = this;
