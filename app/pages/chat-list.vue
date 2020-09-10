@@ -10,33 +10,37 @@
           class="overflow-y-auto"
         >
           <template v-for="room in rooms">
-            <v-list-item
-              true
-              :key="room.chat_room_id"
-              link
-              :to="`/rooms/${room.id}`"
-            >
-              <v-list-item-avatar>
-                <v-img
-                  :src="avatar(room.users.find(n => n.id != id).id)"
-                ></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title
-                  v-html="room.users.find(n => n.id != id).username"
-                ></v-list-item-title>
-                <v-list-item-subtitle
-                  v-if="room.users.find(n => n.id != id).valid == 0"
-                  >{{
-                    room.users.find(n => n.id != id).username + "を招待中です"
-                  }}</v-list-item-subtitle
-                >
-                <v-list-item-subtitle
-                  v-else
-                  v-html="room.last_chat.content"
-                ></v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <div>
+              <v-list-item
+                true
+                :key="room.chat_room_id"
+                link
+                :to="`/rooms/${room.id}`"
+              >
+                <v-list-item-avatar>
+                  <v-img
+                    :src="avatar(room.users.find(n => n.id != id).id)"
+                  ></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title
+                    v-html="room.users.find(n => n.id != id).username"
+                  ></v-list-item-title>
+                  <v-list-item-subtitle
+                    v-if="room.users.find(n => n.id != id).valid == 0"
+                    >{{
+                      room.users.find(n => n.id != id).username + "を招待中です"
+                    }}</v-list-item-subtitle
+                  >
+                  <v-list-item-subtitle
+                    v-else
+                    v-html="room.last_chat.content"
+                  ></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider class="mx-1"></v-divider>
+            </div>
           </template>
         </v-list>
         <v-card-text v-else
