@@ -1,4 +1,4 @@
-// Author: ZHANG CHI
+<!-- Author:ZHANG CHI-->
 <template>
   <v-app>
     <v-main>
@@ -15,7 +15,13 @@
               <v-chip-group>
                 <v-divider class="mx-1" vertical></v-divider>
                 <div v-for="status in statusList" :key="status.id">
-                  <v-chip label pill v-on="on" @click="search(status.id)">
+                  <v-chip
+                    color="deep-purple lighten-5"
+                    label
+                    pill
+                    v-on="on"
+                    @click="search(status.id)"
+                  >
                     {{ status.title }}
                     <v-icon right>{{ status.class }}</v-icon>
                   </v-chip>
@@ -66,7 +72,7 @@
       <v-container class="fill-height" fluid>
         <v-container>
           <v-row dense>
-            <v-card>お気に入り</v-card>
+            <v-card>Favorite</v-card>
             <v-spacer></v-spacer>
             <v-col
               v-for="favorite in favoritelist"
@@ -108,7 +114,7 @@
               </v-card>
             </v-col>
             <v-col cols="12"></v-col>
-            <v-card>おすすめ</v-card>
+            <v-card>Recommend</v-card>
             <v-spacer></v-spacer>
             <v-col
               v-for="(recommend, index) in recommendlist"
@@ -116,7 +122,10 @@
               cols="12"
             >
               <div v-if="recommend.id == 0">No Recommend</div>
-              <v-card v-if="index == 0 && recommend.id != 0" class="text-center">
+              <v-card
+                v-if="index == 0 && recommend.id != 0"
+                class="text-center"
+              >
                 <div class="text-center">
                   <v-avatar class="ma-3" size="70">
                     <img :src="avatar(userInfo.id)" :alt="userInfo.username" />
@@ -129,18 +138,18 @@
                   </v-avatar>
                 </div>
                 <v-card-text class="headline text-center">
-                  一緒に{{ statusList[recommend.status].title }}しない？
+                  Let's {{ statusList[recommend.status].title }} !
                 </v-card-text>
                 <v-btn
                   class="ma-3"
                   v-if="invited == false"
                   @click="sendInvites(recommend.id)"
                 >
-                  ok
+                  Invite
                 </v-btn>
                 <v-progress-circular
                   indeterminate
-                  color="primary"
+                  color="deep-purple accent-3"
                   class="ma-3"
                   v-if="invited == true && invitedconfirm == false"
                   >Waiting for confirmation
@@ -150,7 +159,7 @@
                   v-if="invited == true && invitedconfirm == true"
                   disabled
                 >
-                  Done
+                  invited
                 </v-btn>
               </v-card>
               <v-card v-bind:to="getIndividualURL(recommend.user_id)">
@@ -190,7 +199,7 @@
               </v-card>
             </v-col>
             <v-col cols="12"></v-col>
-            <v-card>友達</v-card>
+            <v-card>friends</v-card>
             <v-spacer></v-spacer>
             <v-col
               v-for="friend in friendslist"
