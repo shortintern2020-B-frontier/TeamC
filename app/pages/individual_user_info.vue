@@ -19,7 +19,7 @@
                 <p>{{getStatusTitle(0)}}</p>
               </v-row>
               <v-row style="display: block;">
-                <p>ひとこと: {{ friend_data.comment }}</p>
+                <p>Comment: {{ friend_data.comment }}</p>
               </v-row>
             </v-col>
           </div>
