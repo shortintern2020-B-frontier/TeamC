@@ -23,7 +23,10 @@
               </v-chip-group>
             </template>
             <v-card width="300">
-              <v-list-item v-for="user in searchlist" :key="user.username">
+              <v-list-item
+                v-for="user in searchlist"
+                :key="`user_${user.username}`"
+              >
                 <v-card v-bind:to="getIndividualURL(user.user_id)">
                   <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar size="70">
@@ -54,13 +57,12 @@
             </v-card>
           </v-menu>
         </v-card>
-        <v-divider class="mx-20"></v-divider>
-        <v-btn @click="findData">
-          Refresh
+        <!-- <v-divider class="mx-20"></v-divider> -->
+        <!-- <v-btn @click="findData">
+          Recommend Again
           <v-icon>mdi-cached</v-icon>
-        </v-btn>
+        </v-btn> -->
       </div>
-
       <v-container class="fill-height" fluid>
         <v-container>
           <v-row dense>
@@ -68,7 +70,7 @@
             <v-spacer></v-spacer>
             <v-col
               v-for="favorite in favoritelist"
-              :key="favorite.email"
+              :key="`favorite_${favorite.id}`"
               cols="12"
             >
               <v-card v-bind:to="getIndividualURL(favorite.user_id)">
@@ -113,13 +115,34 @@
               :key="index"
               cols="12"
             >
-              <!-- <v-card v-if="index == 1"> ss</v-card> -->
-              <v-card>
-                <div class="d-flex flex-no-wrap justify-space-between">
-                  <v-avatar class="ma-3" size="70" tile>
+              <v-card v-if="index == 0" class="text-center">
+                <div class="text-center">
+                  <v-avatar class="ma-3" size="70">
+                    <img :src="avatar(userInfo.id)" :alt="userInfo.username" />
+                  </v-avatar>
+                  <v-avatar class="ma-3" size="70">
                     <img
                       :src="avatar(recommend.id)"
                       :alt="recommend.username"
+                    />
+                  </v-avatar>
+                </div>
+                <v-card-text class="headline text-center">
+                  一緒に{{ statusList[recommend.status].title }}しない？
+                </v-card-text>
+                <v-btn class="ma-3" @click="sendInvites(recommend.id)">
+                  ok
+                </v-btn>
+              </v-card>
+              <v-card>
+                <div
+                  class="d-flex flex-no-wrap justify-space-between"
+                  v-if="index != 0"
+                >
+                  <v-avatar class="ma-3" size="70" tile>
+                    <img
+                      :src="avatar(recommend.id)"
+                      :alt="`recommend_${recommend.username}`"
                     />
                   </v-avatar>
                   <span class="headline">
@@ -152,7 +175,7 @@
             <v-spacer></v-spacer>
             <v-col
               v-for="friend in friendslist"
-              :key="friend.username"
+              :key="`friend_${friend.username}`"
               cols="12"
             >
               <v-card v-bind:to="getIndividualURL(friend.user_id)">
@@ -198,7 +221,7 @@
 
 <script>
 import { mapState } from "vuex";
-import calcDistance from "@/modules/calcDistance"
+import calcDistance from "@/modules/calcDistance";
 export default {
   layout: "home",
   data: () => ({
@@ -235,23 +258,50 @@ export default {
       );
     },
     getDistance(friend) {
-      if(this.$store.state.user.userInfo.latitude != null && friend.latitude != null){
-        let dis = calcDistance(this.$store.state.user.userInfo.latitude, this.$store.state.user.userInfo.longitude, friend.latitude, friend.longitude)
+      if (
+        this.$store.state.user.userInfo.latitude != null &&
+        friend.latitude != null
+      ) {
+        let dis = calcDistance(
+          this.$store.state.user.userInfo.latitude,
+          this.$store.state.user.userInfo.longitude,
+          friend.latitude,
+          friend.longitude
+        );
 
-        return dis.toFixed(1).toString() + " km"
-      }else{
-        return ""
+        return dis.toFixed(1).toString() + " km";
+      } else {
+        return "";
       }
     },
     getIndividualURL(id){
       return "/individual_user_info?user_id=" + id
     },
+    sendInvites: function(guest_user_id) {
+      this.$axios({
+        method: "post",
+        url: "/invites/create",
+        data: {
+          host_user_id: this.$store.state.user.userInfo.id,
+          guest_user_id: guest_user_id
+        }
+      })
+        .then(function(response) {
+          if (response.data == null) {
+          } else {
+            console.log(response);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   },
   created() {
     this.findData();
   },
   computed: {
-    ...mapState("user", ["statusList"]),
+    ...mapState("user", ["statusList", "userInfo"]),
     avatar() {
       return id => {
         const imageLen = 10;

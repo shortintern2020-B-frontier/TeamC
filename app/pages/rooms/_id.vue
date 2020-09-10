@@ -1,35 +1,51 @@
 <!-- Author:Shun Kiyoura-->
 <template>
   <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
+    <v-container xs12 sm8 md6>
       <div class="text-center">
         <v-list style="max-height: 450px" class="overflow-y-auto">
           <template v-for="(message) in messages">
             <v-list-item true :key="message.content">
-              <v-list-item-avatar>
-                <v-img :src="avatar(message.user_id)"></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content > <!--style="height: 200px"-->
-                <v-list-item-subtitle v-html="message.content"></v-list-item-subtitle>
-              </v-list-item-content>
+              <template v-if="message.user_id == userInfo.id">
+                <v-list-item-content >
+                  <v-list-item-subtitle v-html="message.content"></v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar>
+                  <v-img :src="avatar(message.user_id)"></v-img>
+                </v-list-item-avatar>
+              </template>
+              <template v-else>
+                <v-list-item-avatar>
+                  <v-img :src="avatar(message.user_id)"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content >
+                  <v-list-item-subtitle v-html="message.content"></v-list-item-subtitle>
+                </v-list-item-content>
+              </template>
             </v-list-item>
           </template>
         </v-list>
         <v-text-field v-model="send_message" label="Message"></v-text-field>
         <v-btn @click="sendMessage">send</v-btn>
       </div>
-    </v-flex>
+    </v-container>
   </v-layout>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import moment from 'moment/moment'
 export default {
+  layout: "_id",
   asyncData({ params }) {
     const { id } = params;
     return { chat_room_id: id };
   },
-  
+  data() {
+    return {
+      send_message: ''
+    };
+  },
   async created() {
     const res = await this.$axios.get("/chats", {
       params: {
@@ -45,10 +61,9 @@ export default {
       _this.messages.push(JSON.parse(event.data));
     };
   },
-    methods: {
+  methods: {
     sendMessage: async function (event) {
       var ws = new WebSocket(`ws://localhost:8000/ws/${this.chat_room_id}`);
-      console.log(this.send_message);
       await this.$axios.post("/chats/", {
         user_id: this.$store.state.user.userInfo.id,
         chat_room_id: this.chat_room_id,
@@ -78,8 +93,10 @@ export default {
     ],
   }),
   computed: {
+    ...mapState('user', ['userInfo']),
     avatar() {
       return (id) => {
+        console.log(id)
         const imageLen = 10;
         return `/user_icon_${id % imageLen + 1}.jpg`;
       }

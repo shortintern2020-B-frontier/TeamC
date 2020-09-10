@@ -1,17 +1,26 @@
 <!-- Author:TomuHirata-->
 <template>
   <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
+    <v-container xs12 sm8 md6>
       <div class="text-center">
         <v-list three-line style="max-height: 500px" class="overflow-y-auto">
           <template v-for="invite in invites">
             <v-list-item true :key="invite.id">
-              <v-list-item-avatar
+              <template
                 v-for="friend in invite.users"
-                :key="`${invite.id}_${friend.id}`"
               >
-                <v-img :src="avatar(friend.id)"></v-img>
-              </v-list-item-avatar>
+                <v-list-item-avatar
+                  :key="`${invite.id}_${friend.id}`"
+                >
+                  <img
+                    :src="avatar(friend.id)"
+                    :alt="friend.username"
+                  >
+                </v-list-item-avatar>
+                <span class="headline" :key="`name_${invite.id}_${friend.id}`">
+                  {{ friend.username }}
+                </span>
+              </template>
               <v-list-item-content>
                 <v-list-item-title>お誘いがあります</v-list-item-title>
                 <v-list-item-subtitle>
@@ -25,7 +34,7 @@
           </template>
         </v-list>
       </div>
-    </v-flex>
+    </v-container>
   </v-layout>
 </template>
 
