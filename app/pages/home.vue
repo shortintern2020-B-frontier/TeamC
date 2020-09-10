@@ -4,7 +4,7 @@
     <v-main>
       <!-- <v-app-bar color="" dense></v-app-bar> -->
       <div class="text-center">
-        <v-card color="deep-purple lighten-1">
+        <v-card color="deep-purple lighten-1" tile>
           <v-menu
             bottom
             right
@@ -167,7 +167,7 @@
                   class="d-flex flex-no-wrap justify-space-between"
                   v-if="index != 0"
                 >
-                  <v-avatar class="ma-3" size="70" >
+                  <v-avatar class="ma-3" size="70">
                     <img
                       :src="avatar(recommend.id)"
                       :alt="`recommend_${recommend.username}`"
