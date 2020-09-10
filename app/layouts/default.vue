@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  middleware: "getPosition",
+  middleware: ["getPosition", "loginAuth"],
   data: () => ({
     activeBtn: ""
   }),

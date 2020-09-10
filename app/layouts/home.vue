@@ -114,6 +114,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  middleware: ["getPosition", "loginAuth"],
   data: () => ({
     activeBtn: "",
     statusShell: false,
