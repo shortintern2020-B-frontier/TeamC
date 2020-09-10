@@ -91,7 +91,7 @@ async def get_favorite(id: int, database: Database = Depends(get_connection)):
 async def get_recommend(id: int, database: Database = Depends(get_connection)):
     select_user_query = users.select().where(users.columns.id==id)
     user = await database.fetch_one(select_user_query)
-    query = f"select * from users where status = {user.status} and id != {id}"
+    query = f"select users.* from users left join friends on users.id = friends.user_1_id where friends.user_2_id = {id} and status = {user.status} and users.id != {id}"
     return await database.fetch_all(query)
 
 # usersを新規登録します。
