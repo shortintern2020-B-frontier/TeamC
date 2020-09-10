@@ -255,7 +255,7 @@ export default {
       const recommendlist = await this.$axios.$get("/users/recommend", {
         params: { id: userid }
       });
-      const invitedStatus = await this.$axios.$post("/invites/recommend", {
+      const invitedStatus = await this.$axios.$post("/invites/confirm", {
         host_user_id: userid,
         guest_user_id: recommendlist[0].id
       });
