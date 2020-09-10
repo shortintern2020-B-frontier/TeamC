@@ -4,73 +4,98 @@
   <div>
     <v-app>
       <v-main style="margin-top:100px; text-align:center;">
+        <v-avatar class="ma-3" size="70" tile>
+          <img :src="avatar(friend_data.id)" :alt="friend_data.username" />
+        </v-avatar>
+        <span class="headline">{{ friend_data.username }}</span>
 
-  <img style="margin-left: 30%;" class="img" src="/v.png" width="50%" />
-
-  <!-- <v-text>Bob-san</v-text> -->
-  <span v-if="friend_data">{{ friend_data.username }}</span>
-
-  <div class="text-center">
-      <v-btn small class="ma-2" outlined color="indigo" @click="postInvite">chat</v-btn>
-      <v-btn small class="ma-2" outlined color="success"  @click="postFavorite">favorite</v-btn>
-      <!-- <v-btn small class="ma-2" outlined color="teal">block</v-btn> -->
-    </div>
-
-</v-main>
-</v-app>
-
-</div>
+        <div class="text-center">
+          <v-btn small class="ma-2" outlined color="indigo" @click="postInvite" v-bind:disabled="invited">invite to chat</v-btn>
+          <v-btn small class="ma-2" outlined color="success" @click="postFavorite" v-bind:disabled="favorited">favorite</v-btn>
+          <!-- <v-btn small class="ma-2" outlined color="teal">block</v-btn> -->
+        </div>
+      </v-main>
+    </v-app>
+  </div>
 </template>
 
 
 <script>
 export default {
-    data:{
-      friend_data: null,
-      staticImage: "/v.png"
-    },
-    methods: {
-      findData: async function() {
+  data: () => ({
+    friend_data: {},
+    favorited: false,
+    invited: false,
+  }),
+  methods: {
+    findData: async function () {
+      console.log(this.$route.query.user_id);
 
-        console.log(this.$route.query.user_id)
-
-        const data = await this.$axios.$get('/users/find', {
+      const data = await this.$axios.$get("/users/find", {
+        params: {
+          // $route.query (もし URL 上にクエリがあるなら)
+          user_id: this.$route.query.user_id,
+        },
+      });
+      const favorite = await this.$axios.$get("/users/favorites", {
+        params: {
+          // $route.query (もし URL 上にクエリがあるなら)
+          id: this.$store.state.user.userInfo.id,
+        },
+      });
+      
+      if (data != null) {
+        this.friend_data = data;
+        const invite = await this.$axios.$get("/invites/", {
           params: {
-            // $route.query (もし URL 上にクエリがあるなら)
-            user_id: this.$route.query.user_id,
-          }
+            user_id: this.friend_data.id,
+          },
         });
-        if (data != null) {
-          this.friend_data = data;
+        const matchInvite = invite.filter((n) => n.users[0].id == this.$store.state.user.userInfo.id);
+        if(!matchInvite.length){
+          this.invited = false
+        }else{
+          this.invited = true
         }
-        console.log(this.friend_data.username)
-      },
-      postFavorite: async function() {
-
-        const data = await this.$axios.$post('/users/favorites', {
-          user_id: this.$store.state.user.userInfo.id,
-          target_user_id: this.friend_data.id
-          
-        });
-        console.log(data)
-        if (data != null) {
+        const matchFavarite= favorite.filter((n) => n.user_id == this.$route.query.user_id);
+        if(!matchFavarite.length){
+          this.favorited = false
+        }else{
+          this.favorited = true
         }
-      },
-      postInvite: async function() {
-
-        const data = await this.$axios.$post('/invites/create', {
-          host_user_id: this.$store.state.user.userInfo.id,
-          guest_user_id: this.friend_data.id
-        
-        });
-        console.log(data)
-        if (data != null) {
-        }
-      },
+      }
     },
-    created() {
-      this.findData();
-    }
-  }
-
+    postFavorite: async function () {
+      const data = await this.$axios.$post("/users/favorites", {
+        user_id: this.$store.state.user.userInfo.id,
+        target_user_id: this.friend_data.id,
+      });
+      console.log(data);
+      if (data != null) {
+        this.favorited = true
+      }
+    },
+    postInvite: async function () {
+      const data = await this.$axios.$post("/invites/create", {
+        host_user_id: this.$store.state.user.userInfo.id,
+        guest_user_id: this.friend_data.id,
+      });
+      console.log(data);
+      if (data != null) {
+        this.invited = true
+      }
+    },
+  },
+  created() {
+    this.findData();
+  },
+  computed: {
+    avatar() {
+      return (id) => {
+        const imageLen = 10;
+        return `/user_icon_${(id % imageLen) + 1}.jpg`;
+      };
+    },
+  },
+};
 </script>
